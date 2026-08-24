@@ -5,22 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>個人專案畫廊展示</title>
     <style>
-        /* 基礎與導覽列設定 (維持不變) */
+        /* 基礎設定與微點陣背景 */
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: "Helvetica Neue", Arial, sans-serif; background-color: #fafafa; color: #333; line-height: 1.5; }
+        body { 
+            font-family: "Helvetica Neue", Arial, sans-serif; 
+            background-color: #f7f7f7; 
+            /* 視覺優化：加入微點陣背景 */
+            background-image: radial-gradient(#d5d5d5 1px, transparent 1px);
+            background-size: 20px 20px;
+            color: #333; 
+            line-height: 1.5; 
+        }
         a { text-decoration: none; color: #888; font-size: 12px; }
         ul { list-style: none; }
-        header { display: flex; align-items: center; padding: 20px 40px; background: #fff; }
+
+        /* 頂部導覽列 */
+        header { display: flex; align-items: center; padding: 20px 40px; background: #fff; box-shadow: 0 1px 5px rgba(0,0,0,0.03); }
         .logo { display: flex; align-items: center; gap: 5px; margin-right: 40px; }
         .logo span { display: inline-block; width: 15px; height: 15px; background: #aebdbb; }
         .logo .circle { border-radius: 50%; }
         .logo .triangle { background: transparent; border-left: 8px solid transparent; border-right: 8px solid transparent; border-bottom: 15px solid #aebdbb; }
         .nav-links { display: flex; gap: 20px; font-size: 14px; color: #666; letter-spacing: 1px; }
 
-        /* 分類頁籤 (加入切換互動樣式) */
-        .tabs { display: flex; width: 100%; max-width: 1200px; margin: 20px auto; background: #fff; border: 1px solid #eee; }
-        .tab { flex: 1; text-align: center; padding: 20px 0; letter-spacing: 2px; color: #999; cursor: pointer; transition: 0.2s; }
-        .tab:hover { background-color: #f5f5f5; }
+        /* 分類頁籤 (三個區塊) */
+        .tabs { display: flex; width: 100%; max-width: 1200px; margin: 30px auto; background: #fff; border: 1px solid #eee; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
+        .tab { flex: 1; text-align: center; padding: 20px 0; letter-spacing: 2px; color: #999; cursor: pointer; transition: 0.2s; border-right: 1px solid #eee; }
+        .tab:last-child { border-right: none; }
+        .tab:hover { background-color: #f9f9f9; }
         .tab.active { background-color: #b7b2a3; color: #fff; position: relative; }
         .tab.active::after {
             content: ''; position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%);
@@ -28,21 +39,25 @@
         }
 
         /* 網格展示區 */
-        .gallery { display: none; /* 預設隱藏所有畫廊，由 JS 控制顯示 */ grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+        .gallery { display: none; /* 預設隱藏所有區塊 */ grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; max-width: 1200px; margin: 40px auto; padding: 0 20px; }
         
-        /* 卡片設計 (維持不變) */
-        .card { background: #fff; padding-bottom: 15px; }
+        /* 卡片設計 (增加微陰影) */
+        .card { background: #fff; padding-bottom: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); transition: 0.3s; }
+        .card:hover { box-shadow: 0 8px 25px rgba(0,0,0,0.08); }
         .card-image { position: relative; width: 100%; aspect-ratio: 4/3; overflow: hidden; background: #eee; }
-        .card-image img { width: 100%; height: 100%; object-fit: cover; transition: 0.3s; }
-        .card:hover .card-image img { transform: scale(1.02); }
-        .circle-btn { position: absolute; background: #fff; border: 1px solid #ddd; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: #666; font-size: 12px; cursor: pointer; }
+        .card-image img { width: 100%; height: 100%; object-fit: cover; transition: 0.4s; }
+        .card:hover .card-image img { transform: scale(1.03); }
+        
+        /* 懸浮按鈕 */
+        .circle-btn { position: absolute; background: #fff; border: 1px solid #ddd; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: #666; font-size: 12px; cursor: pointer; transition: 0.2s; }
+        .circle-btn:hover { border-color: #aebdbb; color: #aebdbb; }
         .btn-left { bottom: -20px; left: 15px; width: 60px; height: 60px; text-align: center; line-height: 1.2; padding: 5px; z-index: 10; }
-        .btn-right-1 { bottom: 35px; right: 10px; width: 35px; height: 35px; }
-        .btn-right-2 { bottom: -10px; right: 10px; width: 35px; height: 35px; z-index: 10; }
+
+        /* 卡片文字 */
         .card-info { padding: 30px 15px 0 15px; }
-        .card-title { font-size: 14px; font-weight: normal; margin-bottom: 5px; color: #333; }
-        .card-url { display: block; margin-bottom: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .card-tags { font-size: 12px; color: #999; margin-bottom: 8px; }
+        .card-title { font-size: 15px; font-weight: bold; margin-bottom: 5px; color: #333; }
+        .card-url { display: block; margin-bottom: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #aebdbb; }
+        .card-tags { font-size: 12px; color: #999; margin-bottom: 12px; }
         .color-dots { display: flex; gap: 5px; }
         .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
     </style>
@@ -55,18 +70,40 @@
             <span class="triangle"></span>
         </div>
         <div class="nav-links">
-            <span>My Project Gallery</span>
+            <span>Portfolio Gallery</span>
         </div>
     </header>
 
-    <!-- 分類頁籤區塊 (加入 onclick 事件觸發切換) -->
+    <!-- 三個分類頁籤 (預設開啟自行車專案) -->
     <div class="tabs">
-        <div class="tab active" onclick="openProject(event, 'Project-Opto')">光電廠專案</div>
-        <div class="tab" onclick="openProject(event, 'Project-Other')">其他專案</div>
+        <div class="tab active" onclick="openProject(event, 'Project-Bike')">自行車產業專案</div>
+        <div class="tab" onclick="openProject(event, 'Project-Opto')">光電廠產業專案</div>
+        <div class="tab" onclick="openProject(event, 'Project-Wire')">電線電子產業專案</div>
     </div>
 
-    <!-- 專案區塊 1：光電廠專案 (預設顯示 style="display: grid;") -->
-    <main id="Project-Opto" class="gallery" style="display: grid;">
+    <!-- 區塊 1：自行車產業專案 (預設顯示) -->
+    <main id="Project-Bike" class="gallery" style="display: grid;">
+        <article class="card">
+            <div class="card-image">
+                <a href="#" target="_blank">
+                    <img src="https://picsum.photos/400/300?random=5" alt="自行車專案">
+                </a>
+                <div class="circle-btn btn-left">詳細<br>を見る</div>
+            </div>
+            <div class="card-info">
+                <h3 class="card-title">自行車產業分析報告</h3>
+                <a href="#" class="card-url">點擊開啟 PDF 文件</a>
+                <p class="card-tags">#自行車 #零組件供應鏈 #市場佈局</p>
+                <div class="color-dots">
+                    <span class="dot" style="background: #e74c3c;"></span>
+                    <span class="dot" style="background: #34495e;"></span>
+                </div>
+            </div>
+        </article>
+    </main>
+
+    <!-- 區塊 2：光電廠產業專案 (預設隱藏) -->
+    <main id="Project-Opto" class="gallery">
         <article class="card">
             <div class="card-image">
                 <a href="光電廠_作業計畫書.pdf" target="_blank">
@@ -98,39 +135,39 @@
         </article>
     </main>
 
-    <!-- 專案區塊 2：其他專案 (預設隱藏) -->
-    <main id="Project-Other" class="gallery">
+    <!-- 區塊 3：電線電子產業專案 (預設隱藏) -->
+    <main id="Project-Wire" class="gallery">
         <article class="card">
             <div class="card-image">
-                <!-- 這裡替換成您其他專案的 PDF 檔名 -->
-                <a href="新專案文件.pdf" target="_blank">
-                    <img src="https://picsum.photos/400/300?random=3" alt="新專案">
+                <a href="#" target="_blank">
+                    <img src="https://picsum.photos/400/300?random=8" alt="電線電子專案">
                 </a>
                 <div class="circle-btn btn-left">詳細<br>を見る</div>
             </div>
             <div class="card-info">
-                <h3 class="card-title">新專案預留位置</h3>
-                <a href="新專案文件.pdf" class="card-url" target="_blank">點擊開啟新文件</a>
-                <p class="card-tags">#預留欄位 #測試</p>
+                <h3 class="card-title">台股 PCB 族群與工業用量評估</h3>
+                <a href="#" class="card-url">點擊開啟 PDF 文件</a>
+                <p class="card-tags">#PCB產業 #精煉銅供需 #短波段佈局</p>
+                <div class="color-dots">
+                    <span class="dot" style="background: #f39c12;"></span>
+                    <span class="dot" style="background: #8e44ad;"></span>
+                </div>
             </div>
         </article>
     </main>
 
-    <!-- 控制頁籤切換的 JavaScript -->
+    <!-- 頁籤切換腳本 -->
     <script>
         function openProject(evt, projectName) {
-            // 隱藏所有畫廊區塊
             var i, gallery, tablinks;
             gallery = document.getElementsByClassName("gallery");
             for (i = 0; i < gallery.length; i++) {
                 gallery[i].style.display = "none";
             }
-            // 移除所有頁籤的 active 狀態 (也就是那個向下的三角形)
             tablinks = document.getElementsByClassName("tab");
             for (i = 0; i < tablinks.length; i++) {
                 tablinks[i].className = tablinks[i].className.replace(" active", "");
             }
-            // 顯示被點擊的畫廊，並在該頁籤加上 active 狀態
             document.getElementById(projectName).style.display = "grid";
             evt.currentTarget.className += " active";
         }
