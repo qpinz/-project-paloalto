@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>個人專案畫廊展示</title>
+    
+    <!-- 專屬波浪圖示 (Favicon) -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%23282828%22/><path d=%22M40 20 A15 15 0 0 1 65 40 Q45 40 40 25 Z%22 fill=%22%235A8AF2%22/><path d=%22M15 50 Q50 60 85 50 L80 65 Q50 70 20 65 Z%22 fill=%22%235A8AF2%22/><path d=%22M15 75 Q35 65 50 75 T85 70 L80 85 Q65 95 50 85 T20 90 Z%22 fill=%22%235A8AF2%22/></svg>">
+
     <style>
         /* =========================================
            1. 基礎設定
@@ -14,48 +18,62 @@
             background-color: #f4f4f4; 
             color: #555; 
             line-height: 1.6; 
+            overflow-x: hidden;
         }
         a { text-decoration: none; color: inherit; }
 
         /* =========================================
-           2. 🌟 開場動畫幕 (Splash Screen) 🌟 
+           2. 🌟 漸進式文字開場動畫 (Splash Screen) 🌟 
            ========================================= */
         .splash-screen {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
-            background-color: #3e2d1c; /* 完美還原參考圖的深棕/大地色 */
+            background-color: #1a1a1a; /* 極簡深碳灰背景 */
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 9999;
-            /* 總共停留 3.5秒，然後花 1秒淡出 */
-            animation: splashFadeOut 1s ease-in-out 3.5s forwards;
+            /* 總停留時間拉長，讓文字有時間跑完，最後淡出 */
+            animation: splashFadeOut 1s ease-in-out 4.5s forwards;
         }
+
+        /* 裝載文字的容器 */
+        .splash-text-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px; /* 行距 */
+        }
+
+        /* 文字共用設定 */
         .splash-text {
-            color: #eae1d3; /* 帶有溫暖質感的米白色 */
-            font-family: "Georgia", serif; /* 優雅的襯線字體 */
-            text-align: center;
-            /* 文字花 2秒鐘慢慢浮現 */
+            color: #ffffff;
+            font-size: 24px;
+            letter-spacing: 4px;
+            font-weight: 300;
             opacity: 0;
-            animation: textFadeIn 2.5s ease-in-out forwards;
-        }
-        .splash-text .title-main {
-            display: block;
-            font-size: 50px;
-            letter-spacing: 10px;
-            margin-bottom: 20px;
-        }
-        .splash-text .title-sub {
-            display: block;
-            font-size: 20px;
-            letter-spacing: 15px;
-            margin-left: 15px; /* 修正字距造成的視覺偏移 */
+            transform: translateY(20px); /* 初始位置稍微偏下 */
+            /* 讓每個字都有淡入並往上滑的效果 */
+            animation: textReveal 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
         }
         
-        @keyframes textFadeIn {
-            0% { opacity: 0; transform: translateY(10px); filter: blur(3px); }
+        /* 💡 核心技巧：利用 animation-delay 讓文字逐行出現 */
+        .line-1 { animation-delay: 0.5s; font-size: 16px; color: #aaa; }
+        .line-2 { animation-delay: 1.2s; font-size: 16px; color: #aaa;}
+        .line-3 { 
+            animation-delay: 2.2s; 
+            font-size: 60px; /* 最後的主標題放大 */
+            font-weight: bold; 
+            letter-spacing: 12px;
+            margin-top: 10px;
+        }
+
+        @keyframes textReveal {
+            0% { opacity: 0; transform: translateY(20px); filter: blur(5px); }
             100% { opacity: 1; transform: translateY(0); filter: blur(0); }
         }
+
         @keyframes splashFadeOut {
             0% { opacity: 1; visibility: visible; }
             100% { opacity: 0; visibility: hidden; pointer-events: none; }
@@ -67,7 +85,8 @@
         .hero {
             position: relative;
             width: 100%;
-            height: 400px; 
+            height: 60vh; 
+            min-height: 480px; 
             background: url('https://picsum.photos/1600/600?blur=4') center/cover no-repeat;
             display: flex;
             flex-direction: column;
@@ -75,7 +94,7 @@
             align-items: center;
             color: #fff;
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 50px;
         }
         .hero::before {
             content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -89,7 +108,7 @@
         .wave-icon { font-size: 35px; margin-bottom: 10px; letter-spacing: 2px; font-weight: lighter; }
         .hero-text { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; line-height: 1.8; }
 
-        /* 🔴 封面底部的無縫跑馬燈 🔴 */
+        /* 🔴 封面底部的跑馬燈 🔴 */
         .hero-marquee-container {
             position: absolute;
             bottom: 0;
@@ -136,7 +155,7 @@
         }
 
         /* =========================================
-           4. 分類頁籤與網格展示區
+           4. 分類頁籤
            ========================================= */
         .tabs { 
             display: flex; justify-content: center; gap: 40px; width: 100%; max-width: 1200px; margin: 0 auto 40px auto; 
@@ -145,6 +164,9 @@
         .tab:hover { color: #333; }
         .tab.active { color: #333; border-bottom: 2px solid #333; }
 
+        /* =========================================
+           5. 網格展示區 & 卡片設計
+           ========================================= */
         .gallery { 
             display: none; 
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
@@ -154,7 +176,6 @@
             padding: 0 20px; 
         }
         
-        /* 卡片設計 */
         .card { background: #fff; padding: 30px 25px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.03); transition: 0.3s; }
         .card:hover { box-shadow: 0 8px 25px rgba(0,0,0,0.08); transform: translateY(-3px); }
         .card-header { font-size: 15px; letter-spacing: 1.5px; color: #333; margin-bottom: 20px; font-weight: bold; }
@@ -171,13 +192,13 @@
             border: 1px solid #ddd; border-radius: 20px; color: #555; 
             cursor: pointer; transition: 0.3s; font-size: 12px;
         }
-        .btn-read:hover { background: #333; color: #fff; border-color: #333; }
+        .btn-read:hover { background-color: #333; color: #fff; border-color: #333; }
         
         .color-dots { display: flex; justify-content: center; gap: 6px; margin-top: 15px; }
         .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
 
         /* =========================================
-           5. PDF 嵌入顯示區塊
+           6. PDF 嵌入顯示區塊
            ========================================= */
         .pdf-viewer-container {
             display: none; 
@@ -212,15 +233,16 @@
 </head>
 <body>
 
-    <!-- 🌟 開場動畫幕 (深棕色底 + 緩慢浮現文字) 🌟 -->
+    <!-- 🌟 全新：漸進式文字開場動畫 🌟 -->
     <div class="splash-screen">
-        <div class="splash-text">
-            <span class="title-main">PIN</span>
-            <span class="title-sub">PROJECT</span>
+        <div class="splash-text-container">
+            <div class="splash-text line-1">以科技之力</div>
+            <div class="splash-text line-2">改變世間風景</div>
+            <div class="splash-text line-3">PIN</div>
         </div>
     </div>
 
-    <!-- 🌟 大型橫幅 🌟 -->
+    <!-- 大型橫幅 -->
     <div class="hero">
         <div class="hero-content">
             <div class="wave-icon">〰 〰 〰</div>
@@ -230,7 +252,7 @@
             </div>
         </div>
 
-        <!-- 封面專屬跑馬燈 (4組完整名單確保超寬螢幕無縫) -->
+        <!-- 封面專屬跑馬燈 -->
         <div class="hero-marquee-container">
             <div class="marquee-track">
                 <!-- 第 1 組 -->
@@ -243,6 +265,7 @@
                 <div class="marquee-item"><span>Sun & Moon Rise</span></div>
                 <div class="marquee-item"><span>Openfind</span></div>
                 <div class="marquee-item"><span>Aruba</span></div>
+                
                 <!-- 第 2 組 -->
                 <div class="marquee-item"><span>Proxmox VE</span></div>
                 <div class="marquee-item"><span>ShareTech</span></div>
@@ -253,6 +276,7 @@
                 <div class="marquee-item"><span>Sun & Moon Rise</span></div>
                 <div class="marquee-item"><span>Openfind</span></div>
                 <div class="marquee-item"><span>Aruba</span></div>
+
                 <!-- 第 3 組 -->
                 <div class="marquee-item"><span>Proxmox VE</span></div>
                 <div class="marquee-item"><span>ShareTech</span></div>
@@ -263,6 +287,7 @@
                 <div class="marquee-item"><span>Sun & Moon Rise</span></div>
                 <div class="marquee-item"><span>Openfind</span></div>
                 <div class="marquee-item"><span>Aruba</span></div>
+
                 <!-- 第 4 組 -->
                 <div class="marquee-item"><span>Proxmox VE</span></div>
                 <div class="marquee-item"><span>ShareTech</span></div>
@@ -277,7 +302,7 @@
         </div>
     </div>
 
-    <!-- 🌟 分類頁籤 🌟 -->
+    <!-- 分類頁籤 -->
     <div class="tabs">
         <div class="tab active" onclick="openGallery(event, 'Project-Bike')">自行車產業專案</div>
         <div class="tab" onclick="openGallery(event, 'Project-Opto')">光電廠產業專案</div>
