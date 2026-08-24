@@ -3,119 +3,172 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>個人專案展示</title>
+    <title>個人專案畫廊展示</title>
     <style>
         /* 基礎設定 */
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        
         body { 
             font-family: "Helvetica Neue", Arial, sans-serif; 
-            color: #eee; 
-            line-height: 1.5; 
-            background-color: transparent; /* 背景由下方的 bg-wrapper 控制 */
+            background-color: #f4f4f4; /* 淺灰背景，凸顯白色卡片 */
+            color: #555; 
+            line-height: 1.6; 
         }
+        a { text-decoration: none; color: inherit; }
         
-        a { text-decoration: none; color: #aaa; font-size: 12px; }
-        ul { list-style: none; }
-
-        /* 👑 核心特效：巨型文字背景 */
-        .bg-wrapper {
-            position: fixed;
-            top: 0; 
-            left: 0; 
-            width: 100vw; 
-            height: 100vh;
-            overflow: hidden;
-            z-index: -1;
-            background-color: #2a2a2a; /* 深灰底色 */
+        /* 大型橫幅 (Hero Banner) */
+        .hero {
+            position: relative;
+            width: 100%;
+            height: 420px;
+            /* 預設模糊背景圖，您可以替換成自己喜歡的風景照 */
+            background: url('https://picsum.photos/1600/600?blur=4') center/cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 50px;
         }
-        .bg-text {
-            position: absolute;
-            top: 50%; 
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 45vw; /* 極巨大的字體尺寸 */
-            font-weight: 900;
-            font-family: "Arial Black", Impact, sans-serif;
-            color: #151515; /* 極黑文字 */
-            line-height: 1;
-            white-space: nowrap;
-            user-select: none;
-            letter-spacing: -0.05em;
+        .hero::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.15); /* 稍微壓暗背景讓白字更清楚 */
+        }
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        .wave-icon {
+            font-size: 35px;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+            font-weight: lighter;
+        }
+        .hero-text {
+            font-size: 13px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            line-height: 1.8;
         }
 
-        /* 頂部導覽列 (改為透明深色系) */
-        header { display: flex; align-items: center; padding: 20px 40px; background: transparent; }
-        .logo { display: flex; align-items: center; gap: 5px; margin-right: 40px; }
-        .logo span { display: inline-block; width: 15px; height: 15px; background: #4bd5c0; } /* 參考圖的薄荷綠 */
-        .logo .circle { border-radius: 50%; }
-        .logo .triangle { background: transparent; border-left: 8px solid transparent; border-right: 8px solid transparent; border-bottom: 15px solid #4bd5c0; }
-        .nav-links { display: flex; gap: 20px; font-size: 14px; color: #ccc; letter-spacing: 1px; }
-
-        /* 分類頁籤 (深色玻璃質感) */
+        /* 分類頁籤 (配合新風格改為簡約文字與底線) */
         .tabs { 
             display: flex; 
+            justify-content: center;
+            gap: 40px;
             width: 100%; 
             max-width: 1200px; 
-            margin: 30px auto; 
-            background: rgba(30, 30, 30, 0.8); 
-            backdrop-filter: blur(10px);
-            border: 1px solid #444; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
+            margin: 0 auto 40px auto; 
         }
-        .tab { flex: 1; text-align: center; padding: 20px 0; letter-spacing: 2px; color: #888; cursor: pointer; transition: 0.3s; border-right: 1px solid #444; }
-        .tab:last-child { border-right: none; }
-        .tab:hover { background-color: #333; color: #fff; }
-        
-        /* 啟用狀態的頁籤 (薄荷綠) */
-        .tab.active { background-color: #4bd5c0; color: #111; font-weight: bold; position: relative; }
-        .tab.active::after {
-            content: ''; position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%);
-            border-width: 15px 15px 0; border-style: solid; border-color: #4bd5c0 transparent transparent transparent;
+        .tab { 
+            font-size: 14px;
+            letter-spacing: 2px;
+            color: #999; 
+            cursor: pointer; 
+            padding-bottom: 5px;
+            transition: 0.3s; 
+        }
+        .tab:hover { color: #333; }
+        .tab.active { 
+            color: #333; 
+            border-bottom: 2px solid #333; 
         }
 
         /* 網格展示區 */
-        .gallery { display: none; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+        .gallery { 
+            display: none; 
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
+            gap: 30px; 
+            max-width: 1200px; 
+            margin: 0 auto 60px auto; 
+            padding: 0 20px; 
+        }
         
-        /* 卡片設計 (深色模式) */
-        .card { background: #222; padding-bottom: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); transition: 0.3s; border: 1px solid #333; }
-        .card:hover { box-shadow: 0 15px 40px rgba(0,0,0,0.7); transform: translateY(-5px); border-color: #4bd5c0; }
-        .card-image { position: relative; width: 100%; aspect-ratio: 4/3; overflow: hidden; background: #111; }
-        .card-image img { width: 100%; height: 100%; object-fit: cover; transition: 0.4s; opacity: 0.9; }
-        .card:hover .card-image img { transform: scale(1.05); opacity: 1; }
+        /* 卡片設計 (對齊參考圖：白底、無邊框、微陰影、內縮排版) */
+        .card { 
+            background: #fff; 
+            padding: 30px 25px; 
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03); 
+            transition: 0.3s; 
+        }
+        .card:hover { box-shadow: 0 8px 25px rgba(0,0,0,0.08); transform: translateY(-3px); }
         
-        /* 懸浮按鈕 (深色金屬感 -> 滑過變薄荷綠) */
-        .circle-btn { position: absolute; background: #333; border: 1px solid #555; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: #eee; font-size: 12px; cursor: pointer; transition: 0.3s; }
-        .circle-btn:hover { background: #4bd5c0; color: #111; border-color: #4bd5c0; }
-        .btn-left { bottom: -20px; left: 15px; width: 60px; height: 60px; text-align: center; line-height: 1.2; padding: 5px; z-index: 10; font-weight: bold; }
+        /* 卡片標題置頂 */
+        .card-header {
+            font-size: 15px;
+            letter-spacing: 1.5px;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
 
-        /* 卡片文字 */
-        .card-info { padding: 30px 15px 0 15px; }
-        .card-title { font-size: 15px; font-weight: bold; margin-bottom: 5px; color: #fff; }
-        .card-url { display: block; margin-bottom: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #4bd5c0; }
-        .card-tags { font-size: 12px; color: #888; margin-bottom: 12px; }
-        .color-dots { display: flex; gap: 5px; }
-        .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+        /* 圖片與置中白色 Icon */
+        .card-image-wrapper { 
+            position: relative; 
+            width: 100%; 
+            aspect-ratio: 4/3; 
+            overflow: hidden; 
+            background: #eee; 
+            margin-bottom: 20px;
+        }
+        .card-image-wrapper img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            transition: 0.4s; 
+            opacity: 0.85; /* 預設稍微透明，滑過時變亮 */
+        }
+        .card:hover .card-image-wrapper img { opacity: 1; transform: scale(1.05); }
+        
+        .card-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 45px;
+            height: 45px;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            font-size: 18px;
+            pointer-events: none; /* 避免擋住圖片的點擊事件 */
+            z-index: 2;
+        }
+
+        /* 卡片底部描述與標籤 */
+        .card-body {
+            font-size: 12px;
+            color: #888;
+            line-height: 1.8;
+        }
+        .card-url {
+            display: inline-block;
+            margin-bottom: 12px;
+            color: #666;
+            text-decoration: underline;
+        }
+        .color-dots { display: flex; justify-content: center; gap: 6px; margin-top: 15px; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
     </style>
 </head>
 <body>
 
-    <!-- 巨型文字背景層 -->
-    <div class="bg-wrapper">
-        <div class="bg-text">PIN</div>
+    <!-- 大型橫幅 (Hero Banner) -->
+    <div class="hero">
+        <div class="hero-content">
+            <div class="wave-icon">〰 〰 〰</div>
+            <div class="hero-text">
+                PORTFOLIO GALLERY<br>
+                A COLLECTION OF MY RECENT PROJECTS
+            </div>
+        </div>
     </div>
 
-    <header>
-        <div class="logo">
-            <span class="circle"></span>
-            <span class="triangle"></span>
-        </div>
-        <div class="nav-links">
-            <span>Portfolio Gallery</span>
-        </div>
-    </header>
-
-    <!-- 三個分類頁籤 (預設開啟自行車專案) -->
+    <!-- 三個分類頁籤 (極簡底線風格) -->
     <div class="tabs">
         <div class="tab active" onclick="openProject(event, 'Project-Bike')">自行車產業專案</div>
         <div class="tab" onclick="openProject(event, 'Project-Opto')">光電廠產業專案</div>
@@ -125,16 +178,16 @@
     <!-- 區塊 1：自行車產業專案 -->
     <main id="Project-Bike" class="gallery" style="display: grid;">
         <article class="card">
-            <div class="card-image">
-                <a href="#" target="_blank">
+            <div class="card-header">自行車產業分析報告</div>
+            <a href="#" target="_blank">
+                <div class="card-image-wrapper">
                     <img src="https://picsum.photos/400/300?random=5" alt="自行車專案">
-                </a>
-                <div class="circle-btn btn-left">詳細<br>を見る</div>
-            </div>
-            <div class="card-info">
-                <h3 class="card-title">自行車產業分析報告</h3>
-                <a href="#" class="card-url">點擊開啟 PDF 文件</a>
-                <p class="card-tags">#自行車 #零組件供應鏈 #市場佈局</p>
+                    <div class="card-icon">◎</div> <!-- 圖片正中央的幾何圖示 -->
+                </div>
+            </a>
+            <div class="card-body">
+                <a href="#" class="card-url">點擊開啟 PDF 文件</a><br>
+                #自行車 #零組件供應鏈 #市場佈局
                 <div class="color-dots">
                     <span class="dot" style="background: #e74c3c;"></span>
                     <span class="dot" style="background: #34495e;"></span>
@@ -146,31 +199,31 @@
     <!-- 區塊 2：光電廠產業專案 -->
     <main id="Project-Opto" class="gallery">
         <article class="card">
-            <div class="card-image">
-                <a href="光電廠_作業計畫書.pdf" target="_blank">
+            <div class="card-header">光電廠作業計畫書</div>
+            <a href="光電廠_作業計畫書.pdf" target="_blank">
+                <div class="card-image-wrapper">
                     <img src="https://picsum.photos/400/300?random=1" alt="作業計畫書">
-                </a>
-                <div class="circle-btn btn-left">詳細<br>を見る</div>
-            </div>
-            <div class="card-info">
-                <h3 class="card-title">光電廠作業計畫書</h3>
-                <a href="光電廠_作業計畫書.pdf" class="card-url" target="_blank">點擊開啟 PDF 文件</a>
-                <p class="card-tags">#計畫書 #光電產業 #防火牆</p>
+                    <div class="card-icon">◇</div>
+                </div>
+            </a>
+            <div class="card-body">
+                <a href="光電廠_作業計畫書.pdf" class="card-url" target="_blank">點擊開啟 PDF 文件</a><br>
+                #計畫書 #光電產業 #防火牆
                 <div class="color-dots"><span class="dot" style="background: #2a6199;"></span></div>
             </div>
         </article>
 
         <article class="card">
-            <div class="card-image">
-                <a href="光電廠_專案簡述.pdf" target="_blank">
+            <div class="card-header">光電廠專案簡述</div>
+            <a href="光電廠_專案簡述.pdf" target="_blank">
+                <div class="card-image-wrapper">
                     <img src="https://picsum.photos/400/300?random=2" alt="專案簡述">
-                </a>
-                <div class="circle-btn btn-left">詳細<br>を見る</div>
-            </div>
-            <div class="card-info">
-                <h3 class="card-title">光電廠專案簡述</h3>
-                <a href="光電廠_專案簡述.pdf" class="card-url" target="_blank">點擊開啟 PDF 文件</a>
-                <p class="card-tags">#專案簡介 #規格說明</p>
+                    <div class="card-icon">△</div>
+                </div>
+            </a>
+            <div class="card-body">
+                <a href="光電廠_專案簡述.pdf" class="card-url" target="_blank">點擊開啟 PDF 文件</a><br>
+                #專案簡介 #規格說明
                 <div class="color-dots"><span class="dot" style="background: #4caf50;"></span></div>
             </div>
         </article>
@@ -179,16 +232,16 @@
     <!-- 區塊 3：電線電子產業專案 -->
     <main id="Project-Wire" class="gallery">
         <article class="card">
-            <div class="card-image">
-                <a href="#" target="_blank">
+            <div class="card-header">台股 PCB 族群與工業用量評估</div>
+            <a href="#" target="_blank">
+                <div class="card-image-wrapper">
                     <img src="https://picsum.photos/400/300?random=8" alt="電線電子專案">
-                </a>
-                <div class="circle-btn btn-left">詳細<br>を見る</div>
-            </div>
-            <div class="card-info">
-                <h3 class="card-title">台股 PCB 族群與工業用量評估</h3>
-                <a href="#" class="card-url">點擊開啟 PDF 文件</a>
-                <p class="card-tags">#PCB產業 #精煉銅供需 #短波段佈局</p>
+                    <div class="card-icon">□</div>
+                </div>
+            </a>
+            <div class="card-body">
+                <a href="#" class="card-url">點擊開啟 PDF 文件</a><br>
+                #PCB產業 #精煉銅供需 #短波段佈局
                 <div class="color-dots">
                     <span class="dot" style="background: #f39c12;"></span>
                     <span class="dot" style="background: #8e44ad;"></span>
