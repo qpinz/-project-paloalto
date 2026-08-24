@@ -1,355 +1,332 @@
-<meta charset="UTF-8">
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>個人專案畫廊展示</title>
-    
-    <!-- 👇 把您選好的小圖示程式碼貼在這裡 👇 -->
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%23282828%22/><path d=%22M40 20 A15 15 0 0 1 65 40 Q45 40 40 25 Z%22 fill=%22%235A8AF2%22/><path d=%22M15 50 Q50 60 85 50 L80 65 Q50 70 20 65 Z%22 fill=%22%235A8AF2%22/><path d=%22M15 75 Q35 65 50 75 T85 70 L80 85 Q65 95 50 85 T20 90 Z%22 fill=%22%235A8AF2%22/></svg>">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>個人專案畫廊展示</title>
+    <title>PORTFOLIO | 個人專案畫廊</title>
     <style>
-        /* 基礎設定 */
+        /* =========================================
+           1. 基礎設定與字體
+           ========================================= */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { 
-            font-family: "Helvetica Neue", Arial, sans-serif; 
-            background-color: #f4f4f4; 
-            color: #555; 
-            line-height: 1.6; 
+            font-family: "Helvetica Neue", "Noto Sans TC", sans-serif; 
+            background-color: #313131; /* 完美還原參考圖的深碳灰色 */
+            color: #fff; 
+            overflow: hidden; /* 隱藏整體捲動條，採橫向/滿版設計 */
         }
         a { text-decoration: none; color: inherit; }
-        
-        /* 🌟 大型橫幅 (Hero Banner) 🌟 */
-        .hero {
+
+        /* =========================================
+           2. 開場動畫幕 (Splash Screen - 對應第一張圖)
+           ========================================= */
+        .splash-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-color: #2b2b2b;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            /* 進場停留 2.5秒後，花 0.8秒淡出並隱藏 */
+            animation: splashFadeOut 0.8s ease-in-out 2.5s forwards;
+        }
+        .splash-logo {
+            font-size: 55px;
+            font-family: "Georgia", serif; /* 帶有優雅感的襯線字體 */
+            letter-spacing: 2px;
             position: relative;
-            width: 100%;
-            height: 60vh; 
-            min-height: 480px; 
-            background: url('https://picsum.photos/1600/600?blur=4') center/cover no-repeat;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: #fff;
-            text-align: center;
-            margin-bottom: 50px;
+            display: inline-block;
         }
-        .hero::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.15); 
-        }
-        .hero-content { 
-            position: relative; 
-            z-index: 1; 
-            transform: translateY(-20px); 
-        }
-        .wave-icon { font-size: 35px; margin-bottom: 10px; letter-spacing: 2px; font-weight: lighter; }
-        .hero-text { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; line-height: 1.8; }
-
-        /* 🔴 封面底部的跑馬燈 🔴 */
-        .hero-marquee-container {
+        /* 模擬圖片中字體下方的特殊底線設計 */
+        .splash-logo::after {
+            content: '';
             position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: rgba(0, 0, 0, 0.3); 
-            padding: 12px 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            overflow: hidden;
-            z-index: 2;
-            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-            -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-        }
-        .marquee-track {
-            display: flex;
-            width: max-content;
-            animation: scroll 50s linear infinite; 
-        }
-        .marquee-track:hover {
-            animation-play-state: paused;
-        }
-        .marquee-item {
-            padding: 0 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .marquee-item span, .marquee-item img {
-            font-size: 14px;
-            font-weight: 600;
-            letter-spacing: 1.5px;
-            color: rgba(255, 255, 255, 0.5); 
-            transition: 0.3s;
-            cursor: pointer;
-            white-space: nowrap; 
-        }
-        .marquee-item span:hover, .marquee-item img:hover {
-            color: rgba(255, 255, 255, 1); 
-            transform: scale(1.05);
-        }
-        @keyframes scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); } 
-        }
-
-        /* 分類頁籤 */
-        .tabs { 
-            display: flex; justify-content: center; gap: 40px; width: 100%; max-width: 1200px; margin: 0 auto 40px auto; 
-        }
-        .tab { font-size: 14px; letter-spacing: 2px; color: #999; cursor: pointer; padding-bottom: 5px; transition: 0.3s; }
-        .tab:hover { color: #333; }
-        .tab.active { color: #333; border-bottom: 2px solid #333; }
-
-        /* 網格展示區 */
-        .gallery { 
-            display: none; 
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
-            gap: 30px; 
-            max-width: 1200px; 
-            margin: 0 auto 60px auto; 
-            padding: 0 20px; 
-        }
-        
-        /* 卡片設計 */
-        .card { background: #fff; padding: 30px 25px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.03); transition: 0.3s; }
-        .card:hover { box-shadow: 0 8px 25px rgba(0,0,0,0.08); transform: translateY(-3px); }
-        .card-header { font-size: 15px; letter-spacing: 1.5px; color: #333; margin-bottom: 20px; font-weight: bold; }
-
-        /* 圖片與置中圖示 */
-        .card-image-wrapper { position: relative; width: 100%; aspect-ratio: 4/3; overflow: hidden; background: #eee; margin-bottom: 20px; cursor: pointer; }
-        .card-image-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: 0.4s; opacity: 0.85; }
-        .card:hover .card-image-wrapper img { opacity: 1; transform: scale(1.05); }
-        .card-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 45px; height: 45px; border: 2px solid #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: #fff; font-size: 18px; pointer-events: none; z-index: 2; }
-
-        /* 卡片底部 */
-        .card-body { font-size: 12px; color: #888; line-height: 1.8; }
-        
-        /* 閱讀按鈕設計 */
-        .btn-read { 
-            display: inline-block; margin-bottom: 15px; padding: 8px 20px; 
-            border: 1px solid #ddd; border-radius: 20px; color: #555; 
-            cursor: pointer; transition: 0.3s; font-size: 12px;
-        }
-        .btn-read:hover { background-color: #333; color: #fff; border-color: #333; }
-        
-        .color-dots { display: flex; justify-content: center; gap: 6px; margin-top: 15px; }
-        .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
-
-        /* PDF 嵌入顯示區塊 */
-        .pdf-viewer-container {
-            display: none; 
-            width: 100%;
-            max-width: 1400px; 
-            margin: 0 auto 60px auto;
-            padding: 0 20px;
-        }
-        .pdf-iframe {
-            width: 100%;
-            height: 90vh; 
-            border: none;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-            border-radius: 8px;
+            bottom: -5px;
+            left: 10%;
+            width: 80%;
+            height: 2px;
             background-color: #fff;
         }
-        .btn-back {
-            display: inline-block;
-            margin-bottom: 20px;
-            padding: 10px 20px;
-            background-color: #333;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-            letter-spacing: 1px;
-            transition: 0.3s;
+        @keyframes splashFadeOut {
+            0% { opacity: 1; visibility: visible; }
+            100% { opacity: 0; visibility: hidden; pointer-events: none; }
         }
-        .btn-back:hover { background-color: #555; }
+
+        /* =========================================
+           3. 主畫面四欄排版 (Main Layout - 對應第二張圖)
+           ========================================= */
+        .layout-container {
+            display: flex;
+            width: 100vw;
+            height: 100vh;
+            overflow-x: auto; /* 若螢幕太小可左右滑動 */
+        }
+        
+        /* 每一欄的共用設計 */
+        .panel {
+            flex: 1;
+            min-width: 280px; /* 確保縮小視窗時不會太擠 */
+            height: 100%;
+            border-right: 1px solid rgba(255, 255, 255, 0.08); /* 極細的分割線 */
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: background 0.4s ease;
+        }
+        .panel:hover {
+            background-color: #383838;
+        }
+
+        /* 左上角導覽選單 (僅限第一欄) */
+        .side-nav {
+            position: absolute;
+            top: 40px;
+            left: 20px;
+            font-size: 11px;
+            line-height: 2;
+            letter-spacing: 1px;
+            color: #aaa;
+        }
+        .side-nav div:hover { color: #fff; cursor: pointer; }
+
+        /* 直書文字設計 */
+        .vertical-title {
+            writing-mode: vertical-rl; /* 文字直排、由右至左 */
+            position: absolute;
+            right: 35px;
+            top: 40px;
+            font-size: 18px;
+            letter-spacing: 6px;
+            color: #eee;
+            font-weight: 300;
+        }
+        .vertical-subtitle {
+            writing-mode: vertical-rl;
+            position: absolute;
+            right: 70px;
+            top: 40px;
+            font-size: 14px;
+            letter-spacing: 4px;
+            color: #888;
+        }
+
+        /* 底部專案標籤 */
+        .panel-footer {
+            position: absolute;
+            bottom: 40px;
+            width: 100%;
+            text-align: center;
+            font-size: 18px;
+            font-family: "Georgia", serif;
+            letter-spacing: 1px;
+            color: #fff;
+        }
+
+        /* 若該欄有多個 PDF (例如光電廠)，顯示的子選單按鈕 */
+        .sub-links {
+            position: absolute;
+            bottom: 80px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: center;
+            width: 100%;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .panel:hover .sub-links { opacity: 1; }
+        .sub-btn {
+            font-size: 11px;
+            padding: 5px 15px;
+            border: 1px solid #777;
+            border-radius: 20px;
+            color: #ccc;
+        }
+        .sub-btn:hover { background: #fff; color: #333; }
+
+        /* =========================================
+           4. 抽象幾何藝術 (Abstract Geometry)
+           ========================================= */
+        .art-box {
+            width: 180px;
+            height: 180px;
+            position: relative;
+            transition: transform 0.4s ease;
+        }
+        .panel:hover .art-box {
+            transform: scale(1.05); /* 滑過時圖形微放大 */
+        }
+        /* 共用 SVG 樣式 */
+        .art-svg {
+            width: 100%;
+            height: 100%;
+        }
+        /* 預設圖形顏色，滑過時亮起參考圖中的「萊姆綠」 */
+        .shape-accent { fill: #e0e0e0; transition: fill 0.4s ease; }
+        .panel:hover .shape-accent { fill: #ccff33; /* 萊姆綠 */ }
+        .shape-gray { fill: #cccccc; }
+        .shape-white { fill: #ffffff; }
+
+        /* =========================================
+           5. 滿版 PDF 閱讀器 (Overlay)
+           ========================================= */
+        .pdf-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-color: #2b2b2b;
+            z-index: 1000;
+            display: none; /* 預設隱藏 */
+            flex-direction: column;
+        }
+        .pdf-header {
+            height: 60px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 0 30px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .btn-close {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 13px;
+            letter-spacing: 2px;
+            cursor: pointer;
+        }
+        .btn-close:hover { color: #ccff33; }
+        .pdf-iframe {
+            flex: 1;
+            width: 100%;
+            border: none;
+            background-color: #fff;
+        }
     </style>
 </head>
 <body>
 
-    <!-- 大型橫幅 -->
-    <div class="hero">
-        <div class="hero-content">
-            <div class="wave-icon">〰 〰 〰</div>
-            <div class="hero-text">
-                PORTFOLIO GALLERY<br>
-                A COLLECTION OF MY RECENT PROJECTS
-            </div>
-        </div>
-
-        <!-- 封面專屬跑馬燈 (4組完整名單，確保絕不斷層) -->
-        <div class="hero-marquee-container">
-            <div class="marquee-track">
-                <!-- 第 1 組 -->
-                <div class="marquee-item"><span>Proxmox VE</span></div>
-                <div class="marquee-item"><span>ShareTech</span></div>
-                <div class="marquee-item"><span>Palo Alto</span></div>
-                <div class="marquee-item"><span>Fortinet</span></div>
-                <div class="marquee-item"><span>Synology</span></div>
-                <div class="marquee-item"><span>VMware</span></div>
-                <div class="marquee-item"><span>Sun & Moon Rise</span></div>
-                <div class="marquee-item"><span>Openfind</span></div>
-                <div class="marquee-item"><span>Aruba</span></div>
-                
-                <!-- 第 2 組 -->
-                <div class="marquee-item"><span>Proxmox VE</span></div>
-                <div class="marquee-item"><span>ShareTech</span></div>
-                <div class="marquee-item"><span>Palo Alto</span></div>
-                <div class="marquee-item"><span>Fortinet</span></div>
-                <div class="marquee-item"><span>Synology</span></div>
-                <div class="marquee-item"><span>VMware</span></div>
-                <div class="marquee-item"><span>Sun & Moon Rise</span></div>
-                <div class="marquee-item"><span>Openfind</span></div>
-                <div class="marquee-item"><span>Aruba</span></div>
-
-                <!-- 第 3 組 -->
-                <div class="marquee-item"><span>Proxmox VE</span></div>
-                <div class="marquee-item"><span>ShareTech</span></div>
-                <div class="marquee-item"><span>Palo Alto</span></div>
-                <div class="marquee-item"><span>Fortinet</span></div>
-                <div class="marquee-item"><span>Synology</span></div>
-                <div class="marquee-item"><span>VMware</span></div>
-                <div class="marquee-item"><span>Sun & Moon Rise</span></div>
-                <div class="marquee-item"><span>Openfind</span></div>
-                <div class="marquee-item"><span>Aruba</span></div>
-
-                <!-- 第 4 組 -->
-                <div class="marquee-item"><span>Proxmox VE</span></div>
-                <div class="marquee-item"><span>ShareTech</span></div>
-                <div class="marquee-item"><span>Palo Alto</span></div>
-                <div class="marquee-item"><span>Fortinet</span></div>
-                <div class="marquee-item"><span>Synology</span></div>
-                <div class="marquee-item"><span>VMware</span></div>
-                <div class="marquee-item"><span>Sun & Moon Rise</span></div>
-                <div class="marquee-item"><span>Openfind</span></div>
-                <div class="marquee-item"><span>Aruba</span></div>
-            </div>
-        </div>
+    <!-- 🌟 開場動畫幕 (Splash Screen) 🌟 -->
+    <div class="splash-screen">
+        <div class="splash-logo">portfolio</div>
     </div>
 
-    <!-- 分類頁籤 -->
-    <div class="tabs">
-        <div class="tab active" onclick="openGallery(event, 'Project-Bike')">自行車產業專案</div>
-        <div class="tab" onclick="openGallery(event, 'Project-Opto')">光電廠產業專案</div>
-        <div class="tab" onclick="openGallery(event, 'Project-Wire')">電線電子產業專案</div>
+    <!-- 🌟 主畫面四欄排版 🌟 -->
+    <div class="layout-container">
+
+        <!-- 第 1 欄：導覽選單與封面 -->
+        <div class="panel" style="cursor: default;">
+            <div class="side-nav">
+                <div>WHO WE ARE</div>
+                <div>BUSINESS</div>
+                <div>STAFF</div>
+                <div>WORKS</div>
+                <div>RECRUIT</div>
+                <div>NEWS</div>
+                <div>CONTACT</div>
+            </div>
+            <!-- 直書標題 -->
+            <div class="vertical-title">個人專案畫廊展示</div>
+            <div class="vertical-subtitle">可能性を社会に実装する</div>
+            
+            <!-- 幾何圖形 A -->
+            <div class="art-box">
+                <svg class="art-svg" viewBox="0 0 100 100">
+                    <rect width="100" height="100" fill="#a0a0a0" />
+                    <!-- 左半圓白，右半圓萊姆綠 -->
+                    <path d="M 50 20 A 30 30 0 0 0 50 80 Z" class="shape-white" />
+                    <path d="M 50 20 A 30 30 0 0 1 50 80 Z" class="shape-accent" />
+                    <polygon points="0,40 50,50 0,60" class="shape-white" />
+                </svg>
+            </div>
+            <div class="panel-footer">home</div>
+        </div>
+
+        <!-- 第 2 欄：自行車專案 -->
+        <!-- 點擊整個區塊直接開啟 PDF -->
+        <div class="panel" onclick="openPdf('自行車產業_專案敘述.pdf')">
+            <div class="vertical-title">自行車產業分析報告</div>
+            <div class="vertical-subtitle">供應鏈與市場佈局</div>
+            
+            <!-- 幾何圖形 B -->
+            <div class="art-box">
+                <svg class="art-svg" viewBox="0 0 100 100">
+                    <rect width="100" height="100" fill="#383838" />
+                    <circle cx="50" cy="50" r="45" fill="#e0e0e0" />
+                    <circle cx="25" cy="60" r="15" class="shape-white" />
+                    <path d="M 40 100 A 40 40 0 0 1 100 40 L 100 100 Z" class="shape-accent" />
+                </svg>
+            </div>
+            <div class="panel-footer">project 01</div>
+        </div>
+
+        <!-- 第 3 欄：光電廠專案 (包含兩個 PDF) -->
+        <!-- 因為有兩份文件，滑過時會浮現按鈕供選擇 -->
+        <div class="panel">
+            <div class="vertical-title">光電廠產業專案</div>
+            <div class="vertical-subtitle">防火牆升級與無縫遷移</div>
+            
+            <!-- 子選單：供點擊開啟不同 PDF -->
+            <div class="sub-links">
+                <div class="sub-btn" onclick="openPdf('光電廠_作業計畫書.pdf')">▶ 作業計畫書</div>
+                <div class="sub-btn" onclick="openPdf('光電廠_專案簡述.pdf')">▶ 專案簡述</div>
+            </div>
+
+            <!-- 幾何圖形 C -->
+            <div class="art-box">
+                <svg class="art-svg" viewBox="0 0 100 100">
+                    <rect width="100" height="100" fill="#e0e0e0" />
+                    <polygon points="0,0 50,50 0,100" class="shape-gray" />
+                    <polygon points="50,0 100,50 50,100" class="shape-accent" />
+                    <polygon points="0,0 50,0 0,50" class="shape-white" />
+                    <polygon points="50,100 100,100 100,50" class="shape-white" />
+                </svg>
+            </div>
+            <div class="panel-footer">project 02</div>
+        </div>
+
+        <!-- 第 4 欄：電線電子專案 -->
+        <div class="panel" onclick="openPdf('填寫檔名.pdf')">
+            <div class="vertical-title">電線電子產業專案報告</div>
+            <div class="vertical-subtitle">技術規格與產業分析</div>
+            
+            <!-- 幾何圖形 D -->
+            <div class="art-box">
+                <svg class="art-svg" viewBox="0 0 100 100">
+                    <rect width="100" height="100" fill="#a0a0a0" />
+                    <path d="M 50 20 A 30 30 0 0 0 50 80 Z" class="shape-accent" />
+                    <path d="M 50 20 A 30 30 0 0 1 50 80 Z" class="shape-gray" />
+                    <polygon points="0,40 50,50 0,60" class="shape-white" />
+                </svg>
+            </div>
+            <div class="panel-footer">project 03</div>
+        </div>
+
     </div>
 
-    <!-- 🌟 卡片展示區 🌟 -->
-    
-    <!-- 區塊 1：自行車產業專案 (預設顯示) -->
-    <main id="Project-Bike" class="gallery view-section" style="display: grid;">
-        <article class="card">
-            <div class="card-header">自行車產業分析報告</div>
-            <div class="card-image-wrapper" onclick="openPdfViewer('自行車產業_專案敘述.pdf')">
-                <img src="https://picsum.photos/400/300?random=5" alt="自行車專案">
-                <div class="card-icon">◎</div>
-            </div>
-            <div class="card-body">
-                <div class="btn-read" onclick="openPdfViewer('自行車產業_專案敘述.pdf')">直接閱讀報告</div><br>
-                #自行車 #零組件供應鏈 #市場佈局
-                <div class="color-dots">
-                    <span class="dot" style="background: #e74c3c;"></span>
-                    <span class="dot" style="background: #34495e;"></span>
-                </div>
-            </div>
-        </article>
-    </main>
-
-    <!-- 區塊 2：光電廠產業專案 -->
-    <main id="Project-Opto" class="gallery view-section">
-        <article class="card">
-            <div class="card-header">光電廠作業計畫書</div>
-            <div class="card-image-wrapper" onclick="openPdfViewer('光電廠_作業計畫書.pdf')">
-                <img src="https://picsum.photos/400/300?random=1" alt="作業計畫書">
-                <div class="card-icon">◇</div>
-            </div>
-            <div class="card-body">
-                <div class="btn-read" onclick="openPdfViewer('光電廠_作業計畫書.pdf')">直接閱讀報告</div><br>
-                #計畫書 #光電產業 #防火牆
-                <div class="color-dots"><span class="dot" style="background: #2a6199;"></span></div>
-            </div>
-        </article>
-        <!-- 修正此處光電廠專案簡述 -->
-        <article class="card">
-            <div class="card-header">光電廠專案簡述</div>
-            <div class="card-image-wrapper" onclick="openPdfViewer('光電廠_專案簡述.pdf')">
-                <img src="https://picsum.photos/400/300?random=2" alt="專案簡述">
-                <div class="card-icon">△</div>
-            </div>
-            <div class="card-body">
-                <div class="btn-read" onclick="openPdfViewer('光電廠_專案簡述.pdf')">直接閱讀報告</div><br>
-                #專案簡介 #無縫說明
-                <div class="color-dots"><span class="dot" style="background: #4caf50;"></span></div>
-            </div>
-        </article>
-    </main>
-
-    <!-- 區塊 3：電線電子產業專案 (已移除股票相關預設內容) -->
-    <main id="Project-Wire" class="gallery view-section">
-        <article class="card">
-            <div class="card-header">電線電子產業專案報告</div>
-            <div class="card-image-wrapper" onclick="openPdfViewer('填寫檔名.pdf')">
-                <img src="https://picsum.photos/400/300?random=8" alt="電線電子專案">
-                <div class="card-icon">□</div>
-            </div>
-            <div class="card-body">
-                <div class="btn-read" onclick="openPdfViewer('填寫檔名.pdf')">直接閱讀報告</div><br>
-                #電線電子 #產業分析 #技術規格
-                <div class="color-dots">
-                    <span class="dot" style="background: #f39c12;"></span>
-                    <span class="dot" style="background: #8e44ad;"></span>
-                </div>
-            </div>
-        </article>
-    </main>
-
-    <!-- 🌟 PDF 嵌入顯示區 🌟 -->
-    <div id="PDF-Viewer" class="pdf-viewer-container view-section">
-        <button class="btn-back" onclick="closePdfViewer()">← 返回專案列表</button>
+    <!-- 🌟 滿版 PDF 閱讀器 🌟 -->
+    <div id="PDF-Viewer" class="pdf-overlay">
+        <div class="pdf-header">
+            <button class="btn-close" onclick="closePdf()">✕ CLOSE</button>
+        </div>
         <iframe id="pdf-frame" class="pdf-iframe" src=""></iframe>
     </div>
 
     <!-- 互動腳本 -->
     <script>
-        let currentActiveGalleryId = 'Project-Bike';
-
-        function openGallery(evt, projectName) {
-            var sections = document.getElementsByClassName("view-section");
-            for (var i = 0; i < sections.length; i++) {
-                sections[i].style.display = "none";
-            }
-            
-            var tablinks = document.getElementsByClassName("tab");
-            for (var i = 0; i < tablinks.length; i++) {
-                tablinks[i].className = tablinks[i].className.replace(" active", "");
-            }
-            
-            document.getElementById(projectName).style.display = "grid";
-            evt.currentTarget.className += " active";
-            
-            currentActiveGalleryId = projectName;
-            document.getElementById('pdf-frame').src = "";
-        }
-
-        function openPdfViewer(pdfFilename) {
-            var sections = document.getElementsByClassName("gallery");
-            for (var i = 0; i < sections.length; i++) {
-                sections[i].style.display = "none";
-            }
-            
+        // 開啟 PDF 閱讀器
+        function openPdf(pdfFilename) {
             var viewer = document.getElementById('PDF-Viewer');
-            viewer.style.display = "block";
-            
+            viewer.style.display = "flex";
             document.getElementById('pdf-frame').src = pdfFilename;
-            
-            window.scrollTo({ top: viewer.offsetTop - 20, behavior: 'smooth' });
         }
 
-        function closePdfViewer() {
+        // 關閉 PDF 閱讀器
+        function closePdf() {
             document.getElementById('PDF-Viewer').style.display = "none";
             document.getElementById('pdf-frame').src = "";
-            document.getElementById(currentActiveGalleryId).style.display = "grid";
-            window.scrollTo({ top: document.querySelector('.tabs').offsetTop - 20, behavior: 'smooth' });
         }
     </script>
 </body>
