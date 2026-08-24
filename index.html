@@ -9,7 +9,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { 
             font-family: "Helvetica Neue", Arial, sans-serif; 
-            background-color: #f4f4f4; /* 淺灰背景，凸顯白色卡片 */
+            background-color: #f4f4f4; 
             color: #555; 
             line-height: 1.6; 
         }
@@ -20,7 +20,6 @@
             position: relative;
             width: 100%;
             height: 420px;
-            /* 預設模糊背景圖，您可以替換成自己喜歡的風景照 */
             background: url('https://picsum.photos/1600/600?blur=4') center/cover no-repeat;
             display: flex;
             flex-direction: column;
@@ -32,47 +31,19 @@
         }
         .hero::before {
             content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.15); /* 稍微壓暗背景讓白字更清楚 */
+            background: rgba(0,0,0,0.15); 
         }
-        .hero-content {
-            position: relative;
-            z-index: 1;
-        }
-        .wave-icon {
-            font-size: 35px;
-            margin-bottom: 15px;
-            letter-spacing: 2px;
-            font-weight: lighter;
-        }
-        .hero-text {
-            font-size: 13px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            line-height: 1.8;
-        }
+        .hero-content { position: relative; z-index: 1; }
+        .wave-icon { font-size: 35px; margin-bottom: 15px; letter-spacing: 2px; font-weight: lighter; }
+        .hero-text { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; line-height: 1.8; }
 
-        /* 分類頁籤 (配合新風格改為簡約文字與底線) */
+        /* 分類頁籤 */
         .tabs { 
-            display: flex; 
-            justify-content: center;
-            gap: 40px;
-            width: 100%; 
-            max-width: 1200px; 
-            margin: 0 auto 40px auto; 
+            display: flex; justify-content: center; gap: 40px; width: 100%; max-width: 1200px; margin: 0 auto 40px auto; 
         }
-        .tab { 
-            font-size: 14px;
-            letter-spacing: 2px;
-            color: #999; 
-            cursor: pointer; 
-            padding-bottom: 5px;
-            transition: 0.3s; 
-        }
+        .tab { font-size: 14px; letter-spacing: 2px; color: #999; cursor: pointer; padding-bottom: 5px; transition: 0.3s; }
         .tab:hover { color: #333; }
-        .tab.active { 
-            color: #333; 
-            border-bottom: 2px solid #333; 
-        }
+        .tab.active { color: #333; border-bottom: 2px solid #333; }
 
         /* 網格展示區 */
         .gallery { 
@@ -84,80 +55,70 @@
             padding: 0 20px; 
         }
         
-        /* 卡片設計 (對齊參考圖：白底、無邊框、微陰影、內縮排版) */
-        .card { 
-            background: #fff; 
-            padding: 30px 25px; 
-            text-align: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.03); 
-            transition: 0.3s; 
-        }
+        /* 卡片設計 */
+        .card { background: #fff; padding: 30px 25px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.03); transition: 0.3s; }
         .card:hover { box-shadow: 0 8px 25px rgba(0,0,0,0.08); transform: translateY(-3px); }
-        
-        /* 卡片標題置頂 */
-        .card-header {
-            font-size: 15px;
-            letter-spacing: 1.5px;
-            color: #333;
-            margin-bottom: 20px;
-            font-weight: bold;
-        }
+        .card-header { font-size: 15px; letter-spacing: 1.5px; color: #333; margin-bottom: 20px; font-weight: bold; }
 
-        /* 圖片與置中白色 Icon */
-        .card-image-wrapper { 
-            position: relative; 
-            width: 100%; 
-            aspect-ratio: 4/3; 
-            overflow: hidden; 
-            background: #eee; 
-            margin-bottom: 20px;
-        }
-        .card-image-wrapper img { 
-            width: 100%; 
-            height: 100%; 
-            object-fit: cover; 
-            transition: 0.4s; 
-            opacity: 0.85; /* 預設稍微透明，滑過時變亮 */
-        }
+        /* 圖片與置中圖示 */
+        .card-image-wrapper { position: relative; width: 100%; aspect-ratio: 4/3; overflow: hidden; background: #eee; margin-bottom: 20px; cursor: pointer; }
+        .card-image-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: 0.4s; opacity: 0.85; }
         .card:hover .card-image-wrapper img { opacity: 1; transform: scale(1.05); }
-        
-        .card-icon {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 45px;
-            height: 45px;
-            border: 2px solid #fff;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #fff;
-            font-size: 18px;
-            pointer-events: none; /* 避免擋住圖片的點擊事件 */
-            z-index: 2;
-        }
+        .card-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 45px; height: 45px; border: 2px solid #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: #fff; font-size: 18px; pointer-events: none; z-index: 2; }
 
-        /* 卡片底部描述與標籤 */
-        .card-body {
-            font-size: 12px;
-            color: #888;
-            line-height: 1.8;
+        /* 卡片底部 */
+        .card-body { font-size: 12px; color: #888; line-height: 1.8; }
+        
+        /* 閱讀按鈕設計 */
+        .btn-read { 
+            display: inline-block; margin-bottom: 15px; padding: 8px 20px; 
+            border: 1px solid #ddd; border-radius: 20px; color: #555; 
+            cursor: pointer; transition: 0.3s; font-size: 12px;
         }
-        .card-url {
-            display: inline-block;
-            margin-bottom: 12px;
-            color: #666;
-            text-decoration: underline;
-        }
+        .btn-read:hover { background-color: #333; color: #fff; border-color: #333; }
+        
         .color-dots { display: flex; justify-content: center; gap: 6px; margin-top: 15px; }
         .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+
+        /* 🔴 新增：PDF 嵌入顯示區塊 (預設隱藏) */
+        .pdf-viewer-container {
+            display: none; /* 預設隱藏 */
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto 60px auto;
+            padding: 0 20px;
+        }
+        
+        /* 嵌入的 PDF 視窗樣式 */
+        .pdf-iframe {
+            width: 100%;
+            height: 80vh; /* 高度設定為螢幕高度的 80% */
+            border: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            background-color: #fff;
+        }
+        
+        /* 返回畫廊的按鈕 */
+        .btn-back {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+        .btn-back:hover { background-color: #555; }
     </style>
 </head>
 <body>
 
-    <!-- 大型橫幅 (Hero Banner) -->
+    <!-- 大型橫幅 -->
     <div class="hero">
         <div class="hero-content">
             <div class="wave-icon">〰 〰 〰</div>
@@ -168,68 +129,74 @@
         </div>
     </div>
 
-    <!-- 三個分類頁籤 (極簡底線風格) -->
+    <!-- 分類頁籤 -->
     <div class="tabs">
-        <div class="tab active" onclick="openProject(event, 'Project-Bike')">自行車產業專案</div>
-        <div class="tab" onclick="openProject(event, 'Project-Opto')">光電廠產業專案</div>
-        <div class="tab" onclick="openProject(event, 'Project-Wire')">電線電子產業專案</div>
+        <div class="tab active" onclick="openGallery(event, 'Project-Bike')">自行車產業專案</div>
+        <div class="tab" onclick="openGallery(event, 'Project-Opto')">光電廠產業專案</div>
+        <div class="tab" onclick="openGallery(event, 'Project-Wire')">電線電子產業專案</div>
     </div>
 
+    <!-- 🌟 卡片展示區 (Gallery Views) 🌟 -->
+    
     <!-- 區塊 1：自行車產業專案 -->
-    <main id="Project-Bike" class="gallery" style="display: grid;">
-       <article class="card">
-            <div class="card-header">自行車廠專案簡述</div>
+    <main id="Project-Bike" class="gallery view-section" style="display: grid;">
+        <article class="card">
+            <div class="card-header">自行車產業分析報告</div>
             <a href="自行車產業_專案敘述.pdf" target="_blank">
                 <div class="card-image-wrapper">
-                    <img src="https://picsum.photos/400/300?random=2" alt="專案簡述">
-                    <div class="card-icon">△</div>
+                    <img src="https://picsum.photos/400/300?random=5" alt="自行車專案">
+                    <div class="card-icon">◎</div>
                 </div>
             </a>
             <div class="card-body">
-                <a href="自行車產業_專案敘述.pdf" class="card-url" target="_blank">點擊開啟 PDF 文件</a><br>
-                #專案簡介 #專案說明
-                <div class="color-dots"><span class="dot" style="background: #4caf50;"></span></div>
+                <a href="自行車產業_專案敘述.pdf" class="card-url" target="_blank">在新分頁開啟 PDF</a><br>
+                #自行車 #零組件供應鏈 #市場佈局
+                <div class="color-dots">
+                    <span class="dot" style="background: #e74c3c;"></span>
+                    <span class="dot" style="background: #34495e;"></span>
+                </div>
             </div>
         </article>
     </main>
 
-    <!-- 區塊 2：光電廠產業專案 -->
-    <main id="Project-Opto" class="gallery">
+    <!-- 區塊 2：光電廠產業專案 (加入了「線上閱讀」功能) -->
+    <main id="Project-Opto" class="gallery view-section">
+        
+        <!-- 卡片 A：光電廠作業計畫書 -->
         <article class="card">
             <div class="card-header">光電廠作業計畫書</div>
-            <a href="光電廠_作業計畫書.pdf" target="_blank">
-                <div class="card-image-wrapper">
-                    <img src="https://picsum.photos/400/300?random=1" alt="作業計畫書">
-                    <div class="card-icon">◇</div>
-                </div>
-            </a>
+            <!-- 點擊圖片觸發 JavaScript，在網頁內開啟 PDF -->
+            <div class="card-image-wrapper" onclick="openPdfViewer('光電廠_作業計畫書.pdf')">
+                <img src="https://picsum.photos/400/300?random=1" alt="作業計畫書">
+                <div class="card-icon">◇</div>
+            </div>
             <div class="card-body">
-                <a href="光電廠_作業計畫書.pdf" class="card-url" target="_blank">點擊開啟 PDF 文件</a><br>
+                <!-- 按鈕觸發 JavaScript，在網頁內開啟 PDF -->
+                <div class="btn-read" onclick="openPdfViewer('光電廠_作業計畫書.pdf')">直接閱讀報告</div><br>
                 #計畫書 #光電產業 #防火牆
                 <div class="color-dots"><span class="dot" style="background: #2a6199;"></span></div>
             </div>
         </article>
 
+        <!-- 卡片 B：光電廠專案簡述 -->
         <article class="card">
             <div class="card-header">光電廠專案簡述</div>
-            <a href="光電廠_專案簡述.pdf" target="_blank">
-                <div class="card-image-wrapper">
-                    <img src="https://picsum.photos/400/300?random=2" alt="專案簡述">
-                    <div class="card-icon">△</div>
-                </div>
-            </a>
+            <div class="card-image-wrapper" onclick="openPdfViewer('光電廠_專案簡述.pdf')">
+                <img src="https://picsum.photos/400/300?random=2" alt="專案簡述">
+                <div class="card-icon">△</div>
+            </div>
             <div class="card-body">
-                <a href="光電廠_專案簡述.pdf" class="card-url" target="_blank">點擊開啟 PDF 文件</a><br>
-                #專案簡介 #規格說明
+                <div class="btn-read" onclick="openPdfViewer('光電廠_專案簡述.pdf')">直接閱讀報告</div><br>
+                #專案簡介 #無縫遷移 #路由排障
                 <div class="color-dots"><span class="dot" style="background: #4caf50;"></span></div>
             </div>
         </article>
     </main>
 
     <!-- 區塊 3：電線電子產業專案 -->
-    <main id="Project-Wire" class="gallery">
+    <main id="Project-Wire" class="gallery view-section">
         <article class="card">
-            <div class="card-header">電子廠專案簡述</div>
+            <div class="card-header">台股 PCB 族群與工業用量評估</div>
             <a href="#" target="_blank">
                 <div class="card-image-wrapper">
                     <img src="https://picsum.photos/400/300?random=8" alt="電線電子專案">
@@ -237,8 +204,8 @@
                 </div>
             </a>
             <div class="card-body">
-                <a href="#" class="card-url">點擊開啟 PDF 文件</a><br>
-                 #專案簡介 #規格說明
+                <a href="#" class="card-url">在新分頁開啟 PDF</a><br>
+                #PCB產業 #精煉銅供需 #短波段佈局
                 <div class="color-dots">
                     <span class="dot" style="background: #f39c12;"></span>
                     <span class="dot" style="background: #8e44ad;"></span>
@@ -247,20 +214,75 @@
         </article>
     </main>
 
-    <!-- 頁籤切換腳本 -->
+    <!-- 🌟 PDF 嵌入顯示區 (PDF Viewer) 🌟 -->
+    <!-- 當訪客點擊「直接閱讀」時，畫廊會隱藏，這個區塊會顯示出來 -->
+    <div id="PDF-Viewer" class="pdf-viewer-container view-section">
+        <button class="btn-back" onclick="closePdfViewer()">← 返回專案列表</button>
+        <!-- iframe 的 src 將由 JavaScript 動態填入被點擊的 PDF 檔名 -->
+        <iframe id="pdf-frame" class="pdf-iframe" src=""></iframe>
+    </div>
+
+    <!-- 互動腳本 -->
     <script>
-        function openProject(evt, projectName) {
-            var i, gallery, tablinks;
-            gallery = document.getElementsByClassName("gallery");
-            for (i = 0; i < gallery.length; i++) {
-                gallery[i].style.display = "none";
+        // 用來記錄目前正在看哪一個分類，以便從 PDF 閱讀器返回時知道要顯示哪個區塊
+        let currentActiveGalleryId = 'Project-Bike';
+
+        // 切換上方頁籤的函數
+        function openGallery(evt, projectName) {
+            // 隱藏所有區塊 (包含畫廊與 PDF 閱讀器)
+            var sections = document.getElementsByClassName("view-section");
+            for (var i = 0; i < sections.length; i++) {
+                sections[i].style.display = "none";
             }
-            tablinks = document.getElementsByClassName("tab");
-            for (i = 0; i < tablinks.length; i++) {
+            
+            // 移除所有頁籤的 active 狀態
+            var tablinks = document.getElementsByClassName("tab");
+            for (var i = 0; i < tablinks.length; i++) {
                 tablinks[i].className = tablinks[i].className.replace(" active", "");
             }
+            
+            // 顯示目標畫廊並更新狀態
             document.getElementById(projectName).style.display = "grid";
             evt.currentTarget.className += " active";
+            
+            // 更新目前所在的分類 ID
+            currentActiveGalleryId = projectName;
+            
+            // 清空 iframe 來源，避免背景還在載入舊的 PDF
+            document.getElementById('pdf-frame').src = "";
+        }
+
+        // 開啟 PDF 閱讀器的函數
+        function openPdfViewer(pdfFilename) {
+            // 隱藏所有畫廊
+            var sections = document.getElementsByClassName("gallery");
+            for (var i = 0; i < sections.length; i++) {
+                sections[i].style.display = "none";
+            }
+            
+            // 顯示 PDF 閱讀區塊
+            var viewer = document.getElementById('PDF-Viewer');
+            viewer.style.display = "block";
+            
+            // 將點擊的 PDF 檔名塞給 iframe，讓瀏覽器載入該文件
+            document.getElementById('pdf-frame').src = pdfFilename;
+            
+            // 讓網頁自動捲動到閱讀區塊的最上方，方便閱讀
+            window.scrollTo({ top: viewer.offsetTop - 20, behavior: 'smooth' });
+        }
+
+        // 關閉 PDF 閱讀器並返回畫廊的函數
+        function closePdfViewer() {
+            // 隱藏 PDF 閱讀器
+            document.getElementById('PDF-Viewer').style.display = "none";
+            // 清空 iframe
+            document.getElementById('pdf-frame').src = "";
+            
+            // 重新顯示剛剛所在的畫廊
+            document.getElementById(currentActiveGalleryId).style.display = "grid";
+            
+            // 捲動回頁籤的位置
+            window.scrollTo({ top: document.querySelector('.tabs').offsetTop - 20, behavior: 'smooth' });
         }
     </script>
 </body>
