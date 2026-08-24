@@ -5,64 +5,105 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>個人專案畫廊展示</title>
     <style>
-        /* 基礎設定與微點陣背景 */
+        /* 基礎設定 */
         * { box-sizing: border-box; margin: 0; padding: 0; }
+        
         body { 
             font-family: "Helvetica Neue", Arial, sans-serif; 
-            background-color: #f7f7f7; 
-            /* 視覺優化：加入微點陣背景 */
-            background-image: radial-gradient(#d5d5d5 1px, transparent 1px);
-            background-size: 20px 20px;
-            color: #333; 
+            color: #eee; 
             line-height: 1.5; 
+            background-color: transparent; /* 背景由下方的 bg-wrapper 控制 */
         }
-        a { text-decoration: none; color: #888; font-size: 12px; }
+        
+        a { text-decoration: none; color: #aaa; font-size: 12px; }
         ul { list-style: none; }
 
-        /* 頂部導覽列 */
-        header { display: flex; align-items: center; padding: 20px 40px; background: #fff; box-shadow: 0 1px 5px rgba(0,0,0,0.03); }
-        .logo { display: flex; align-items: center; gap: 5px; margin-right: 40px; }
-        .logo span { display: inline-block; width: 15px; height: 15px; background: #aebdbb; }
-        .logo .circle { border-radius: 50%; }
-        .logo .triangle { background: transparent; border-left: 8px solid transparent; border-right: 8px solid transparent; border-bottom: 15px solid #aebdbb; }
-        .nav-links { display: flex; gap: 20px; font-size: 14px; color: #666; letter-spacing: 1px; }
+        /* 👑 核心特效：巨型文字背景 */
+        .bg-wrapper {
+            position: fixed;
+            top: 0; 
+            left: 0; 
+            width: 100vw; 
+            height: 100vh;
+            overflow: hidden;
+            z-index: -1;
+            background-color: #2a2a2a; /* 深灰底色 */
+        }
+        .bg-text {
+            position: absolute;
+            top: 50%; 
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 45vw; /* 極巨大的字體尺寸 */
+            font-weight: 900;
+            font-family: "Arial Black", Impact, sans-serif;
+            color: #151515; /* 極黑文字 */
+            line-height: 1;
+            white-space: nowrap;
+            user-select: none;
+            letter-spacing: -0.05em;
+        }
 
-        /* 分類頁籤 (三個區塊) */
-        .tabs { display: flex; width: 100%; max-width: 1200px; margin: 30px auto; background: #fff; border: 1px solid #eee; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
-        .tab { flex: 1; text-align: center; padding: 20px 0; letter-spacing: 2px; color: #999; cursor: pointer; transition: 0.2s; border-right: 1px solid #eee; }
+        /* 頂部導覽列 (改為透明深色系) */
+        header { display: flex; align-items: center; padding: 20px 40px; background: transparent; }
+        .logo { display: flex; align-items: center; gap: 5px; margin-right: 40px; }
+        .logo span { display: inline-block; width: 15px; height: 15px; background: #4bd5c0; } /* 參考圖的薄荷綠 */
+        .logo .circle { border-radius: 50%; }
+        .logo .triangle { background: transparent; border-left: 8px solid transparent; border-right: 8px solid transparent; border-bottom: 15px solid #4bd5c0; }
+        .nav-links { display: flex; gap: 20px; font-size: 14px; color: #ccc; letter-spacing: 1px; }
+
+        /* 分類頁籤 (深色玻璃質感) */
+        .tabs { 
+            display: flex; 
+            width: 100%; 
+            max-width: 1200px; 
+            margin: 30px auto; 
+            background: rgba(30, 30, 30, 0.8); 
+            backdrop-filter: blur(10px);
+            border: 1px solid #444; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
+        }
+        .tab { flex: 1; text-align: center; padding: 20px 0; letter-spacing: 2px; color: #888; cursor: pointer; transition: 0.3s; border-right: 1px solid #444; }
         .tab:last-child { border-right: none; }
-        .tab:hover { background-color: #f9f9f9; }
-        .tab.active { background-color: #b7b2a3; color: #fff; position: relative; }
+        .tab:hover { background-color: #333; color: #fff; }
+        
+        /* 啟用狀態的頁籤 (薄荷綠) */
+        .tab.active { background-color: #4bd5c0; color: #111; font-weight: bold; position: relative; }
         .tab.active::after {
             content: ''; position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%);
-            border-width: 15px 15px 0; border-style: solid; border-color: #b7b2a3 transparent transparent transparent;
+            border-width: 15px 15px 0; border-style: solid; border-color: #4bd5c0 transparent transparent transparent;
         }
 
         /* 網格展示區 */
-        .gallery { display: none; /* 預設隱藏所有區塊 */ grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+        .gallery { display: none; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; max-width: 1200px; margin: 40px auto; padding: 0 20px; }
         
-        /* 卡片設計 (增加微陰影) */
-        .card { background: #fff; padding-bottom: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); transition: 0.3s; }
-        .card:hover { box-shadow: 0 8px 25px rgba(0,0,0,0.08); }
-        .card-image { position: relative; width: 100%; aspect-ratio: 4/3; overflow: hidden; background: #eee; }
-        .card-image img { width: 100%; height: 100%; object-fit: cover; transition: 0.4s; }
-        .card:hover .card-image img { transform: scale(1.03); }
+        /* 卡片設計 (深色模式) */
+        .card { background: #222; padding-bottom: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); transition: 0.3s; border: 1px solid #333; }
+        .card:hover { box-shadow: 0 15px 40px rgba(0,0,0,0.7); transform: translateY(-5px); border-color: #4bd5c0; }
+        .card-image { position: relative; width: 100%; aspect-ratio: 4/3; overflow: hidden; background: #111; }
+        .card-image img { width: 100%; height: 100%; object-fit: cover; transition: 0.4s; opacity: 0.9; }
+        .card:hover .card-image img { transform: scale(1.05); opacity: 1; }
         
-        /* 懸浮按鈕 */
-        .circle-btn { position: absolute; background: #fff; border: 1px solid #ddd; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: #666; font-size: 12px; cursor: pointer; transition: 0.2s; }
-        .circle-btn:hover { border-color: #aebdbb; color: #aebdbb; }
-        .btn-left { bottom: -20px; left: 15px; width: 60px; height: 60px; text-align: center; line-height: 1.2; padding: 5px; z-index: 10; }
+        /* 懸浮按鈕 (深色金屬感 -> 滑過變薄荷綠) */
+        .circle-btn { position: absolute; background: #333; border: 1px solid #555; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: #eee; font-size: 12px; cursor: pointer; transition: 0.3s; }
+        .circle-btn:hover { background: #4bd5c0; color: #111; border-color: #4bd5c0; }
+        .btn-left { bottom: -20px; left: 15px; width: 60px; height: 60px; text-align: center; line-height: 1.2; padding: 5px; z-index: 10; font-weight: bold; }
 
         /* 卡片文字 */
         .card-info { padding: 30px 15px 0 15px; }
-        .card-title { font-size: 15px; font-weight: bold; margin-bottom: 5px; color: #333; }
-        .card-url { display: block; margin-bottom: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #aebdbb; }
-        .card-tags { font-size: 12px; color: #999; margin-bottom: 12px; }
+        .card-title { font-size: 15px; font-weight: bold; margin-bottom: 5px; color: #fff; }
+        .card-url { display: block; margin-bottom: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #4bd5c0; }
+        .card-tags { font-size: 12px; color: #888; margin-bottom: 12px; }
         .color-dots { display: flex; gap: 5px; }
         .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
     </style>
 </head>
 <body>
+
+    <!-- 巨型文字背景層 -->
+    <div class="bg-wrapper">
+        <div class="bg-text">PIN</div>
+    </div>
 
     <header>
         <div class="logo">
@@ -81,7 +122,7 @@
         <div class="tab" onclick="openProject(event, 'Project-Wire')">電線電子產業專案</div>
     </div>
 
-    <!-- 區塊 1：自行車產業專案 (預設顯示) -->
+    <!-- 區塊 1：自行車產業專案 -->
     <main id="Project-Bike" class="gallery" style="display: grid;">
         <article class="card">
             <div class="card-image">
@@ -102,7 +143,7 @@
         </article>
     </main>
 
-    <!-- 區塊 2：光電廠產業專案 (預設隱藏) -->
+    <!-- 區塊 2：光電廠產業專案 -->
     <main id="Project-Opto" class="gallery">
         <article class="card">
             <div class="card-image">
@@ -135,7 +176,7 @@
         </article>
     </main>
 
-    <!-- 區塊 3：電線電子產業專案 (預設隱藏) -->
+    <!-- 區塊 3：電線電子產業專案 -->
     <main id="Project-Wire" class="gallery">
         <article class="card">
             <div class="card-image">
