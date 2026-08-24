@@ -15,12 +15,12 @@
         }
         a { text-decoration: none; color: inherit; }
         
-        /* 🌟 大型橫幅 (Hero Banner) - 動態加大滿版高度 🌟 */
+        /* 🌟 大型橫幅 (Hero Banner) 🌟 */
         .hero {
             position: relative;
             width: 100%;
-            height: 60vh; /* 動態抓取螢幕高度的 60% */
-            min-height: 480px; /* 確保就算是小螢幕，封面也足夠大 */
+            height: 60vh; 
+            min-height: 480px; 
             background: url('https://picsum.photos/1600/600?blur=4') center/cover no-repeat;
             display: flex;
             flex-direction: column;
@@ -267,6 +267,7 @@
                 <div class="color-dots"><span class="dot" style="background: #2a6199;"></span></div>
             </div>
         </article>
+        <!-- 修正此處光電廠專案簡述 -->
         <article class="card">
             <div class="card-header">光電廠專案簡述</div>
             <div class="card-image-wrapper" onclick="openPdfViewer('光電廠_專案簡述.pdf')">
@@ -275,23 +276,23 @@
             </div>
             <div class="card-body">
                 <div class="btn-read" onclick="openPdfViewer('光電廠_專案簡述.pdf')">直接閱讀報告</div><br>
-                #專案簡介 #無縫遷移 #路由排障
+                #專案簡介 #無縫說明
                 <div class="color-dots"><span class="dot" style="background: #4caf50;"></span></div>
             </div>
         </article>
     </main>
 
-    <!-- 區塊 3：電線電子產業專案 -->
+    <!-- 區塊 3：電線電子產業專案 (已移除股票相關預設內容) -->
     <main id="Project-Wire" class="gallery view-section">
         <article class="card">
-            <div class="card-header">台股 PCB 族群與工業用量評估</div>
+            <div class="card-header">電線電子產業專案報告</div>
             <div class="card-image-wrapper" onclick="openPdfViewer('填寫檔名.pdf')">
                 <img src="https://picsum.photos/400/300?random=8" alt="電線電子專案">
                 <div class="card-icon">□</div>
             </div>
             <div class="card-body">
                 <div class="btn-read" onclick="openPdfViewer('填寫檔名.pdf')">直接閱讀報告</div><br>
-                #PCB產業 #精煉銅供需 #短波段佈局
+                #電線電子 #產業分析 #技術規格
                 <div class="color-dots">
                     <span class="dot" style="background: #f39c12;"></span>
                     <span class="dot" style="background: #8e44ad;"></span>
