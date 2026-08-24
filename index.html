@@ -6,7 +6,7 @@
     <title>個人專案畫廊展示</title>
     
     <!-- 專屬波浪圖示 (Favicon) -->
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%23282828%22/><path d=%22M40 20 A15 15 0 0 1 65 40 Q45 40 40 25 Z%22 fill=%22%235A8AF2%22/><path d=%22M15 50 Q50 60 85 50 L80 65 Q50 70 20 65 Z%22 fill=%22%235A8AF2%22/><path d=%22M15 75 Q35 65 50 75 T85 70 L80 85 Q65 95 50 85 T20 90 Z%22 fill=%22%235A8AF2%22/></svg>">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2225%22 fill=%22%23222%22/><path d=%22M20 50 Q35 30 50 50 T80 50%22 stroke=%22%234bd5c0%22 stroke-width=%2210%22 stroke-linecap=%22round%22 fill=%22none%22/></svg>">
 
     <style>
         /* =========================================
@@ -23,19 +23,19 @@
         a { text-decoration: none; color: inherit; }
 
         /* =========================================
-           2. 🌟 電影級穿透開場動畫 (QANDO Style) 🌟 
+           2. 🌟 電影級開場動畫 (3D立體 + 橫向滿版不穿透) 🌟 
            ========================================= */
         .splash-screen {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
-            background-color: #111; /* 極致深黑，凸顯白字 */
+            background-color: #1a1a1a; 
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 9999;
-            overflow: hidden; /* 防止文字放大時出現捲動條 */
-            /* 背景在 3.8秒時開始淡出 */
-            animation: splashBgFade 0.8s ease-in-out 3.8s forwards;
+            overflow: hidden; 
+            /* 背景在 4秒時開始淡出 */
+            animation: splashBgFade 0.8s ease-in-out 4s forwards;
         }
 
         /* 第一階段：PROJECT */
@@ -50,17 +50,29 @@
             animation: fadeProject 1.8s ease-in-out forwards;
         }
 
-        /* 第二階段：PIN 穿透放大 */
+        /* 第二階段：PIN 3D立體字 */
         .splash-pin {
             position: absolute;
             color: #fff;
-            font-size: 60px;
-            font-weight: bold;
-            letter-spacing: 20px;
-            margin-right: -20px; /* 平衡 letter-spacing 造成的視覺不置中 */
+            /* 使用 vw (視窗寬度) 確保放大比例在任何螢幕都剛好 */
+            font-size: 6vw; 
+            font-weight: 900; /* 極粗體讓 3D 效果更好看 */
+            letter-spacing: 15px;
+            margin-right: -15px;
             opacity: 0;
-            /* 延遲 1.6秒進場，然後狂暴放大 */
-            animation: zoomPin 2.2s cubic-bezier(0.7, 0, 0.3, 1) 1.6s forwards;
+            
+            /* 🌟 核心：透過多層陰影疊加，創造出 3D 立體厚度 🌟 */
+            text-shadow: 
+                0px 1px 0px #d4d4d4,
+                0px 2px 0px #c4c4c4,
+                0px 3px 0px #b4b4b4,
+                0px 4px 0px #a4a4a4,
+                0px 5px 0px #949494,
+                0px 6px 0px #848484,
+                0px 15px 20px rgba(0,0,0,0.8); /* 底部加上深邃的陰影 */
+
+            /* 延遲 1.6秒進場，停留後放大 */
+            animation: zoomPin 2.4s cubic-bezier(0.7, 0, 0.3, 1) 1.6s forwards;
         }
 
         /* PROJECT 動畫關鍵影格 */
@@ -71,12 +83,13 @@
             100% { opacity: 0; transform: translateY(-10px); }
         }
 
-        /* PIN 放大穿透關鍵影格 */
+        /* PIN 放大滿版關鍵影格 */
         @keyframes zoomPin {
-            0% { opacity: 0; transform: scale(0.8); filter: blur(5px); }
-            20% { opacity: 1; transform: scale(1); filter: blur(0); }
-            60% { opacity: 1; transform: scale(1); filter: blur(0); }
-            100% { opacity: 0; transform: scale(50); filter: blur(0); } /* 放大50倍衝向螢幕 */
+            0% { opacity: 0; transform: scale(0.8); }
+            20% { opacity: 1; transform: scale(1); }
+            60% { opacity: 1; transform: scale(1); }
+            /* 放大 3.5倍，因為原先是 6vw，3.5倍大約會佔據橫向 80% 左右，不會超過畫面 */
+            100% { opacity: 1; transform: scale(3.5); } 
         }
 
         /* 黑色背景淡出 */
@@ -239,7 +252,7 @@
 </head>
 <body>
 
-    <!-- 🌟 全新：電影級穿透開場動畫 🌟 -->
+    <!-- 🌟 電影級 3D立體 開場動畫 🌟 -->
     <div class="splash-screen">
         <div class="splash-project">PROJECT</div>
         <div class="splash-pin">PIN</div>
@@ -314,7 +327,7 @@
 
     <!-- 🌟 卡片展示區 🌟 -->
     
-    <!-- 區塊 1：自行車產業專案 -->
+    <!-- 區塊 1：自行車產業專案 (預設顯示) -->
     <main id="Project-Bike" class="gallery view-section" style="display: grid;">
         <article class="card">
             <div class="card-header">自行車產業分析報告</div>
