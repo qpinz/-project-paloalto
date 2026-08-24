@@ -80,27 +80,22 @@
         .color-dots { display: flex; justify-content: center; gap: 6px; margin-top: 15px; }
         .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
 
-        /* 🔴 放大版的 PDF 嵌入顯示區塊 */
+        /* PDF 嵌入顯示區塊 */
         .pdf-viewer-container {
             display: none; 
             width: 100%;
-            /* 將最大寬度從 1200px 放寬至 1400px，甚至滿版 */
             max-width: 1400px; 
             margin: 0 auto 60px auto;
             padding: 0 20px;
         }
-        
         .pdf-iframe {
             width: 100%;
-            /* 將高度從 80vh 提升到 90vh，佔滿更多垂直空間 */
             height: 90vh; 
             border: none;
             box-shadow: 0 15px 40px rgba(0,0,0,0.15);
             border-radius: 8px;
             background-color: #fff;
         }
-        
-        /* 返回畫廊的按鈕 */
         .btn-back {
             display: inline-block;
             margin-bottom: 20px;
@@ -115,6 +110,67 @@
             transition: 0.3s;
         }
         .btn-back:hover { background-color: #555; }
+
+        /* 🔴 合作夥伴跑馬燈區塊 (Marquee) 🔴 */
+        .partners-section {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto 60px auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+            padding: 35px 20px;
+            text-align: center;
+            border: 1px solid #eaeaea;
+        }
+        .partners-title {
+            font-size: 12px;
+            color: #888;
+            letter-spacing: 3px;
+            margin-bottom: 30px;
+        }
+        .marquee-container {
+            overflow: hidden;
+            width: 100%;
+            position: relative;
+            /* 左右漸層遮罩，讓跑馬燈有淡入淡出效果 */
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        }
+        .marquee-track {
+            display: flex;
+            width: max-content;
+            animation: scroll 20s linear infinite; /* 20秒跑完一圈，可自行調整速度 */
+        }
+        /* 滑鼠移過去時暫停輪播 (選用功能) */
+        .marquee-track:hover {
+            animation-play-state: paused;
+        }
+        .marquee-item {
+            padding: 0 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        /* 預設為純文字的 Logo 樣式，如果您換成圖片，請修改這裡 */
+        .marquee-item span, .marquee-item img {
+            font-size: 22px;
+            font-weight: 800;
+            color: #888;
+            max-height: 40px;
+            filter: grayscale(100%) opacity(80%); /* 讓圖片統一變成灰色調 */
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .marquee-item span:hover, .marquee-item img:hover {
+            color: #333;
+            filter: grayscale(0%) opacity(100%); /* 滑過恢復原色 */
+        }
+        /* 跑馬燈位移關鍵影格 */
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); } /* 剛好位移一半的距離以達成無縫接軌 */
+        }
     </style>
 </head>
 <body>
@@ -137,20 +193,19 @@
         <div class="tab" onclick="openGallery(event, 'Project-Wire')">電線電子產業專案</div>
     </div>
 
-    <!-- 🌟 卡片展示區 (Gallery Views) 🌟 -->
+    <!-- 🌟 卡片展示區 🌟 -->
     
-    <!-- 區塊 1：自行車產業專案 (已替換為內嵌 PDF 閱讀模式) -->
+    <!-- 區塊 1：自行車產業專案 -->
     <main id="Project-Bike" class="gallery view-section" style="display: grid;">
         <article class="card">
-            <div class="card-header">自行車廠專案簡述</div>
-            <!-- 修改 onclick 觸發內嵌開啟 PDF -->
+            <div class="card-header">自行車產業分析報告</div>
             <div class="card-image-wrapper" onclick="openPdfViewer('自行車產業_專案敘述.pdf')">
                 <img src="https://picsum.photos/400/300?random=5" alt="自行車專案">
                 <div class="card-icon">◎</div>
             </div>
             <div class="card-body">
                 <div class="btn-read" onclick="openPdfViewer('自行車產業_專案敘述.pdf')">直接閱讀報告</div><br>
-               #專案簡介 #專案說明 
+                #自行車 #零組件供應鏈 #市場佈局
                 <div class="color-dots">
                     <span class="dot" style="background: #e74c3c;"></span>
                     <span class="dot" style="background: #34495e;"></span>
@@ -161,7 +216,6 @@
 
     <!-- 區塊 2：光電廠產業專案 -->
     <main id="Project-Opto" class="gallery view-section">
-        
         <article class="card">
             <div class="card-header">光電廠作業計畫書</div>
             <div class="card-image-wrapper" onclick="openPdfViewer('光電廠_作業計畫書.pdf')">
@@ -174,7 +228,6 @@
                 <div class="color-dots"><span class="dot" style="background: #2a6199;"></span></div>
             </div>
         </article>
-
         <article class="card">
             <div class="card-header">光電廠專案簡述</div>
             <div class="card-image-wrapper" onclick="openPdfViewer('光電廠_專案簡述.pdf')">
@@ -189,11 +242,10 @@
         </article>
     </main>
 
-    <!-- 區塊 3：電線電子產業專案 (已統一為內嵌格式備用) -->
+    <!-- 區塊 3：電線電子產業專案 -->
     <main id="Project-Wire" class="gallery view-section">
         <article class="card">
             <div class="card-header">台股 PCB 族群與工業用量評估</div>
-            <!-- 當有 PDF 檔案時，將下方的 '填寫檔名.pdf' 替換為實際檔名 -->
             <div class="card-image-wrapper" onclick="openPdfViewer('填寫檔名.pdf')">
                 <img src="https://picsum.photos/400/300?random=8" alt="電線電子專案">
                 <div class="card-icon">□</div>
@@ -209,10 +261,33 @@
         </article>
     </main>
 
-    <!-- 🌟 放大版的 PDF 嵌入顯示區 🌟 -->
+    <!-- 🌟 PDF 嵌入顯示區 🌟 -->
     <div id="PDF-Viewer" class="pdf-viewer-container view-section">
         <button class="btn-back" onclick="closePdfViewer()">← 返回專案列表</button>
         <iframe id="pdf-frame" class="pdf-iframe" src=""></iframe>
+    </div>
+
+    <!-- 🔴 合作夥伴跑馬燈區塊 🔴 -->
+    <div class="partners-section">
+        <div class="partners-title">原廠技術合作夥伴</div>
+        <div class="marquee-container">
+            <div class="marquee-track">
+                <!-- 第一組 -->
+                <div class="marquee-item"><span>VEEAM</span></div>
+                <div class="marquee-item"><span>Synology</span></div>
+                <div class="marquee-item"><span>QNAP</span></div>
+                <div class="marquee-item"><span>Palo Alto</span></div>
+                <div class="marquee-item"><span>Cisco</span></div>
+                <div class="marquee-item"><span>VMware</span></div>
+                <!-- 第二組 (必須與第一組完全相同，才能達成無縫接軌) -->
+                <div class="marquee-item"><span>VEEAM</span></div>
+                <div class="marquee-item"><span>Synology</span></div>
+                <div class="marquee-item"><span>QNAP</span></div>
+                <div class="marquee-item"><span>Palo Alto</span></div>
+                <div class="marquee-item"><span>Cisco</span></div>
+                <div class="marquee-item"><span>VMware</span></div>
+            </div>
+        </div>
     </div>
 
     <!-- 互動腳本 -->
