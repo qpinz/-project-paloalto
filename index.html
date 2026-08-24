@@ -15,11 +15,11 @@
         }
         a { text-decoration: none; color: inherit; }
         
-        /* 🌟 大型橫幅 (Hero Banner) - 高度縮減版 🌟 */
+        /* 🌟 大型橫幅 (Hero Banner) 🌟 */
         .hero {
             position: relative;
             width: 100%;
-            height: 320px; /* 將高度從 450px 縮減至 320px，平衡視覺比例 */
+            height: 320px;
             background: url('https://picsum.photos/1600/600?blur=4') center/cover no-repeat;
             display: flex;
             flex-direction: column;
@@ -58,7 +58,8 @@
         .marquee-track {
             display: flex;
             width: max-content;
-            animation: scroll 40s linear infinite; /* 放慢速度至 40s */
+            /* 將時間稍微拉長至 50s，因為總長度變長了 */
+            animation: scroll 50s linear infinite; 
         }
         .marquee-track:hover {
             animation-play-state: paused;
@@ -76,7 +77,7 @@
             color: rgba(255, 255, 255, 0.5); 
             transition: 0.3s;
             cursor: pointer;
-            white-space: nowrap; /* 強制文字不換行 */
+            white-space: nowrap; 
         }
         .marquee-item span:hover, .marquee-item img:hover {
             color: rgba(255, 255, 255, 1); 
@@ -164,7 +165,7 @@
 </head>
 <body>
 
-    <!-- 大型橫幅 (內含跑馬燈) -->
+    <!-- 大型橫幅 -->
     <div class="hero">
         <div class="hero-content">
             <div class="wave-icon">〰 〰 〰</div>
@@ -174,29 +175,11 @@
             </div>
         </div>
 
-        <!-- 封面專屬：底部技術名單跑馬燈 (擴增項目避免斷層) -->
+        <!-- 封面專屬：底部技術名單跑馬燈 (擴充至 4 組確保超寬螢幕無縫) -->
         <div class="hero-marquee-container">
             <div class="marquee-track">
-                <!-- 確保項目足夠長，才能無縫接軌 -->
-                <!-- 第一組 -->
-                <div class="marquee-item"><span>Proxmox VE</span></div>
-                <div class="marquee-item"><span>ShareTech</span></div>
-                <div class="marquee-item"><span>Palo Alto</span></div>
-                <div class="marquee-item"><span>Fortinet</span></div>
-                <div class="marquee-item"><span>Synology</span></div>
-                <div class="marquee-item"><span>VMware</span></div>
-                <div class="marquee-item"><span>Sun & Moon Rise</span></div>
-                <div class="marquee-item"><span>Openfind</span></div>
-                <div class="marquee-item"><span>Aruba</span></div>
-                <!-- 補足寬度 -->
-                <div class="marquee-item"><span>Proxmox VE</span></div>
-                <div class="marquee-item"><span>ShareTech</span></div>
-                <div class="marquee-item"><span>Palo Alto</span></div>
-                <div class="marquee-item"><span>Fortinet</span></div>
-                <div class="marquee-item"><span>Synology</span></div>
-                <div class="marquee-item"><span>VMware</span></div>
                 
-                <!-- 第二組 (必須與第一組完全相同) -->
+                <!-- 第 1 組 -->
                 <div class="marquee-item"><span>Proxmox VE</span></div>
                 <div class="marquee-item"><span>ShareTech</span></div>
                 <div class="marquee-item"><span>Palo Alto</span></div>
@@ -206,140 +189,40 @@
                 <div class="marquee-item"><span>Sun & Moon Rise</span></div>
                 <div class="marquee-item"><span>Openfind</span></div>
                 <div class="marquee-item"><span>Aruba</span></div>
-                <!-- 補足寬度 -->
+                
+                <!-- 第 2 組 -->
                 <div class="marquee-item"><span>Proxmox VE</span></div>
                 <div class="marquee-item"><span>ShareTech</span></div>
                 <div class="marquee-item"><span>Palo Alto</span></div>
                 <div class="marquee-item"><span>Fortinet</span></div>
                 <div class="marquee-item"><span>Synology</span></div>
                 <div class="marquee-item"><span>VMware</span></div>
+                <div class="marquee-item"><span>Sun & Moon Rise</span></div>
+                <div class="marquee-item"><span>Openfind</span></div>
+                <div class="marquee-item"><span>Aruba</span></div>
+
+                <!-- 第 3 組 -->
+                <div class="marquee-item"><span>Proxmox VE</span></div>
+                <div class="marquee-item"><span>ShareTech</span></div>
+                <div class="marquee-item"><span>Palo Alto</span></div>
+                <div class="marquee-item"><span>Fortinet</span></div>
+                <div class="marquee-item"><span>Synology</span></div>
+                <div class="marquee-item"><span>VMware</span></div>
+                <div class="marquee-item"><span>Sun & Moon Rise</span></div>
+                <div class="marquee-item"><span>Openfind</span></div>
+                <div class="marquee-item"><span>Aruba</span></div>
+
+                <!-- 第 4 組 -->
+                <div class="marquee-item"><span>Proxmox VE</span></div>
+                <div class="marquee-item"><span>ShareTech</span></div>
+                <div class="marquee-item"><span>Palo Alto</span></div>
+                <div class="marquee-item"><span>Fortinet</span></div>
+                <div class="marquee-item"><span>Synology</span></div>
+                <div class="marquee-item"><span>VMware</span></div>
+                <div class="marquee-item"><span>Sun & Moon Rise</span></div>
+                <div class="marquee-item"><span>Openfind</span></div>
+                <div class="marquee-item"><span>Aruba</span></div>
+
             </div>
         </div>
     </div>
-
-    <!-- 分類頁籤 -->
-    <div class="tabs">
-        <div class="tab active" onclick="openGallery(event, 'Project-Bike')">自行車產業專案</div>
-        <div class="tab" onclick="openGallery(event, 'Project-Opto')">光電廠產業專案</div>
-        <div class="tab" onclick="openGallery(event, 'Project-Wire')">電線電子產業專案</div>
-    </div>
-
-    <!-- 🌟 卡片展示區 🌟 -->
-    
-    <!-- 區塊 1：自行車產業專案 -->
-    <main id="Project-Bike" class="gallery view-section" style="display: grid;">
-        <article class="card">
-            <div class="card-header">自行車產業分析報告</div>
-            <div class="card-image-wrapper" onclick="openPdfViewer('自行車產業_專案敘述.pdf')">
-                <img src="https://picsum.photos/400/300?random=5" alt="自行車專案">
-                <div class="card-icon">◎</div>
-            </div>
-            <div class="card-body">
-                <div class="btn-read" onclick="openPdfViewer('自行車產業_專案敘述.pdf')">直接閱讀報告</div><br>
-                #自行車 #零組件供應鏈 #市場佈局
-                <div class="color-dots">
-                    <span class="dot" style="background: #e74c3c;"></span>
-                    <span class="dot" style="background: #34495e;"></span>
-                </div>
-            </div>
-        </article>
-    </main>
-
-    <!-- 區塊 2：光電廠產業專案 -->
-    <main id="Project-Opto" class="gallery view-section">
-        <article class="card">
-            <div class="card-header">光電廠作業計畫書</div>
-            <div class="card-image-wrapper" onclick="openPdfViewer('光電廠_作業計畫書.pdf')">
-                <img src="https://picsum.photos/400/300?random=1" alt="作業計畫書">
-                <div class="card-icon">◇</div>
-            </div>
-            <div class="card-body">
-                <div class="btn-read" onclick="openPdfViewer('光電廠_作業計畫書.pdf')">直接閱讀報告</div><br>
-                #計畫書 #光電產業 #防火牆
-                <div class="color-dots"><span class="dot" style="background: #2a6199;"></span></div>
-            </div>
-        </article>
-        <article class="card">
-            <div class="card-header">光電廠專案簡述</div>
-            <div class="card-image-wrapper" onclick="openPdfViewer('光電廠_專案簡述.pdf')">
-                <img src="https://picsum.photos/400/300?random=2" alt="專案簡述">
-                <div class="card-icon">△</div>
-            </div>
-            <div class="card-body">
-                <div class="btn-read" onclick="openPdfViewer('光電廠_專案簡述.pdf')">直接閱讀報告</div><br>
-                #專案簡介 #無縫遷移 #路由排障
-                <div class="color-dots"><span class="dot" style="background: #4caf50;"></span></div>
-            </div>
-        </article>
-    </main>
-
-    <!-- 區塊 3：電線電子產業專案 -->
-    <main id="Project-Wire" class="gallery view-section">
-        <article class="card">
-            <div class="card-header">台股 PCB 族群與工業用量評估</div>
-            <div class="card-image-wrapper" onclick="openPdfViewer('填寫檔名.pdf')">
-                <img src="https://picsum.photos/400/300?random=8" alt="電線電子專案">
-                <div class="card-icon">□</div>
-            </div>
-            <div class="card-body">
-                <div class="btn-read" onclick="openPdfViewer('填寫檔名.pdf')">直接閱讀報告</div><br>
-                #PCB產業 #精煉銅供需 #短波段佈局
-                <div class="color-dots">
-                    <span class="dot" style="background: #f39c12;"></span>
-                    <span class="dot" style="background: #8e44ad;"></span>
-                </div>
-            </div>
-        </article>
-    </main>
-
-    <!-- 🌟 PDF 嵌入顯示區 🌟 -->
-    <div id="PDF-Viewer" class="pdf-viewer-container view-section">
-        <button class="btn-back" onclick="closePdfViewer()">← 返回專案列表</button>
-        <iframe id="pdf-frame" class="pdf-iframe" src=""></iframe>
-    </div>
-
-    <!-- 互動腳本 -->
-    <script>
-        let currentActiveGalleryId = 'Project-Bike';
-
-        function openGallery(evt, projectName) {
-            var sections = document.getElementsByClassName("view-section");
-            for (var i = 0; i < sections.length; i++) {
-                sections[i].style.display = "none";
-            }
-            
-            var tablinks = document.getElementsByClassName("tab");
-            for (var i = 0; i < tablinks.length; i++) {
-                tablinks[i].className = tablinks[i].className.replace(" active", "");
-            }
-            
-            document.getElementById(projectName).style.display = "grid";
-            evt.currentTarget.className += " active";
-            
-            currentActiveGalleryId = projectName;
-            document.getElementById('pdf-frame').src = "";
-        }
-
-        function openPdfViewer(pdfFilename) {
-            var sections = document.getElementsByClassName("gallery");
-            for (var i = 0; i < sections.length; i++) {
-                sections[i].style.display = "none";
-            }
-            
-            var viewer = document.getElementById('PDF-Viewer');
-            viewer.style.display = "block";
-            
-            document.getElementById('pdf-frame').src = pdfFilename;
-            
-            window.scrollTo({ top: viewer.offsetTop - 20, behavior: 'smooth' });
-        }
-
-        function closePdfViewer() {
-            document.getElementById('PDF-Viewer').style.display = "none";
-            document.getElementById('pdf-frame').src = "";
-            document.getElementById(currentActiveGalleryId).style.display = "grid";
-            window.scrollTo({ top: document.querySelector('.tabs').offsetTop - 20, behavior: 'smooth' });
-        }
-    </script>
-</body>
-</html>
