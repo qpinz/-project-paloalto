@@ -6,7 +6,7 @@
     <title>個人專案畫廊展示</title>
     
     <!-- 專屬波浪圖示 (Favicon) -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2225%22 fill=%22%23222%22/><path d=%22M20 50 Q35 30 50 50 T80 50%22 stroke=%22%234bd5c0%22 stroke-width=%2210%22 stroke-linecap=%22round%22 fill=%22none%22/></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%23282828%22/><path d=%22M40 20 A15 15 0 0 1 65 40 Q45 40 40 25 Z%22 fill=%22%235A8AF2%22/><path d=%22M15 50 Q50 60 85 50 L80 65 Q50 70 20 65 Z%22 fill=%22%235A8AF2%22/><path d=%22M15 75 Q35 65 50 75 T85 70 L80 85 Q65 95 50 85 T20 90 Z%22 fill=%22%235A8AF2%22/></svg>">
 
     <style>
         /* =========================================
@@ -23,58 +23,64 @@
         a { text-decoration: none; color: inherit; }
 
         /* =========================================
-           2. 🌟 漸進式文字開場動畫 (Splash Screen) 🌟 
+           2. 🌟 電影級穿透開場動畫 (QANDO Style) 🌟 
            ========================================= */
         .splash-screen {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
-            background-color: #1a1a1a; /* 極簡深碳灰背景 */
+            background-color: #111; /* 極致深黑，凸顯白字 */
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 9999;
-            /* 總停留時間拉長，讓文字有時間跑完，最後淡出 */
-            animation: splashFadeOut 1s ease-in-out 4.5s forwards;
+            overflow: hidden; /* 防止文字放大時出現捲動條 */
+            /* 背景在 3.8秒時開始淡出 */
+            animation: splashBgFade 0.8s ease-in-out 3.8s forwards;
         }
 
-        /* 裝載文字的容器 */
-        .splash-text-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px; /* 行距 */
-        }
-
-        /* 文字共用設定 */
-        .splash-text {
-            color: #ffffff;
-            font-size: 24px;
-            letter-spacing: 4px;
+        /* 第一階段：PROJECT */
+        .splash-project {
+            position: absolute;
+            color: #fff;
+            font-size: 20px;
+            letter-spacing: 15px;
             font-weight: 300;
             opacity: 0;
-            transform: translateY(20px); /* 初始位置稍微偏下 */
-            /* 讓每個字都有淡入並往上滑的效果 */
-            animation: textReveal 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-        }
-        
-        /* 💡 核心技巧：利用 animation-delay 讓文字逐行出現 */
-        .line-1 { animation-delay: 0.5s; font-size: 16px; color: #aaa; }
-        .line-2 { animation-delay: 1.2s; font-size: 16px; color: #aaa;}
-        .line-3 { 
-            animation-delay: 2.2s; 
-            font-size: 60px; /* 最後的主標題放大 */
-            font-weight: bold; 
-            letter-spacing: 12px;
-            margin-top: 10px;
+            /* 出現 1.8秒後淡出 */
+            animation: fadeProject 1.8s ease-in-out forwards;
         }
 
-        @keyframes textReveal {
-            0% { opacity: 0; transform: translateY(20px); filter: blur(5px); }
-            100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+        /* 第二階段：PIN 穿透放大 */
+        .splash-pin {
+            position: absolute;
+            color: #fff;
+            font-size: 60px;
+            font-weight: bold;
+            letter-spacing: 20px;
+            margin-right: -20px; /* 平衡 letter-spacing 造成的視覺不置中 */
+            opacity: 0;
+            /* 延遲 1.6秒進場，然後狂暴放大 */
+            animation: zoomPin 2.2s cubic-bezier(0.7, 0, 0.3, 1) 1.6s forwards;
         }
 
-        @keyframes splashFadeOut {
+        /* PROJECT 動畫關鍵影格 */
+        @keyframes fadeProject {
+            0% { opacity: 0; transform: translateY(10px); }
+            30% { opacity: 1; transform: translateY(0); }
+            70% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(-10px); }
+        }
+
+        /* PIN 放大穿透關鍵影格 */
+        @keyframes zoomPin {
+            0% { opacity: 0; transform: scale(0.8); filter: blur(5px); }
+            20% { opacity: 1; transform: scale(1); filter: blur(0); }
+            60% { opacity: 1; transform: scale(1); filter: blur(0); }
+            100% { opacity: 0; transform: scale(50); filter: blur(0); } /* 放大50倍衝向螢幕 */
+        }
+
+        /* 黑色背景淡出 */
+        @keyframes splashBgFade {
             0% { opacity: 1; visibility: visible; }
             100% { opacity: 0; visibility: hidden; pointer-events: none; }
         }
@@ -233,13 +239,10 @@
 </head>
 <body>
 
-    <!-- 🌟 全新：漸進式文字開場動畫 🌟 -->
+    <!-- 🌟 全新：電影級穿透開場動畫 🌟 -->
     <div class="splash-screen">
-        <div class="splash-text-container">
-            <div class="splash-text line-1">以科技之力</div>
-            <div class="splash-text line-2">改變世間風景</div>
-            <div class="splash-text line-3">PIN</div>
-        </div>
+        <div class="splash-project">PROJECT</div>
+        <div class="splash-pin">PIN</div>
     </div>
 
     <!-- 大型橫幅 -->
