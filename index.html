@@ -80,21 +80,22 @@
         .color-dots { display: flex; justify-content: center; gap: 6px; margin-top: 15px; }
         .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
 
-        /* 🔴 新增：PDF 嵌入顯示區塊 (預設隱藏) */
+        /* 🔴 放大版的 PDF 嵌入顯示區塊 */
         .pdf-viewer-container {
-            display: none; /* 預設隱藏 */
+            display: none; 
             width: 100%;
-            max-width: 1200px;
+            /* 將最大寬度從 1200px 放寬至 1400px，甚至滿版 */
+            max-width: 1400px; 
             margin: 0 auto 60px auto;
             padding: 0 20px;
         }
         
-        /* 嵌入的 PDF 視窗樣式 */
         .pdf-iframe {
             width: 100%;
-            height: 80vh; /* 高度設定為螢幕高度的 80% */
+            /* 將高度從 80vh 提升到 90vh，佔滿更多垂直空間 */
+            height: 90vh; 
             border: none;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
             border-radius: 8px;
             background-color: #fff;
         }
@@ -138,18 +139,17 @@
 
     <!-- 🌟 卡片展示區 (Gallery Views) 🌟 -->
     
-    <!-- 區塊 1：自行車產業專案 -->
+    <!-- 區塊 1：自行車產業專案 (已替換為內嵌 PDF 閱讀模式) -->
     <main id="Project-Bike" class="gallery view-section" style="display: grid;">
         <article class="card">
             <div class="card-header">自行車產業分析報告</div>
-            <a href="自行車產業_專案敘述.pdf" target="_blank">
-                <div class="card-image-wrapper">
-                    <img src="https://picsum.photos/400/300?random=5" alt="自行車專案">
-                    <div class="card-icon">◎</div>
-                </div>
-            </a>
+            <!-- 修改 onclick 觸發內嵌開啟 PDF -->
+            <div class="card-image-wrapper" onclick="openPdfViewer('自行車產業_專案敘述.pdf')">
+                <img src="https://picsum.photos/400/300?random=5" alt="自行車專案">
+                <div class="card-icon">◎</div>
+            </div>
             <div class="card-body">
-                <a href="自行車產業_專案敘述.pdf" class="card-url" target="_blank">在新分頁開啟 PDF</a><br>
+                <div class="btn-read" onclick="openPdfViewer('自行車產業_專案敘述.pdf')">直接閱讀報告</div><br>
                 #自行車 #零組件供應鏈 #市場佈局
                 <div class="color-dots">
                     <span class="dot" style="background: #e74c3c;"></span>
@@ -159,26 +159,22 @@
         </article>
     </main>
 
-    <!-- 區塊 2：光電廠產業專案 (加入了「線上閱讀」功能) -->
+    <!-- 區塊 2：光電廠產業專案 -->
     <main id="Project-Opto" class="gallery view-section">
         
-        <!-- 卡片 A：光電廠作業計畫書 -->
         <article class="card">
             <div class="card-header">光電廠作業計畫書</div>
-            <!-- 點擊圖片觸發 JavaScript，在網頁內開啟 PDF -->
             <div class="card-image-wrapper" onclick="openPdfViewer('光電廠_作業計畫書.pdf')">
                 <img src="https://picsum.photos/400/300?random=1" alt="作業計畫書">
                 <div class="card-icon">◇</div>
             </div>
             <div class="card-body">
-                <!-- 按鈕觸發 JavaScript，在網頁內開啟 PDF -->
                 <div class="btn-read" onclick="openPdfViewer('光電廠_作業計畫書.pdf')">直接閱讀報告</div><br>
                 #計畫書 #光電產業 #防火牆
                 <div class="color-dots"><span class="dot" style="background: #2a6199;"></span></div>
             </div>
         </article>
 
-        <!-- 卡片 B：光電廠專案簡述 -->
         <article class="card">
             <div class="card-header">光電廠專案簡述</div>
             <div class="card-image-wrapper" onclick="openPdfViewer('光電廠_專案簡述.pdf')">
@@ -193,18 +189,17 @@
         </article>
     </main>
 
-    <!-- 區塊 3：電線電子產業專案 -->
+    <!-- 區塊 3：電線電子產業專案 (已統一為內嵌格式備用) -->
     <main id="Project-Wire" class="gallery view-section">
         <article class="card">
             <div class="card-header">台股 PCB 族群與工業用量評估</div>
-            <a href="#" target="_blank">
-                <div class="card-image-wrapper">
-                    <img src="https://picsum.photos/400/300?random=8" alt="電線電子專案">
-                    <div class="card-icon">□</div>
-                </div>
-            </a>
+            <!-- 當有 PDF 檔案時，將下方的 '填寫檔名.pdf' 替換為實際檔名 -->
+            <div class="card-image-wrapper" onclick="openPdfViewer('填寫檔名.pdf')">
+                <img src="https://picsum.photos/400/300?random=8" alt="電線電子專案">
+                <div class="card-icon">□</div>
+            </div>
             <div class="card-body">
-                <a href="#" class="card-url">在新分頁開啟 PDF</a><br>
+                <div class="btn-read" onclick="openPdfViewer('填寫檔名.pdf')">直接閱讀報告</div><br>
                 #PCB產業 #精煉銅供需 #短波段佈局
                 <div class="color-dots">
                     <span class="dot" style="background: #f39c12;"></span>
@@ -214,74 +209,52 @@
         </article>
     </main>
 
-    <!-- 🌟 PDF 嵌入顯示區 (PDF Viewer) 🌟 -->
-    <!-- 當訪客點擊「直接閱讀」時，畫廊會隱藏，這個區塊會顯示出來 -->
+    <!-- 🌟 放大版的 PDF 嵌入顯示區 🌟 -->
     <div id="PDF-Viewer" class="pdf-viewer-container view-section">
         <button class="btn-back" onclick="closePdfViewer()">← 返回專案列表</button>
-        <!-- iframe 的 src 將由 JavaScript 動態填入被點擊的 PDF 檔名 -->
         <iframe id="pdf-frame" class="pdf-iframe" src=""></iframe>
     </div>
 
     <!-- 互動腳本 -->
     <script>
-        // 用來記錄目前正在看哪一個分類，以便從 PDF 閱讀器返回時知道要顯示哪個區塊
         let currentActiveGalleryId = 'Project-Bike';
 
-        // 切換上方頁籤的函數
         function openGallery(evt, projectName) {
-            // 隱藏所有區塊 (包含畫廊與 PDF 閱讀器)
             var sections = document.getElementsByClassName("view-section");
             for (var i = 0; i < sections.length; i++) {
                 sections[i].style.display = "none";
             }
             
-            // 移除所有頁籤的 active 狀態
             var tablinks = document.getElementsByClassName("tab");
             for (var i = 0; i < tablinks.length; i++) {
                 tablinks[i].className = tablinks[i].className.replace(" active", "");
             }
             
-            // 顯示目標畫廊並更新狀態
             document.getElementById(projectName).style.display = "grid";
             evt.currentTarget.className += " active";
             
-            // 更新目前所在的分類 ID
             currentActiveGalleryId = projectName;
-            
-            // 清空 iframe 來源，避免背景還在載入舊的 PDF
             document.getElementById('pdf-frame').src = "";
         }
 
-        // 開啟 PDF 閱讀器的函數
         function openPdfViewer(pdfFilename) {
-            // 隱藏所有畫廊
             var sections = document.getElementsByClassName("gallery");
             for (var i = 0; i < sections.length; i++) {
                 sections[i].style.display = "none";
             }
             
-            // 顯示 PDF 閱讀區塊
             var viewer = document.getElementById('PDF-Viewer');
             viewer.style.display = "block";
             
-            // 將點擊的 PDF 檔名塞給 iframe，讓瀏覽器載入該文件
             document.getElementById('pdf-frame').src = pdfFilename;
             
-            // 讓網頁自動捲動到閱讀區塊的最上方，方便閱讀
             window.scrollTo({ top: viewer.offsetTop - 20, behavior: 'smooth' });
         }
 
-        // 關閉 PDF 閱讀器並返回畫廊的函數
         function closePdfViewer() {
-            // 隱藏 PDF 閱讀器
             document.getElementById('PDF-Viewer').style.display = "none";
-            // 清空 iframe
             document.getElementById('pdf-frame').src = "";
-            
-            // 重新顯示剛剛所在的畫廊
             document.getElementById(currentActiveGalleryId).style.display = "grid";
-            
-            // 捲動回頁籤的位置
             window.scrollTo({ top: document.querySelector('.tabs').offsetTop - 20, behavior: 'smooth' });
         }
     </script>
