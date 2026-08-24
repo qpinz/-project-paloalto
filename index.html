@@ -140,9 +140,9 @@
         .marquee-track {
             display: flex;
             width: max-content;
-            animation: scroll 20s linear infinite; /* 20秒跑完一圈，可自行調整速度 */
+            /* 因項目變多，將時間拉長到 30s 讓捲動更順暢 */
+            animation: scroll 30s linear infinite; 
         }
-        /* 滑鼠移過去時暫停輪播 (選用功能) */
         .marquee-track:hover {
             animation-play-state: paused;
         }
@@ -152,24 +152,22 @@
             align-items: center;
             justify-content: center;
         }
-        /* 預設為純文字的 Logo 樣式，如果您換成圖片，請修改這裡 */
         .marquee-item span, .marquee-item img {
             font-size: 22px;
             font-weight: 800;
             color: #888;
             max-height: 40px;
-            filter: grayscale(100%) opacity(80%); /* 讓圖片統一變成灰色調 */
+            filter: grayscale(100%) opacity(80%); 
             transition: 0.3s;
             cursor: pointer;
         }
         .marquee-item span:hover, .marquee-item img:hover {
             color: #333;
-            filter: grayscale(0%) opacity(100%); /* 滑過恢復原色 */
+            filter: grayscale(0%) opacity(100%);
         }
-        /* 跑馬燈位移關鍵影格 */
         @keyframes scroll {
             0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); } /* 剛好位移一半的距離以達成無縫接軌 */
+            100% { transform: translateX(-50%); } 
         }
     </style>
 </head>
@@ -267,25 +265,32 @@
         <iframe id="pdf-frame" class="pdf-iframe" src=""></iframe>
     </div>
 
-    <!-- 🔴 合作夥伴跑馬燈區塊 🔴 -->
+    <!-- 🔴 合作夥伴跑馬燈區塊 (已更新指定名單) 🔴 -->
     <div class="partners-section">
         <div class="partners-title">原廠技術合作夥伴</div>
         <div class="marquee-container">
             <div class="marquee-track">
                 <!-- 第一組 -->
-                <div class="marquee-item"><span>VEEAM</span></div>
-                <div class="marquee-item"><span>Synology</span></div>
-                <div class="marquee-item"><span>QNAP</span></div>
+                <div class="marquee-item"><span>PVE</span></div>
+                <div class="marquee-item"><span>眾至</span></div>
                 <div class="marquee-item"><span>Palo Alto</span></div>
-                <div class="marquee-item"><span>Cisco</span></div>
-                <div class="marquee-item"><span>VMware</span></div>
-                <!-- 第二組 (必須與第一組完全相同，才能達成無縫接軌) -->
-                <div class="marquee-item"><span>VEEAM</span></div>
+                <div class="marquee-item"><span>Forti</span></div>
                 <div class="marquee-item"><span>Synology</span></div>
-                <div class="marquee-item"><span>QNAP</span></div>
-                <div class="marquee-item"><span>Palo Alto</span></div>
-                <div class="marquee-item"><span>Cisco</span></div>
                 <div class="marquee-item"><span>VMware</span></div>
+                <div class="marquee-item"><span>神網</span></div>
+                <div class="marquee-item"><span>Openfind</span></div>
+                <div class="marquee-item"><span>Aruba</span></div>
+                
+                <!-- 第二組 (必須與第一組完全相同，才能達成無縫迴圈) -->
+                <div class="marquee-item"><span>PVE</span></div>
+                <div class="marquee-item"><span>眾至</span></div>
+                <div class="marquee-item"><span>Palo Alto</span></div>
+                <div class="marquee-item"><span>Forti</span></div>
+                <div class="marquee-item"><span>Synology</span></div>
+                <div class="marquee-item"><span>VMware</span></div>
+                <div class="marquee-item"><span>神網</span></div>
+                <div class="marquee-item"><span>Openfind</span></div>
+                <div class="marquee-item"><span>Aruba</span></div>
             </div>
         </div>
     </div>
