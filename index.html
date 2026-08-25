@@ -6,7 +6,7 @@
     <title>個人專案畫廊展示</title>
     
     <!-- 引入 Pixel 像素復古字體 -->
-    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@700;900&display=swap" rel="stylesheet">
     
     <!-- 專屬幾何圖示 (Favicon) -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%23282828%22/><path d=%22M40 20 A15 15 0 0 1 65 40 Q45 40 40 25 Z%22 fill=%22%235A8AF2%22/><path d=%22M15 50 Q50 60 85 50 L80 65 Q50 70 20 65 Z%22 fill=%22%235A8AF2%22/><path d=%22M15 75 Q35 65 50 75 T85 70 L80 85 Q65 95 50 85 T20 90 Z%22 fill=%22%235A8AF2%22/></svg>">
@@ -31,48 +31,43 @@
         .splash-screen {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
-            /* 換成復古磚紅色背景 */
             background-color: #63362B; 
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 9999;
             overflow: hidden; 
-            /* 黑色背景淡出 */
             animation: splashBgFade 0.8s ease-in-out 4s forwards;
         }
 
-        /* 🌟 重現左上角紅框內的像素小圖示 🌟 */
         .splash-icons {
             position: absolute;
             top: 30px;
             left: 30px;
             font-family: 'Pixelify Sans', monospace;
             font-size: 26px;
-            color: #D8B4B8; /* 復古粉色 */
+            color: #D8B4B8; 
             letter-spacing: 12px;
             opacity: 0;
             animation: fadeProject 1.8s ease-in-out forwards;
         }
 
-        /* 第一階段：復古像素 PROJECT */
         .splash-project {
             position: absolute;
-            color: #D8B4B8; /* 復古粉色 */
-            font-family: 'Pixelify Sans', monospace; /* 使用像素字體 */
-            font-size: 15vw; /* 像圖片一樣幾乎塞滿橫向畫面 */
+            color: #D8B4B8; 
+            font-family: 'Pixelify Sans', monospace; 
+            font-size: 15vw; 
             letter-spacing: 5px;
             font-weight: 700;
             opacity: 0;
-            /* 出現 1.8秒後淡出 */
             animation: fadeProject 1.8s ease-in-out forwards;
         }
 
-        /* 第二階段：PIN 3D立體字 (保留您喜歡的效果) */
+        /* 💡 PIN 現在也換成了像素字體 💡 */
         .splash-pin {
             position: absolute;
             color: #fff;
-            font-family: "Helvetica Neue", Arial, sans-serif; 
+            font-family: 'Pixelify Sans', monospace; 
             font-size: 6vw; 
             font-weight: 900; 
             letter-spacing: 15px;
@@ -88,7 +83,6 @@
                 0px 6px 0px #848484,
                 0px 15px 20px rgba(0,0,0,0.8);
 
-            /* 延遲 1.6秒進場，停留後放大 */
             animation: zoomPin 2.4s cubic-bezier(0.7, 0, 0.3, 1) 1.6s forwards;
         }
 
@@ -197,16 +191,17 @@
         .tab.active { color: #333; border-bottom: 2px solid #333; }
 
         /* =========================================
-           ⚡ 5. 賽博龐克 霓虹故障特效 (Glitch Neon) ⚡
+           ⚡ 5. 賽博龐克 深藍色霓虹故障特效 ⚡
            ========================================= */
         .glitch-text {
             position: relative;
             display: inline-block;
             transition: color 0.3s, text-shadow 0.3s;
         }
+        /* 💡 改為深邃的霓虹藍色 💡 */
         .tab.active .glitch-text, .glitch-text:hover {
-            color: #10ff00; 
-            text-shadow: 0 0 8px rgba(16, 255, 0, 0.8);
+            color: #1e90ff; 
+            text-shadow: 0 0 8px rgba(30, 144, 255, 0.8);
             animation: text-flicker 2s linear infinite;
         }
         .glitch-text::before,
@@ -239,9 +234,9 @@
             0% { opacity: 1; }
             2% { opacity: 0.8; }
             4% { opacity: 1; }
-            19% { opacity: 1; text-shadow: 0 0 8px rgba(16, 255, 0, 0.8); }
+            19% { opacity: 1; text-shadow: 0 0 8px rgba(30, 144, 255, 0.8); }
             21% { opacity: 0.4; text-shadow: none; }
-            23% { opacity: 1; text-shadow: 0 0 8px rgba(16, 255, 0, 0.8); }
+            23% { opacity: 1; text-shadow: 0 0 8px rgba(30, 144, 255, 0.8); }
             80% { opacity: 1; }
             82% { opacity: 0.8; transform: skewX(-5deg); }
             84% { opacity: 1; transform: skewX(0); }
@@ -335,13 +330,8 @@
 
     <!-- 🌟 復古像素 x 未來 3D 開場動畫 🌟 -->
     <div class="splash-screen">
-        <!-- 💡 左上角：還原您圈起來的復古小圖示 💡 -->
         <div class="splash-icons">✧ ⬢ ☁ ♘ ♨ ☹</div>
-        
-        <!-- 💡 中間：像素風巨大 PROJECT 💡 -->
         <div class="splash-project">PROJECT</div>
-        
-        <!-- 💡 結尾：3D 滿版立體 PIN 💡 -->
         <div class="splash-pin">PIN</div>
     </div>
 
@@ -405,13 +395,17 @@
         </div>
     </div>
 
-    <!-- 分類頁籤 -->
+    <!-- 🌟 分類頁籤 (全面套用深藍色 Glitch) 🌟 -->
     <div class="tabs">
         <div class="tab active" onclick="openGallery(event, 'Project-Bike')">
             <span class="glitch-text" data-text="自行車產業專案">自行車產業專案</span>
         </div>
-        <div class="tab" onclick="openGallery(event, 'Project-Opto')">光電廠產業專案</div>
-        <div class="tab" onclick="openGallery(event, 'Project-Wire')">電線電子產業專案</div>
+        <div class="tab" onclick="openGallery(event, 'Project-Opto')">
+            <span class="glitch-text" data-text="光電廠產業專案">光電廠產業專案</span>
+        </div>
+        <div class="tab" onclick="openGallery(event, 'Project-Wire')">
+            <span class="glitch-text" data-text="電線電子產業專案">電線電子產業專案</span>
+        </div>
     </div>
 
     <!-- 🌟 卡片展示區 🌟 -->
@@ -440,7 +434,9 @@
     <!-- 區塊 2：光電廠產業專案 -->
     <main id="Project-Opto" class="gallery view-section">
         <article class="card">
-            <div class="card-header">光電廠作業計畫書</div>
+            <div class="card-header">
+                <span class="glitch-text" data-text="光電廠作業計畫書">光電廠作業計畫書</span>
+            </div>
             <div class="card-image-wrapper" onclick="openPdfViewer('光電廠_作業計畫書.pdf')">
                 <img src="https://picsum.photos/400/300?random=1" alt="作業計畫書">
                 <div class="card-icon">◇</div>
@@ -452,7 +448,9 @@
             </div>
         </article>
         <article class="card">
-            <div class="card-header">光電廠專案簡述</div>
+            <div class="card-header">
+                <span class="glitch-text" data-text="光電廠專案簡述">光電廠專案簡述</span>
+            </div>
             <div class="card-image-wrapper" onclick="openPdfViewer('光電廠_專案簡述.pdf')">
                 <img src="https://picsum.photos/400/300?random=2" alt="專案簡述">
                 <div class="card-icon">△</div>
@@ -468,7 +466,9 @@
     <!-- 區塊 3：電線電子產業專案 -->
     <main id="Project-Wire" class="gallery view-section">
         <article class="card">
-            <div class="card-header">電線電子廠作業計畫書</div>
+            <div class="card-header">
+                <span class="glitch-text" data-text="電線電子廠作業計畫書">電線電子廠作業計畫書</span>
+            </div>
             <div class="card-image-wrapper" onclick="openPdfViewer('電線電子廠_作業計畫書.pdf')">
                 <img src="https://picsum.photos/400/300?random=8" alt="作業計畫書">
                 <div class="card-icon">□</div>
@@ -482,8 +482,11 @@
                 </div>
             </div>
         </article>
+
         <article class="card">
-            <div class="card-header">電線電子廠專案簡述</div>
+            <div class="card-header">
+                <span class="glitch-text" data-text="電線電子廠專案簡述">電線電子廠專案簡述</span>
+            </div>
             <div class="card-image-wrapper" onclick="openPdfViewer('電線電子廠_專案簡述.pdf')">
                 <img src="https://picsum.photos/400/300?random=9" alt="專案簡述">
                 <div class="card-icon">◇</div>
@@ -496,8 +499,11 @@
                 </div>
             </div>
         </article>
+
         <article class="card">
-            <div class="card-header">電線電子廠架構異動說明</div>
+            <div class="card-header">
+                <span class="glitch-text" data-text="電線電子廠架構異動說明">電線電子廠架構異動說明</span>
+            </div>
             <div class="card-image-wrapper" onclick="openPdfViewer('電線電子廠_架構異動說明.pdf')">
                 <img src="https://picsum.photos/400/300?random=10" alt="架構異動說明">
                 <div class="card-icon">△</div>
