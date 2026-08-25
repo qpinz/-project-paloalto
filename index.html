@@ -8,6 +8,9 @@
     <!-- 引入 Pixel 像素復古字體 -->
     <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@700;900&display=swap" rel="stylesheet">
     
+    <!-- 🌟 引入 Matter.js 物理引擎 (用於柏青哥掉落特效) 🌟 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+
     <!-- 專屬幾何圖示 (Favicon) -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%23282828%22/><path d=%22M40 20 A15 15 0 0 1 65 40 Q45 40 40 25 Z%22 fill=%22%235A8AF2%22/><path d=%22M15 50 Q50 60 85 50 L80 65 Q50 70 20 65 Z%22 fill=%22%235A8AF2%22/><path d=%22M15 75 Q35 65 50 75 T85 70 L80 85 Q65 95 50 85 T20 90 Z%22 fill=%22%235A8AF2%22/></svg>">
 
@@ -101,53 +104,49 @@
         }
 
         /* =========================================
-           3. 大型橫幅 (Hero Banner)
+           3. 大型橫幅 (Hero Banner) - 柏青哥背景版
            ========================================= */
         .hero {
             position: relative;
             width: 100%;
-            height: 60vh; 
-            min-height: 480px; 
-            background: url('https://picsum.photos/1600/600?blur=4') center/cover no-repeat;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: #fff;
-            text-align: center;
+            height: 70vh; /* 加高一點讓彈珠有空間掉落 */
+            min-height: 500px; 
+            background-color: #E8E6E1; /* 帶有一點復古紙張質感的淺灰底色 */
             margin-bottom: 50px;
+            overflow: hidden; /* 防止物理物件掉出畫面造成卷軸 */
         }
-        .hero::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.15); 
-        }
-        .hero-content { 
-            position: relative; 
-            z-index: 1; 
-            transform: translateY(-20px); 
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .wave-icon { font-size: 35px; margin-bottom: 20px; letter-spacing: 2px; font-weight: lighter; }
 
-        /* 🌟 修正版：3D 雙面旋轉方塊特效 🌟 */
+        /* 裝載物理引擎的 Canvas 容器 */
+        #pachinko-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        /* 🌟 右下角的 3D 雙面旋轉方塊 🌟 */
         .hero-3d-scene {
             perspective: 1200px;
             width: 300px;
             height: 100px;
-            position: relative;
+            position: absolute;
+            bottom: 80px; /* 避開跑馬燈 */
+            right: 40px;  /* 靠右下角 */
+            z-index: 10;
+            transform: scale(0.65); /* 縮小一點當作裝飾 */
+            transform-origin: bottom right;
         }
         .box-3d {
             width: 100%;
             height: 100%;
             position: absolute;
             transform-style: preserve-3d;
-            animation: spin-y 5s infinite linear;
+            animation: spin-y 6s infinite linear;
         }
         .box-face {
             position: absolute;
-            /* 強制所有面都從同一個正中心開始計算 */
             top: 50%;
             left: 50%;
             display: flex;
@@ -164,7 +163,6 @@
             height: 100px;
             background-color: #111; 
             color: #fff; 
-            /* 扣掉寬高的一半，使其完美置中 */
             margin-top: -50px;
             margin-left: -150px;
         }
@@ -175,7 +173,6 @@
             width: 40px; 
             height: 100px;
             background: linear-gradient(to bottom, #10ff00, #ffe53b, #00e5ff);
-            /* 扣掉寬高的一半，使其完美置中 */
             margin-top: -50px;
             margin-left: -20px;
         }
@@ -186,7 +183,6 @@
             width: 300px;
             height: 40px; 
             background: linear-gradient(to right, #10ff00, #ffe53b, #00e5ff);
-            /* 扣掉寬高的一半，使其完美置中 */
             margin-top: -20px;
             margin-left: -150px;
         }
@@ -204,41 +200,34 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            background: rgba(0, 0, 0, 0.3); 
+            background: #111; 
             padding: 12px 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 2px solid #00e5ff; /* 賽博龐克藍色邊框 */
             overflow: hidden;
-            z-index: 2;
-            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-            -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+            z-index: 15; /* 蓋在物理引擎上方 */
         }
         .marquee-track {
             display: flex;
             width: max-content;
             animation: scroll 50s linear infinite; 
         }
-        .marquee-track:hover {
-            animation-play-state: paused;
-        }
+        .marquee-track:hover { animation-play-state: paused; }
         .marquee-item {
             padding: 0 40px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        .marquee-item span, .marquee-item img {
+        .marquee-item span {
             font-size: 14px;
             font-weight: 600;
             letter-spacing: 1.5px;
-            color: rgba(255, 255, 255, 0.5); 
+            color: rgba(255, 255, 255, 0.7); 
             transition: 0.3s;
             cursor: pointer;
             white-space: nowrap; 
         }
-        .marquee-item span:hover, .marquee-item img:hover {
-            color: rgba(255, 255, 255, 1); 
-            transform: scale(1.05);
-        }
+        .marquee-item span:hover { color: #00e5ff; transform: scale(1.05); }
         @keyframes scroll {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); } 
@@ -267,43 +256,31 @@
             text-shadow: 0 0 8px rgba(30, 144, 255, 0.8);
             animation: text-flicker 2s linear infinite;
         }
-        .glitch-text::before,
-        .glitch-text::after {
+        .glitch-text::before, .glitch-text::after {
             content: attr(data-text);
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
             background: #f4f4f4; 
             opacity: 0;
         }
-        .card .glitch-text::before,
-        .card .glitch-text::after {
-            background: #fff;
-        }
+        .card .glitch-text::before, .card .glitch-text::after { background: #fff; }
 
         .tab.active .glitch-text::before, .glitch-text:hover::before {
-            opacity: 1;
-            left: 2px;
-            text-shadow: -2px 0 #ff003c;
+            opacity: 1; left: 2px; text-shadow: -2px 0 #ff003c;
             animation: glitch-anim-1 1.2s infinite linear alternate-reverse;
         }
         .tab.active .glitch-text::after, .glitch-text:hover::after {
-            opacity: 1;
-            left: -2px;
-            text-shadow: -2px 0 #00e5ff;
+            opacity: 1; left: -2px; text-shadow: -2px 0 #00e5ff;
             animation: glitch-anim-2 1.5s infinite linear alternate-reverse;
         }
 
         @keyframes text-flicker {
-            0% { opacity: 1; }
-            2% { opacity: 0.8; }
-            4% { opacity: 1; }
+            0% { opacity: 1; } 2% { opacity: 0.8; } 4% { opacity: 1; }
             19% { opacity: 1; text-shadow: 0 0 8px rgba(30, 144, 255, 0.8); }
             21% { opacity: 0.4; text-shadow: none; }
             23% { opacity: 1; text-shadow: 0 0 8px rgba(30, 144, 255, 0.8); }
-            80% { opacity: 1; }
-            82% { opacity: 0.8; transform: skewX(-5deg); }
-            84% { opacity: 1; transform: skewX(0); }
-            100% { opacity: 1; }
+            80% { opacity: 1; } 82% { opacity: 0.8; transform: skewX(-5deg); }
+            84% { opacity: 1; transform: skewX(0); } 100% { opacity: 1; }
         }
         @keyframes glitch-anim-1 {
             0% { clip-path: polygon(0 10%, 100% 10%, 100% 20%, 0 20%); transform: translate(-2px, 1px); }
@@ -398,23 +375,22 @@
         <div class="splash-pin">PIN</div>
     </div>
 
-    <!-- 大型橫幅 -->
+    <!-- 🌟 物理引擎柏青哥封面 🌟 -->
     <div class="hero">
-        <div class="hero-content">
-            <div class="wave-icon">〰 〰 〰</div>
+        
+        <!-- 用來繪製物理掉落物體的 Canvas -->
+        <div id="pachinko-canvas"></div>
             
-            <!-- 🌟 修正版：3D 旋轉方塊取代原文字 🌟 -->
-            <div class="hero-3d-scene">
-                <div class="box-3d">
-                    <div class="box-face box-front">PORTFOLIO</div>
-                    <div class="box-face box-back">GALLERY</div>
-                    <div class="box-face box-right"></div>
-                    <div class="box-face box-left"></div>
-                    <div class="box-face box-top"></div>
-                    <div class="box-face box-bottom"></div>
-                </div>
+        <!-- 保留在右下角的 3D 旋轉霓虹方塊 -->
+        <div class="hero-3d-scene">
+            <div class="box-3d">
+                <div class="box-face box-front">PORTFOLIO</div>
+                <div class="box-face box-back">GALLERY</div>
+                <div class="box-face box-right"></div>
+                <div class="box-face box-left"></div>
+                <div class="box-face box-top"></div>
+                <div class="box-face box-bottom"></div>
             </div>
-
         </div>
 
         <!-- 封面專屬跑馬燈 -->
@@ -481,8 +457,6 @@
     </div>
 
     <!-- 🌟 卡片展示區 🌟 -->
-    
-    <!-- 區塊 1：自行車產業專案 -->
     <main id="Project-Bike" class="gallery view-section" style="display: grid;">
         <article class="card">
             <div class="card-header">
@@ -503,7 +477,6 @@
         </article>
     </main>
 
-    <!-- 區塊 2：光電廠產業專案 -->
     <main id="Project-Opto" class="gallery view-section">
         <article class="card">
             <div class="card-header">
@@ -535,7 +508,6 @@
         </article>
     </main>
 
-    <!-- 區塊 3：電線電子產業專案 -->
     <main id="Project-Wire" class="gallery view-section">
         <article class="card">
             <div class="card-header">
@@ -554,7 +526,6 @@
                 </div>
             </div>
         </article>
-
         <article class="card">
             <div class="card-header">
                 <span class="glitch-text" data-text="電線電子廠專案簡述">電線電子廠專案簡述</span>
@@ -571,7 +542,6 @@
                 </div>
             </div>
         </article>
-
         <article class="card">
             <div class="card-header">
                 <span class="glitch-text" data-text="電線電子廠架構異動說明">電線電子廠架構異動說明</span>
@@ -596,39 +566,28 @@
         <iframe id="pdf-frame" class="pdf-iframe" src=""></iframe>
     </div>
 
-    <!-- 互動腳本 -->
+    <!-- 互動腳本 (包含 UI 切換與 Matter.js 物理引擎邏輯) -->
     <script>
+        /* --- 網頁分頁切換邏輯 --- */
         let currentActiveGalleryId = 'Project-Bike';
 
         function openGallery(evt, projectName) {
             var sections = document.getElementsByClassName("view-section");
-            for (var i = 0; i < sections.length; i++) {
-                sections[i].style.display = "none";
-            }
-            
+            for (var i = 0; i < sections.length; i++) { sections[i].style.display = "none"; }
             var tablinks = document.getElementsByClassName("tab");
-            for (var i = 0; i < tablinks.length; i++) {
-                tablinks[i].className = tablinks[i].className.replace(" active", "");
-            }
-            
+            for (var i = 0; i < tablinks.length; i++) { tablinks[i].className = tablinks[i].className.replace(" active", ""); }
             document.getElementById(projectName).style.display = "grid";
             evt.currentTarget.className += " active";
-            
             currentActiveGalleryId = projectName;
             document.getElementById('pdf-frame').src = "";
         }
 
         function openPdfViewer(pdfFilename) {
             var sections = document.getElementsByClassName("gallery");
-            for (var i = 0; i < sections.length; i++) {
-                sections[i].style.display = "none";
-            }
-            
+            for (var i = 0; i < sections.length; i++) { sections[i].style.display = "none"; }
             var viewer = document.getElementById('PDF-Viewer');
             viewer.style.display = "block";
-            
             document.getElementById('pdf-frame').src = pdfFilename;
-            
             window.scrollTo({ top: viewer.offsetTop - 20, behavior: 'smooth' });
         }
 
@@ -638,6 +597,103 @@
             document.getElementById(currentActiveGalleryId).style.display = "grid";
             window.scrollTo({ top: document.querySelector('.tabs').offsetTop - 20, behavior: 'smooth' });
         }
+
+        /* --- 🌟 柏青哥物理掉落引擎 (Matter.js) --- */
+        window.onload = function() {
+            const Engine = Matter.Engine,
+                  Render = Matter.Render,
+                  Runner = Matter.Runner,
+                  Bodies = Matter.Bodies,
+                  Composite = Matter.Composite,
+                  Events = Matter.Events;
+
+            const engine = Engine.create();
+            const container = document.getElementById('pachinko-canvas');
+            
+            const render = Render.create({
+                element: container,
+                engine: engine,
+                options: {
+                    width: container.clientWidth,
+                    height: container.clientHeight,
+                    background: 'transparent',
+                    wireframes: false
+                }
+            });
+
+            // 建立密集的黑色圓點陣列 (釘子)
+            const pegs = [];
+            const spacing = 80; // 點與點的間距
+            const cols = Math.ceil(container.clientWidth / spacing) + 1;
+            const rows = Math.ceil(container.clientHeight / spacing) + 1;
+
+            for (let j = 0; j < rows; j++) {
+                for (let i = 0; i < cols; i++) {
+                    // 讓奇偶列交錯，形成蜂巢狀排列
+                    let x = i * spacing + (j % 2 === 0 ? 0 : spacing / 2);
+                    let y = j * spacing + 40;
+                    pegs.push(Bodies.circle(x, y, 6, { 
+                        isStatic: true, 
+                        render: { fillStyle: '#222' } 
+                    }));
+                }
+            }
+            Composite.add(engine.world, pegs);
+
+            // 掉落的字母設定
+            const letters = ['P', 'I', 'N', 'G', 'A', 'L', 'L', 'E', 'R', 'Y'];
+            let activeBodies = [];
+
+            // 每 1.2 秒隨機從頂部掉落一個字母
+            setInterval(() => {
+                // 為了避免一開場效能卡頓，等動畫跑完再開始掉字母
+                if(engine.timing.timestamp < 4000) return; 
+
+                const char = letters[Math.floor(Math.random() * letters.length)];
+                const x = Math.random() * container.clientWidth * 0.8 + container.clientWidth * 0.1;
+                
+                // 建立一個隱形的圓形物理剛體
+                const body = Bodies.circle(x, -50, 22, {
+                    restitution: 0.7, // 彈性
+                    friction: 0.05,
+                    render: { fillStyle: 'transparent' },
+                    char: char // 自訂屬性，用來畫文字
+                });
+                
+                activeBodies.push(body);
+                Composite.add(engine.world, body);
+            }, 1200);
+
+            // 利用事件監聽器，在每一幀手動把文字畫在隱形剛體上
+            Events.on(render, 'afterRender', function() {
+                const ctx = render.context;
+                ctx.font = "bold 38px 'Pixelify Sans'";
+                ctx.fillStyle = "#111"; // 文字顏色
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                
+                activeBodies.forEach(body => {
+                    ctx.translate(body.position.x, body.position.y);
+                    ctx.rotate(body.angle);
+                    ctx.fillText(body.char, 0, 0);
+                    ctx.rotate(-body.angle);
+                    ctx.translate(-body.position.x, -body.position.y);
+                });
+
+                // 效能優化：如果物體掉出螢幕底端，就把它刪除
+                activeBodies = activeBodies.filter(body => {
+                    if (body.position.y > container.clientHeight + 100) {
+                        Composite.remove(engine.world, body);
+                        return false;
+                    }
+                    return true;
+                });
+            });
+
+            Render.run(render);
+            const runner = Runner.create();
+            Runner.run(runner, engine);
+        };
     </script>
 </body>
 </html>
