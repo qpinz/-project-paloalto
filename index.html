@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>個人專案畫廊展示</title>
     
-    <!-- 🌟 專屬幾何圖示 (Favicon) 已更新 🌟 -->
+    <!-- 專屬幾何圖示 (Favicon) -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%23282828%22/><path d=%22M40 20 A15 15 0 0 1 65 40 Q45 40 40 25 Z%22 fill=%22%235A8AF2%22/><path d=%22M15 50 Q50 60 85 50 L80 65 Q50 70 20 65 Z%22 fill=%22%235A8AF2%22/><path d=%22M15 75 Q35 65 50 75 T85 70 L80 85 Q65 95 50 85 T20 90 Z%22 fill=%22%235A8AF2%22/></svg>">
 
     <style>
@@ -54,14 +54,12 @@
         .splash-pin {
             position: absolute;
             color: #fff;
-            /* 使用 vw (視窗寬度) 確保放大比例在任何螢幕都剛好 */
             font-size: 6vw; 
-            font-weight: 900; /* 極粗體讓 3D 效果更好看 */
+            font-weight: 900; 
             letter-spacing: 15px;
             margin-right: -15px;
             opacity: 0;
             
-            /* 🌟 核心：透過多層陰影疊加，創造出 3D 立體厚度 🌟 */
             text-shadow: 
                 0px 1px 0px #d4d4d4,
                 0px 2px 0px #c4c4c4,
@@ -69,13 +67,12 @@
                 0px 4px 0px #a4a4a4,
                 0px 5px 0px #949494,
                 0px 6px 0px #848484,
-                0px 15px 20px rgba(0,0,0,0.8); /* 底部加上深邃的陰影 */
+                0px 15px 20px rgba(0,0,0,0.8);
 
             /* 延遲 1.6秒進場，停留後放大 */
             animation: zoomPin 2.4s cubic-bezier(0.7, 0, 0.3, 1) 1.6s forwards;
         }
 
-        /* PROJECT 動畫關鍵影格 */
         @keyframes fadeProject {
             0% { opacity: 0; transform: translateY(10px); }
             30% { opacity: 1; transform: translateY(0); }
@@ -83,16 +80,13 @@
             100% { opacity: 0; transform: translateY(-10px); }
         }
 
-        /* PIN 放大滿版關鍵影格 */
         @keyframes zoomPin {
             0% { opacity: 0; transform: scale(0.8); }
             20% { opacity: 1; transform: scale(1); }
             60% { opacity: 1; transform: scale(1); }
-            /* 放大 3.5倍，因為原先是 6vw，3.5倍大約會佔據橫向 80% 左右，不會超過畫面 */
             100% { opacity: 1; transform: scale(3.5); } 
         }
 
-        /* 黑色背景淡出 */
         @keyframes splashBgFade {
             0% { opacity: 1; visibility: visible; }
             100% { opacity: 0; visibility: hidden; pointer-events: none; }
@@ -327,17 +321,17 @@
 
     <!-- 🌟 卡片展示區 🌟 -->
     
-    <!-- 區塊 1：自行車產業專案 (預設顯示) -->
+    <!-- 區塊 1：自行車產業專案 (已更名且修正標籤) -->
     <main id="Project-Bike" class="gallery view-section" style="display: grid;">
         <article class="card">
-            <div class="card-header">自行車產業分析報告</div>
+            <div class="card-header">自行車廠專案簡述</div>
             <div class="card-image-wrapper" onclick="openPdfViewer('自行車產業_專案敘述.pdf')">
                 <img src="https://picsum.photos/400/300?random=5" alt="自行車專案">
                 <div class="card-icon">◎</div>
             </div>
             <div class="card-body">
                 <div class="btn-read" onclick="openPdfViewer('自行車產業_專案敘述.pdf')">直接閱讀報告</div><br>
-                #自行車 #零組件供應鏈 #市場佈局
+                #自行車廠 #專案簡述 #基礎架構
                 <div class="color-dots">
                     <span class="dot" style="background: #e74c3c;"></span>
                     <span class="dot" style="background: #34495e;"></span>
@@ -374,23 +368,58 @@
         </article>
     </main>
 
-    <!-- 區塊 3：電線電子產業專案 -->
+    <!-- 區塊 3：電線電子產業專案 (已新增三個對應檔案) -->
     <main id="Project-Wire" class="gallery view-section">
+        
+        <!-- 卡片 1 -->
         <article class="card">
-            <div class="card-header">電線電子產業專案報告</div>
-            <div class="card-image-wrapper" onclick="openPdfViewer('填寫檔名.pdf')">
-                <img src="https://picsum.photos/400/300?random=8" alt="電線電子專案">
+            <div class="card-header">電線電子廠作業計畫書</div>
+            <div class="card-image-wrapper" onclick="openPdfViewer('電線電子廠_作業計畫書.pdf')">
+                <img src="https://picsum.photos/400/300?random=8" alt="作業計畫書">
                 <div class="card-icon">□</div>
             </div>
             <div class="card-body">
-                <div class="btn-read" onclick="openPdfViewer('填寫檔名.pdf')">直接閱讀報告</div><br>
-                #電線電子 #產業分析 #技術規格
+                <div class="btn-read" onclick="openPdfViewer('電線電子廠_作業計畫書.pdf')">直接閱讀報告</div><br>
+                #作業計畫書 #電線電子廠 #專案規劃
                 <div class="color-dots">
                     <span class="dot" style="background: #f39c12;"></span>
                     <span class="dot" style="background: #8e44ad;"></span>
                 </div>
             </div>
         </article>
+
+        <!-- 卡片 2 -->
+        <article class="card">
+            <div class="card-header">電線電子廠專案簡述</div>
+            <div class="card-image-wrapper" onclick="openPdfViewer('電線電子廠_專案簡述.pdf')">
+                <img src="https://picsum.photos/400/300?random=9" alt="專案簡述">
+                <div class="card-icon">◇</div>
+            </div>
+            <div class="card-body">
+                <div class="btn-read" onclick="openPdfViewer('電線電子廠_專案簡述.pdf')">直接閱讀報告</div><br>
+                #專案簡介 #無縫說明 #實施細節
+                <div class="color-dots">
+                    <span class="dot" style="background: #e67e22;"></span>
+                </div>
+            </div>
+        </article>
+
+        <!-- 卡片 3 -->
+        <article class="card">
+            <div class="card-header">電線電子廠架構異動說明</div>
+            <div class="card-image-wrapper" onclick="openPdfViewer('電線電子廠_架構異動說明.pdf')">
+                <img src="https://picsum.photos/400/300?random=10" alt="架構異動說明">
+                <div class="card-icon">△</div>
+            </div>
+            <div class="card-body">
+                <div class="btn-read" onclick="openPdfViewer('電線電子廠_架構異動說明.pdf')">直接閱讀報告</div><br>
+                #架構異動 #網路拓樸 #系統調整
+                <div class="color-dots">
+                    <span class="dot" style="background: #27ae60;"></span>
+                </div>
+            </div>
+        </article>
+
     </main>
 
     <!-- 🌟 PDF 嵌入顯示區 🌟 -->
