@@ -111,7 +111,7 @@
         @keyframes glitch-anim-2 { 0% { clip-path: polygon(0 15%, 100% 15%, 100% 25%, 0 25%); transform: translate(2px, -1px); } 20% { clip-path: polygon(0 45%, 100% 45%, 100% 55%, 0 55%); transform: translate(-2px, 1px); } 40% { clip-path: polygon(0 75%, 100% 75%, 100% 85%, 0 85%); transform: translate(1px, -2px); } 60% { clip-path: polygon(0 25%, 100% 25%, 100% 35%, 0 35%); transform: translate(-1px, 2px); } 80% { clip-path: polygon(0 85%, 100% 85%, 100% 95%, 0 95%); transform: translate(2px, -1px); } 100% { clip-path: polygon(0 55%, 100% 55%, 100% 65%, 0 65%); transform: translate(-2px, 1px); } }
 
         /* =========================================
-           🌟 全新：原生全幅展開卡片 (Native Inline Expansion) 🌟
+           🌟 內嵌展開 PDF (Inline PDF) 🌟
            ========================================= */
         .gallery { 
             display: none; 
@@ -122,7 +122,6 @@
             padding: 0 20px; 
         }
         
-        /* 卡片基本設定 */
         .card { 
             background: #fff; text-align: center; 
             box-shadow: 0 2px 10px rgba(0,0,0,0.03); transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); 
@@ -131,7 +130,6 @@
         }
         .card:hover { box-shadow: 0 8px 25px rgba(0,0,0,0.08); transform: translateY(-3px); }
         
-        /* 未展開時的卡片封面 */
         .card-face { width: 100%; padding: 30px 25px; transition: 0.3s; display: flex; flex-direction: column; align-items: center; }
         .card-header { font-size: 15px; letter-spacing: 1.5px; color: #333; margin-bottom: 20px; font-weight: bold; }
         .card-image-wrapper { position: relative; width: 100%; aspect-ratio: 4/3; overflow: hidden; background: #eee; margin-bottom: 20px; cursor: pointer; border-radius: 4px; }
@@ -144,55 +142,46 @@
         .color-dots { display: flex; justify-content: center; gap: 6px; margin-top: 15px; }
         .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
 
-        /* 🔥 當卡片被展開時的橫向霸氣排版 🔥 */
+        /* 🔥 當卡片被展開時 🔥 */
         .card.expanded {
-            grid-column: 1 / -1; /* 霸佔整排寬度 */
-            flex-direction: row; /* 從上下疊加改成左右並排 */
+            grid-column: 1 / -1; 
+            flex-direction: row; 
             text-align: left;
-            padding: 40px;
-            gap: 40px;
-            transform: none; /* 展開時取消 hover 的浮動 */
+            padding: 20px;
+            gap: 20px;
+            transform: none; 
             cursor: default;
         }
-        
         .card.expanded .card-face {
-            width: 35%; /* 封面縮到左側 */
+            width: 30%; 
             border-right: 1px solid #eee;
-            padding: 0 40px 0 0;
+            padding: 0 20px 0 0;
         }
 
-        /* 展開後，右側的高級網頁原生內容區 */
-        .card-expanded-content {
-            display: none; /* 預設隱藏 */
-            width: 65%;
-            text-align: left;
-            overflow-y: auto;
-            max-height: 60vh; /* 內容太長時允許原生滾動 */
-            padding-right: 15px;
+        /* 展開後右側顯示 PDF 的容器 */
+        .inline-pdf-container {
+            display: none; 
+            width: 70%;
+            height: 75vh; /* 給予 PDF 充足的高度 */
             animation: fadeIn 0.6s ease forwards;
         }
-        .card.expanded .card-expanded-content { display: block; }
-
-        /* 自訂漂亮的捲軸 */
-        .card-expanded-content::-webkit-scrollbar { width: 6px; }
-        .card-expanded-content::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
-
-        /* 文章文字排版美學 */
-        .content-article { font-size: 15px; line-height: 1.8; color: #444; }
-        .content-article h3 { color: #111; margin: 25px 0 15px 0; font-size: 20px; border-bottom: 2px solid #1e90ff; padding-bottom: 5px; display: inline-block; }
-        .content-article h3:first-child { margin-top: 0; }
-        .content-article p { margin-bottom: 15px; }
-        .content-article ul { margin-bottom: 15px; padding-left: 20px; }
-        .content-article li { margin-bottom: 10px; }
-        .content-hint { color: #999; font-size: 12px; margin-top: 40px; font-style: italic; border-top: 1px dashed #eee; padding-top: 10px; }
+        .card.expanded .inline-pdf-container { display: block; }
+        
+        .inline-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 4px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: translateX(0); } }
 
-        /* RWD 手機版：展開時依然保持上下排列 */
+        /* 手機版排版 */
         @media (max-width: 768px) {
             .card.expanded { flex-direction: column; padding: 20px; gap: 20px; }
             .card.expanded .card-face { width: 100%; border-right: none; padding-right: 0; border-bottom: 1px solid #eee; padding-bottom: 20px; }
-            .card-expanded-content { width: 100%; max-height: none; overflow-y: visible; }
+            .inline-pdf-container { width: 100%; height: 60vh; }
         }
     </style>
 </head>
@@ -251,7 +240,7 @@
         </div>
     </div>
 
-    <!-- 🌟 卡片展示區 (原生網頁內容版) 🌟 -->
+    <!-- 🌟 卡片展示區 🌟 -->
     
     <!-- 區塊 1：自行車產業專案 -->
     <main id="Project-Bike" class="gallery view-section" style="display: grid;">
@@ -260,12 +249,12 @@
                 <div class="card-header">
                     <span class="glitch-text" data-text="自行車廠專案簡述">自行車廠專案簡述</span>
                 </div>
-                <div class="card-image-wrapper" onclick="toggleNativeCard(this)">
+                <div class="card-image-wrapper" onclick="toggleInlinePdf(this, '自行車產業_專案敘述.pdf')">
                     <img src="https://picsum.photos/400/300?random=5" alt="自行車專案">
                     <div class="card-icon">◎</div>
                 </div>
                 <div class="card-body">
-                    <div class="btn-read" onclick="toggleNativeCard(this)">直接閱讀報告</div><br>
+                    <div class="btn-read" onclick="toggleInlinePdf(this, '自行車產業_專案敘述.pdf')">直接閱讀報告</div><br>
                     #自行車廠 #專案簡述 #基礎架構
                     <div class="color-dots">
                         <span class="dot" style="background: #e74c3c;"></span>
@@ -273,25 +262,9 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- 📄 原生網頁文字區 📄 -->
-            <div class="card-expanded-content">
-                <div class="content-article">
-                    <h3>專案背景與目標</h3>
-                    <p>為因應全球自行車產業供應鏈的劇烈變動，本專案致力於分析關鍵零組件之供應鏈結構與市場佈局，提供精準的產能評估與風險控管機制，確保生產線穩定運作。</p>
-                    
-                    <h3>核心執行架構</h3>
-                    <ul>
-                        <li><strong>市場需求預測模型：</strong>建立自動化庫存警示系統，預防原物料短缺。</li>
-                        <li><strong>數據即時監控：</strong>導入生產線可視化監控面板，提升整體製程透明度。</li>
-                        <li><strong>IT 基礎架構升級：</strong>優化內部伺服器架構，提升全球各廠區資料傳輸之安全性與穩定性。</li>
-                    </ul>
-
-                    <h3>預期效益評估</h3>
-                    <p>預計可提升產能稼動率達 15%，並有效降低供應鏈斷鏈風險，協助企業達成數位轉型的戰略目標。</p>
-                    
-                    <p class="content-hint">※ 此為網頁原生排版，未來您可直接在此修改文字，不需再受限於 PDF 檔案的框架。</p>
-                </div>
+            <!-- 📄 右側展開的 PDF 容器 📄 -->
+            <div class="inline-pdf-container">
+                <iframe class="inline-iframe" src=""></iframe>
             </div>
         </article>
     </main>
@@ -303,27 +276,18 @@
                 <div class="card-header">
                     <span class="glitch-text" data-text="光電廠作業計畫書">光電廠作業計畫書</span>
                 </div>
-                <div class="card-image-wrapper" onclick="toggleNativeCard(this)">
+                <div class="card-image-wrapper" onclick="toggleInlinePdf(this, '光電廠_作業計畫書.pdf')">
                     <img src="https://picsum.photos/400/300?random=1" alt="作業計畫書">
                     <div class="card-icon">◇</div>
                 </div>
                 <div class="card-body">
-                    <div class="btn-read" onclick="toggleNativeCard(this)">直接閱讀報告</div><br>
+                    <div class="btn-read" onclick="toggleInlinePdf(this, '光電廠_作業計畫書.pdf')">直接閱讀報告</div><br>
                     #計畫書 #光電產業 #防火牆
                     <div class="color-dots"><span class="dot" style="background: #2a6199;"></span></div>
                 </div>
             </div>
-            <div class="card-expanded-content">
-                <div class="content-article">
-                    <h3>防火牆升級計畫概述</h3>
-                    <p>光電廠房肩負龐大機密資料與製程參數，本次作業計畫書旨在全面汰換舊有網路安全設備，升級至次世代防火牆 (NGFW)，以抵禦日益嚴峻的外部網路威脅。</p>
-                    <h3>重點實施步驟</h3>
-                    <ul>
-                        <li>現有網路拓撲檢視與弱點掃描。</li>
-                        <li>新舊設備安全政策 (Policy) 轉換與優化。</li>
-                        <li>高可用性 (HA) 架構部署測試。</li>
-                    </ul>
-                </div>
+            <div class="inline-pdf-container">
+                <iframe class="inline-iframe" src=""></iframe>
             </div>
         </article>
         
@@ -332,22 +296,18 @@
                 <div class="card-header">
                     <span class="glitch-text" data-text="光電廠專案簡述">光電廠專案簡述</span>
                 </div>
-                <div class="card-image-wrapper" onclick="toggleNativeCard(this)">
+                <div class="card-image-wrapper" onclick="toggleInlinePdf(this, '光電廠_專案簡述.pdf')">
                     <img src="https://picsum.photos/400/300?random=2" alt="專案簡述">
                     <div class="card-icon">△</div>
                 </div>
                 <div class="card-body">
-                    <div class="btn-read" onclick="toggleNativeCard(this)">直接閱讀報告</div><br>
+                    <div class="btn-read" onclick="toggleInlinePdf(this, '光電廠_專案簡述.pdf')">直接閱讀報告</div><br>
                     #專案簡介 #無縫說明
                     <div class="color-dots"><span class="dot" style="background: #4caf50;"></span></div>
                 </div>
             </div>
-            <div class="card-expanded-content">
-                <div class="content-article">
-                    <h3>無縫遷移 (Seamless Migration) 說明</h3>
-                    <p>本次專案最大的挑戰在於「廠房不可停線」。專案團隊規劃了縝密的無縫遷移流程，確保在網路架構切換瞬間，產線設備的封包不遺失 (Zero Packet Loss)。</p>
-                    <p>透過旁路模式 (Bypass) 進行監聽測試兩週後，選定產線歲修空檔進行無感切換，成功達成 99.99% 的服務連線保證。</p>
-                </div>
+            <div class="inline-pdf-container">
+                <iframe class="inline-iframe" src=""></iframe>
             </div>
         </article>
     </main>
@@ -359,12 +319,12 @@
                 <div class="card-header">
                     <span class="glitch-text" data-text="電線電子廠作業計畫書">電線電子廠作業計畫書</span>
                 </div>
-                <div class="card-image-wrapper" onclick="toggleNativeCard(this)">
+                <div class="card-image-wrapper" onclick="toggleInlinePdf(this, '電線電子廠_作業計畫書.pdf')">
                     <img src="https://picsum.photos/400/300?random=8" alt="作業計畫書">
                     <div class="card-icon">□</div>
                 </div>
                 <div class="card-body">
-                    <div class="btn-read" onclick="toggleNativeCard(this)">直接閱讀報告</div><br>
+                    <div class="btn-read" onclick="toggleInlinePdf(this, '電線電子廠_作業計畫書.pdf')">直接閱讀報告</div><br>
                     #作業計畫書 #電線電子廠 #專案規劃
                     <div class="color-dots">
                         <span class="dot" style="background: #f39c12;"></span>
@@ -372,15 +332,8 @@
                     </div>
                 </div>
             </div>
-            <div class="card-expanded-content">
-                <div class="content-article">
-                    <h3>網路架構重整規劃</h3>
-                    <p>電線電子廠具備跨國連線需求，本計畫書詳細規劃 SD-WAN 的建置藍圖，透過智慧選徑技術提升跨國視訊會議與 ERP 系統的連線品質。</p>
-                    <ul>
-                        <li>MPLS 與 Internet 備援線路整合。</li>
-                        <li>各外站 VPN 加密通道效能調校。</li>
-                    </ul>
-                </div>
+            <div class="inline-pdf-container">
+                <iframe class="inline-iframe" src=""></iframe>
             </div>
         </article>
 
@@ -389,21 +342,18 @@
                 <div class="card-header">
                     <span class="glitch-text" data-text="電線電子廠專案簡述">電線電子廠專案簡述</span>
                 </div>
-                <div class="card-image-wrapper" onclick="toggleNativeCard(this)">
+                <div class="card-image-wrapper" onclick="toggleInlinePdf(this, '電線電子廠_專案簡述.pdf')">
                     <img src="https://picsum.photos/400/300?random=9" alt="專案簡述">
                     <div class="card-icon">◇</div>
                 </div>
                 <div class="card-body">
-                    <div class="btn-read" onclick="toggleNativeCard(this)">直接閱讀報告</div><br>
+                    <div class="btn-read" onclick="toggleInlinePdf(this, '電線電子廠_專案簡述.pdf')">直接閱讀報告</div><br>
                     #專案簡介 #無縫說明 #實施細節
                     <div class="color-dots"><span class="dot" style="background: #e67e22;"></span></div>
                 </div>
             </div>
-            <div class="card-expanded-content">
-                <div class="content-article">
-                    <h3>專案里程碑</h3>
-                    <p>專案分為三階段進行：前期評估、中期設備建置、後期無縫切換。本簡述紀錄了實施細節中的各項 KPI 指標，確保每一個外站分公司都能順利銜接至總部的新網路核心。</p>
-                </div>
+            <div class="inline-pdf-container">
+                <iframe class="inline-iframe" src=""></iframe>
             </div>
         </article>
 
@@ -412,56 +362,59 @@
                 <div class="card-header">
                     <span class="glitch-text" data-text="電線電子廠架構異動說明">電線電子廠架構異動說明</span>
                 </div>
-                <div class="card-image-wrapper" onclick="toggleNativeCard(this)">
+                <div class="card-image-wrapper" onclick="toggleInlinePdf(this, '電線電子廠_架構異動說明.pdf')">
                     <img src="https://picsum.photos/400/300?random=10" alt="架構異動說明">
                     <div class="card-icon">△</div>
                 </div>
                 <div class="card-body">
-                    <div class="btn-read" onclick="toggleNativeCard(this)">直接閱讀報告</div><br>
+                    <div class="btn-read" onclick="toggleInlinePdf(this, '電線電子廠_架構異動說明.pdf')">直接閱讀報告</div><br>
                     #架構異動 #網路拓樸 #系統調整
                     <div class="color-dots"><span class="dot" style="background: #27ae60;"></span></div>
                 </div>
             </div>
-            <div class="card-expanded-content">
-                <div class="content-article">
-                    <h3>架構異動詳情 (Change Management)</h3>
-                    <p>因應核心交換器 (Core Switch) 的升級，VLAN 網段進行了全面重劃。此說明書紀錄了所有的 IP 對應異動表與路由規則 (Routing Table) 的變更歷史，以利未來維運單位進行追蹤與排障。</p>
-                </div>
+            <div class="inline-pdf-container">
+                <iframe class="inline-iframe" src=""></iframe>
             </div>
         </article>
     </main>
 
     <!-- 互動腳本 -->
     <script>
-        /* --- 🌟 原生排版：橫向展開切換邏輯 🌟 --- */
-        function toggleNativeCard(element) {
+        /* --- 🌟 內嵌 PDF 展開邏輯 🌟 --- */
+        function toggleInlinePdf(element, pdfFilename) {
             const card = element.closest('.card');
             const btn = card.querySelector('.btn-read'); 
+            const iframe = card.querySelector('.inline-iframe');
             
-            // 如果已經展開，就收起
+            // 如果已經展開，就收合
             if (card.classList.contains('expanded')) {
                 card.classList.remove('expanded');
+                iframe.src = ""; // 清空節省效能
                 btn.innerText = "直接閱讀報告";
                 btn.style.backgroundColor = "";
                 btn.style.color = "";
                 btn.style.borderColor = "";
-                // 滾回上方標籤
                 window.scrollTo({ top: document.querySelector('.tabs').offsetTop - 20, behavior: 'smooth' });
             } 
-            // 否則展開，並收起其他卡片
+            // 否則展開
             else {
+                // 先關閉其他所有卡片
                 document.querySelectorAll('.card').forEach(c => {
                     c.classList.remove('expanded');
                     const cBtn = c.querySelector('.btn-read');
+                    const cIframe = c.querySelector('.inline-iframe');
                     if(cBtn) {
                         cBtn.innerText = "直接閱讀報告";
                         cBtn.style.backgroundColor = "";
                         cBtn.style.color = "";
                         cBtn.style.borderColor = "";
                     }
+                    if(cIframe) cIframe.src = "";
                 });
                 
+                // 展開目前這張，並把 PDF 檔案名稱塞進 iframe
                 card.classList.add('expanded');
+                iframe.src = pdfFilename;
                 btn.innerText = "✕ 收起閱讀";
                 btn.style.backgroundColor = "#ff4c4c"; 
                 btn.style.color = "#fff";
@@ -469,17 +422,19 @@
                 
                 setTimeout(() => {
                     window.scrollTo({ top: card.offsetTop - 20, behavior: 'smooth' });
-                }, 150); // 稍微延遲讓動畫展開後定位更精準
+                }, 150); 
             }
         }
 
         /* --- 網頁分頁切換邏輯 --- */
         function openGallery(evt, projectName) {
-            // 切換時關閉所有展開的卡片
+            // 切換時關閉所有展開的 PDF
             document.querySelectorAll('.card').forEach(c => {
                 c.classList.remove('expanded');
                 const cBtn = c.querySelector('.btn-read');
+                const cIframe = c.querySelector('.inline-iframe');
                 if(cBtn) { cBtn.innerText = "直接閱讀報告"; cBtn.style.backgroundColor = ""; cBtn.style.color = ""; cBtn.style.borderColor = ""; }
+                if(cIframe) cIframe.src = "";
             });
 
             var sections = document.getElementsByClassName("view-section");
