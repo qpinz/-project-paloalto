@@ -99,8 +99,7 @@
            ========================================= */
         .tabs { 
             display: flex; justify-content: center; gap: 20px 40px; width: 100%; max-width: 1200px; margin: 0 auto 30px auto; 
-            flex-wrap: wrap; 
-            padding: 0 15px;
+            flex-wrap: wrap; padding: 0 15px;
         }
         .tab { font-size: 14px; letter-spacing: 2px; color: #999; cursor: pointer; padding-bottom: 5px; transition: 0.3s; text-align: center; }
         .tab:hover { color: #333; }
@@ -117,7 +116,7 @@
         @keyframes glitch-anim-2 { 0% { clip-path: polygon(0 15%, 100% 15%, 100% 25%, 0 25%); transform: translate(2px, -1px); } 20% { clip-path: polygon(0 45%, 100% 45%, 100% 55%, 0 55%); transform: translate(-2px, 1px); } 40% { clip-path: polygon(0 75%, 100% 75%, 100% 85%, 0 85%); transform: translate(1px, -2px); } 60% { clip-path: polygon(0 25%, 100% 25%, 100% 35%, 0 35%); transform: translate(-1px, 2px); } 80% { clip-path: polygon(0 85%, 100% 85%, 100% 95%, 0 95%); transform: translate(2px, -1px); } 100% { clip-path: polygon(0 55%, 100% 55%, 100% 65%, 0 65%); transform: translate(-2px, 1px); } }
 
         /* =========================================
-           🌟 5. 沉浸式閱讀模式切換 (全裝置相容版) 🌟
+           🌟 5. 沉浸式閱讀模式切換 🌟
            ========================================= */
         .gallery { 
             display: none; 
@@ -191,44 +190,89 @@
         .card.expanded .card-header { margin-bottom: 0; font-size: 20px; } 
         .card.expanded .card-body { width: auto; }
         
-        /* 紅色關閉按鈕 */
         .card.expanded .btn-read { 
-            margin-bottom: 0; 
-            padding: 8px 20px; 
-            font-size: 14px; 
-            font-weight: bold;
-            background-color: #ff4c4c; 
-            color: #fff; 
-            border: 1px solid #ff4c4c; 
-            border-radius: 6px; 
+            margin-bottom: 0; padding: 8px 20px; font-size: 14px; font-weight: bold;
+            background-color: #ff4c4c; color: #fff; border: 1px solid #ff4c4c; border-radius: 6px; 
         }
         .card.expanded .btn-read:hover { background-color: #ff3333; border-color: #ff3333; }
 
-        /* 內部 PDF 顯示區 */
         .inline-pdf-container {
-            display: none; 
-            width: 100%;
-            height: 88vh; 
-            animation: fadeIn 0.6s ease forwards;
+            display: none; width: 100%; height: 88vh; animation: fadeIn 0.6s ease forwards;
         }
         .card.expanded .inline-pdf-container { display: block; }
-        
-        .inline-iframe {
-            width: 100%; height: 100%;
-            border: none;
-            border-radius: 4px;
-            background-color: #323639; 
-        }
+        .inline-iframe { width: 100%; height: 100%; border: none; border-radius: 4px; background-color: #323639; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* =========================================
-           📱 全面 RWD 手機版/平板版響應式設計 📱
+           🌟 6. 底部小精靈吃豆豆動畫 (Pac-Man) 🌟
+           ========================================= */
+        .pacman-container {
+            position: fixed; bottom: 15px; left: 0; width: 100%; height: 40px;
+            z-index: 990; /* 位於3D方塊與卡片下方，底色上方 */
+            pointer-events: none; overflow: hidden;
+        }
+        
+        .pacman-dots {
+            position: absolute; top: 15px; left: 0; width: 100%; height: 10px;
+            background: radial-gradient(circle, #d4d4d4 4px, transparent 4px);
+            background-size: 40px 10px; background-repeat: repeat-x;
+        }
+        
+        .pacman-scene {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            animation: movePacman 16s linear infinite;
+        }
+        
+        @keyframes movePacman {
+            0% { transform: translateX(-200px); }
+            100% { transform: translateX(110vw); }
+        }
+        
+        .pacman-wrapper {
+            position: absolute; top: 0; left: 100px; width: 40px; height: 40px; z-index: 2;
+        }
+        
+        /* 吃豆豆的完美遮罩 (使用背景同色隱藏點點) */
+        .pacman-wrapper::after {
+            content: ''; position: absolute; top: 15px; right: 20px; 
+            width: 200vw; height: 10px; background-color: #f4f4f4;
+        }
+        
+        .pacman-body {
+            position: relative; width: 40px; height: 40px; z-index: 3;
+        }
+        .pacman-body::before, .pacman-body::after {
+            content: ''; position: absolute; top: 0; left: 0; width: 0; height: 0;
+            border: 20px solid #FFCC00; border-radius: 50%;
+        }
+        .pacman-body::before { border-right-color: transparent; border-bottom-color: transparent; animation: pac-top 0.25s ease infinite alternate; }
+        .pacman-body::after { border-right-color: transparent; border-top-color: transparent; animation: pac-bot 0.25s ease infinite alternate; }
+        
+        @keyframes pac-top { 0% { transform: rotate(-45deg); } 100% { transform: rotate(0deg); } }
+        @keyframes pac-bot { 0% { transform: rotate(45deg); } 100% { transform: rotate(0deg); } }
+
+        /* 藍色小幽靈 (Inky) 追逐 */
+        .ghost {
+            position: absolute; top: 4px; left: 20px; width: 32px; height: 32px;
+            background: #00e5ff; border-radius: 16px 16px 0 0; z-index: 3;
+            clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 83% 85%, 66% 100%, 50% 85%, 33% 100%, 16% 85%, 0% 100%);
+        }
+        .ghost-eyes {
+            position: absolute; top: 8px; left: 5px; width: 8px; height: 10px;
+            background: #fff; border-radius: 50%; box-shadow: 14px 0 #fff;
+        }
+        .ghost-eyes::after {
+            content: ''; position: absolute; top: 3px; left: 4px; width: 4px; height: 4px;
+            background: #000; border-radius: 50%; box-shadow: 14px 0 #000;
+        }
+
+        /* =========================================
+           📱 RWD 手機版響應式設計
            ========================================= */
         @media (max-width: 950px) {
             .gallery { grid-template-columns: repeat(2, 1fr); max-width: 100%; } 
         }
-        
         @media (max-width: 650px) {
             .gallery { grid-template-columns: 1fr; padding: 0 15px; margin-bottom: 30px; } 
             .hero { height: 35vh; min-height: 250px; }
@@ -256,7 +300,6 @@
         <div id="pachinko-canvas"></div>
         <div class="hero-marquee-container">
             <div class="marquee-track">
-                <!-- 大量擴充的跑馬燈，永不斷尾 -->
                 <div class="marquee-item"><span>Proxmox VE</span></div>
                 <div class="marquee-item"><span>ShareTech</span></div>
                 <div class="marquee-item"><span>Palo Alto</span></div>
@@ -316,6 +359,21 @@
                 <div class="marquee-item"><span>Sun & Moon Rise</span></div>
                 <div class="marquee-item"><span>Openfind</span></div>
                 <div class="marquee-item"><span>Aruba</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🌟 小精靈吃豆豆動畫 🌟 -->
+    <div class="pacman-container">
+        <div class="pacman-dots"></div>
+        <div class="pacman-scene">
+            <!-- 追逐的幽靈 -->
+            <div class="ghost">
+                <div class="ghost-eyes"></div>
+            </div>
+            <!-- 小精靈本體 -->
+            <div class="pacman-wrapper">
+                <div class="pacman-body"></div>
             </div>
         </div>
     </div>
@@ -346,8 +404,6 @@
     </div>
 
     <!-- 🌟 卡片展示區 🌟 -->
-    
-    <!-- 區塊 1：自行車產業專案 -->
     <main id="Project-Bike" class="gallery view-section" style="display: grid;">
         <article class="card">
             <div class="card-face">
@@ -373,7 +429,6 @@
         </article>
     </main>
 
-    <!-- 區塊 2：光電廠產業專案 -->
     <main id="Project-Opto" class="gallery view-section">
         <article class="card">
             <div class="card-face">
@@ -416,7 +471,6 @@
         </article>
     </main>
 
-    <!-- 區塊 3：電線電子產業專案 -->
     <main id="Project-Wire" class="gallery view-section">
         <article class="card">
             <div class="card-face">
@@ -484,25 +538,20 @@
 
     <!-- 互動腳本 -->
     <script>
-        /* --- 🌟 沉浸式 PDF 展開邏輯 (動態切換寬度) 🌟 --- */
         function toggleInlinePdf(element, pdfFilename) {
             const card = element.closest('.card');
             const gallery = card.closest('.gallery');
             const btn = card.querySelector('.btn-read'); 
             const iframe = card.querySelector('.inline-iframe');
             
-            // 如果已經展開，就收合並恢復卡片瀏覽模式
             if (card.classList.contains('expanded')) {
                 card.classList.remove('expanded');
                 gallery.classList.remove('reading-mode'); 
-                
                 iframe.src = ""; 
                 btn.innerText = "直接閱讀報告";
                 window.scrollTo({ top: document.querySelector('.tabs').offsetTop - 20, behavior: 'smooth' });
             } 
-            // 否則進入沉浸閱讀模式
             else {
-                // 先關閉同區塊的其他卡片
                 document.querySelectorAll('.card').forEach(c => {
                     c.classList.remove('expanded');
                     const cBtn = c.querySelector('.btn-read');
@@ -512,21 +561,17 @@
                 });
                 
                 card.classList.add('expanded');
-                gallery.classList.add('reading-mode'); // 觸發滿版，並隱藏其他卡片
-                
+                gallery.classList.add('reading-mode'); 
                 iframe.src = pdfFilename;
                 btn.innerText = "✕ 收起閱讀";
                 
                 setTimeout(() => {
-                    // 捲動對齊到卡片最上方
                     window.scrollTo({ top: gallery.offsetTop - 20, behavior: 'smooth' });
                 }, 150); 
             }
         }
 
-        /* --- 網頁分頁切換邏輯 --- */
         function openGallery(evt, projectName) {
-            // 切換分頁時，全面重置所有閱讀狀態
             document.querySelectorAll('.gallery').forEach(g => {
                 g.classList.remove('reading-mode');
             });
@@ -546,7 +591,7 @@
             evt.currentTarget.className += " active";
         }
 
-        /* --- 🌟 柏青哥物理掉落引擎 (精緻點點 x 巨大字母) 🌟 --- */
+        /* --- 🌟 完美點點與巨霸字母修正版 --- */
         window.onload = function() {
             const Engine = Matter.Engine,
                   Render = Matter.Render,
@@ -564,7 +609,6 @@
                 options: { width: container.clientWidth, height: container.clientHeight, background: 'transparent', wireframes: false }
             });
 
-            // 監聽視窗大小改變
             window.addEventListener('resize', function() {
                 render.canvas.width = container.clientWidth;
                 render.canvas.height = container.clientHeight;
@@ -573,8 +617,7 @@
             });
 
             const pegs = [];
-            // 💡 稍微放寬間距，讓大字母好掉落
-            const spacing = 120; 
+            const spacing = 120; // 加大間距讓巨大字母能掉落
             const cols = Math.ceil(container.clientWidth / spacing) + 1;
             const rows = Math.ceil(container.clientHeight / spacing) + 1;
 
@@ -582,7 +625,7 @@
                 for (let i = 0; i < cols; i++) {
                     let x = i * spacing + (j % 2 === 0 ? 0 : spacing / 2);
                     let y = j * spacing + 40;
-                    // 💡 點點尺寸大幅縮小 (半徑由 10 變成 5)
+                    // 💡 點點半徑縮小到 5 (原本是 10)
                     pegs.push(Bodies.circle(x, y, 5, { isStatic: true, render: { fillStyle: '#222' } }));
                 }
             }
@@ -595,7 +638,7 @@
                 if(engine.timing.timestamp < 4000) return; 
                 const char = letters[Math.floor(Math.random() * letters.length)];
                 const x = Math.random() * container.clientWidth * 0.8 + container.clientWidth * 0.1;
-                // 💡 字母的物理碰撞體放大 (半徑由 30 變成 45)
+                // 💡 物理體半徑加大到 45
                 const body = Bodies.circle(x, -50, 45, { restitution: 0.7, friction: 0.05, render: { fillStyle: 'transparent' }, char: char });
                 activeBodies.push(body);
                 Composite.add(engine.world, body);
@@ -603,7 +646,7 @@
 
             Events.on(render, 'afterRender', function() {
                 const ctx = render.context;
-                // 💡 視覺上的字體也大幅調大 (由 52px 變成 80px)
+                // 💡 字體大幅調升至 80px
                 ctx.font = "bold 80px 'Pixelify Sans'";
                 ctx.fillStyle = "#111"; 
                 ctx.textAlign = "center";
