@@ -68,6 +68,7 @@
         }
         #pachinko-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
 
+        /* 跑馬燈 */
         .hero-marquee-container {
             position: absolute; bottom: 0; left: 0; width: 100%; background: #111; padding: 12px 0; border-top: 2px solid #00e5ff; overflow: hidden; z-index: 15; 
         }
@@ -111,17 +112,27 @@
         @keyframes glitch-anim-2 { 0% { clip-path: polygon(0 15%, 100% 15%, 100% 25%, 0 25%); transform: translate(2px, -1px); } 20% { clip-path: polygon(0 45%, 100% 45%, 100% 55%, 0 55%); transform: translate(-2px, 1px); } 40% { clip-path: polygon(0 75%, 100% 75%, 100% 85%, 0 85%); transform: translate(1px, -2px); } 60% { clip-path: polygon(0 25%, 100% 25%, 100% 35%, 0 35%); transform: translate(-1px, 2px); } 80% { clip-path: polygon(0 85%, 100% 85%, 100% 95%, 0 95%); transform: translate(2px, -1px); } 100% { clip-path: polygon(0 55%, 100% 55%, 100% 65%, 0 65%); transform: translate(-2px, 1px); } }
 
         /* =========================================
-           🌟 5. 終極完美比例 (強制3欄 + 大視窗PDF) 🌟
+           🌟 5. 沉浸式閱讀模式切換 (動態縮放) 🌟
            ========================================= */
         .gallery { 
             display: none; 
-            /* 💡 重點修正：強制指定 3 欄等寬，單張卡片絕對不會變形放大！ 💡 */
-            grid-template-columns: repeat(3, 1fr); 
+            grid-template-columns: repeat(3, 1fr); /* 永遠鎖定 3 欄排列 */
             gap: 30px; 
             width: 100%; 
-            max-width: 1150px; /* 控制在剛剛好呈現截圖般精緻的大小 */
+            max-width: 1200px; /* 💡 瀏覽模式：保持您最愛的精緻大小 💡 */
             margin: 0 auto 60px auto; 
             padding: 0 20px; 
+            transition: max-width 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); /* 平滑縮放動畫 */
+        }
+        
+        /* 💡 閱讀模式：當啟動時，整個框架瞬間突破限制放大 💡 */
+        .gallery.reading-mode {
+            max-width: 96%; /* 幾乎貼滿螢幕邊緣 */
+        }
+        
+        /* 💡 閱讀模式：隱藏沒有被點開的卡片，保持版面乾淨 💡 */
+        .gallery.reading-mode .card:not(.expanded) {
+            display: none; 
         }
         
         .card { 
@@ -152,12 +163,12 @@
         .color-dots { display: flex; justify-content: center; gap: 6px; margin-top: 15px; }
         .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
 
-        /* 🔥 當卡片被展開時 (完全對齊截圖二的版面) 🔥 */
+        /* 🔥 當卡片被展開時 🔥 */
         .card.expanded {
             grid-column: 1 / -1; 
             flex-direction: column; 
             text-align: left;
-            padding: 30px 40px; /* 留出截圖般舒適的白邊緣 */
+            padding: 25px; 
             gap: 0;
             transform: none; 
             cursor: default;
@@ -167,26 +178,25 @@
         .card.expanded .card-face {
             width: 100%; 
             padding: 0; 
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             display: flex;
             flex-direction: row; 
-            justify-content: space-between; /* 標題在左，按鈕在右 */
+            justify-content: space-between; 
             align-items: center;
-            border-bottom: none; /* 移除分隔線，還原截圖的乾淨感 */
+            border-bottom: none; 
         }
         
-        /* 隱藏不需要的元素 */
         .card.expanded .card-image-wrapper,
         .card.expanded .card-tags,
         .card.expanded .color-dots { display: none; } 
         
-        .card.expanded .card-header { margin-bottom: 0; font-size: 18px; } 
+        .card.expanded .card-header { margin-bottom: 0; font-size: 20px; } 
         .card.expanded .card-body { width: auto; }
         
-        /* 💡 完美還原截圖的紅色圓角按鈕 💡 */
+        /* 💡 完美的紅色圓角關閉按鈕 💡 */
         .card.expanded .btn-read { 
             margin-bottom: 0; 
-            padding: 8px 18px; 
+            padding: 8px 20px; 
             font-size: 14px; 
             font-weight: bold;
             background-color: #ff4c4c; 
@@ -196,11 +206,11 @@
         }
         .card.expanded .btn-read:hover { background-color: #ff3333; border-color: #ff3333; }
 
-        /* 💡 內部 PDF 顯示區：超大，且完美置中 💡 */
+        /* 💡 內部 PDF 顯示區：超大，佔據畫面 88vh 💡 */
         .inline-pdf-container {
             display: none; 
             width: 100%;
-            height: 85vh; /* 給予極大的高度展示兩張簡報 */
+            height: 88vh; 
             animation: fadeIn 0.6s ease forwards;
         }
         .card.expanded .inline-pdf-container { display: block; }
@@ -209,17 +219,17 @@
             width: 100%; height: 100%;
             border: none;
             border-radius: 4px;
-            background-color: #323639; /* 模擬 Chrome PDF 閱讀器的深灰底色 */
+            background-color: #323639; 
         }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* 手機與平板 RWD 排版保護 */
         @media (max-width: 900px) {
-            .gallery { grid-template-columns: repeat(2, 1fr); } /* 平板變兩欄 */
+            .gallery { grid-template-columns: repeat(2, 1fr); } 
         }
         @media (max-width: 600px) {
-            .gallery { grid-template-columns: 1fr; } /* 手機變單欄 */
+            .gallery { grid-template-columns: 1fr; } 
             .card.expanded { padding: 15px; }
             .card.expanded .card-face { flex-direction: column; align-items: flex-start; gap: 15px; margin-bottom: 15px;}
             .inline-pdf-container { height: 75vh; }
@@ -281,7 +291,7 @@
         </div>
     </div>
 
-    <!-- 🌟 卡片展示區 (完美還原截圖比例版) 🌟 -->
+    <!-- 🌟 卡片展示區 🌟 -->
     
     <!-- 區塊 1：自行車產業專案 -->
     <main id="Project-Bike" class="gallery view-section" style="display: grid;">
@@ -420,19 +430,25 @@
 
     <!-- 互動腳本 -->
     <script>
-        /* --- 🌟 完美比例內嵌 PDF 展開邏輯 🌟 --- */
+        /* --- 🌟 沉浸式 PDF 展開邏輯 (動態切換寬度) 🌟 --- */
         function toggleInlinePdf(element, pdfFilename) {
             const card = element.closest('.card');
+            const gallery = card.closest('.gallery');
             const btn = card.querySelector('.btn-read'); 
             const iframe = card.querySelector('.inline-iframe');
             
+            // 如果已經展開，就收合並恢復卡片瀏覽模式
             if (card.classList.contains('expanded')) {
                 card.classList.remove('expanded');
+                gallery.classList.remove('reading-mode'); // 解除滿版模式
+                
                 iframe.src = ""; 
                 btn.innerText = "直接閱讀報告";
                 window.scrollTo({ top: document.querySelector('.tabs').offsetTop - 20, behavior: 'smooth' });
             } 
+            // 否則進入沉浸閱讀模式
             else {
+                // 先關閉同區塊的其他卡片
                 document.querySelectorAll('.card').forEach(c => {
                     c.classList.remove('expanded');
                     const cBtn = c.querySelector('.btn-read');
@@ -442,17 +458,24 @@
                 });
                 
                 card.classList.add('expanded');
+                gallery.classList.add('reading-mode'); // 觸發滿版，並隱藏其他卡片
+                
                 iframe.src = pdfFilename;
                 btn.innerText = "✕ 收起閱讀";
                 
                 setTimeout(() => {
-                    window.scrollTo({ top: card.offsetTop - 20, behavior: 'smooth' });
+                    // 捲動對齊到卡片最上方
+                    window.scrollTo({ top: gallery.offsetTop - 20, behavior: 'smooth' });
                 }, 150); 
             }
         }
 
         /* --- 網頁分頁切換邏輯 --- */
         function openGallery(evt, projectName) {
+            // 切換分頁時，全面重置所有閱讀狀態
+            document.querySelectorAll('.gallery').forEach(g => {
+                g.classList.remove('reading-mode');
+            });
             document.querySelectorAll('.card').forEach(c => {
                 c.classList.remove('expanded');
                 const cBtn = c.querySelector('.btn-read');
