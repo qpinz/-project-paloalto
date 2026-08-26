@@ -2,7 +2,7 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>個人專案畫廊展示</title>
     
     <!-- 引入 Pixel 像素復古字體 -->
@@ -64,11 +64,10 @@
            ========================================= */
         .hero {
             position: relative; width: 100%; height: 45vh; min-height: 380px; 
-            background-color: #E8E6E1; margin-bottom: 50px; overflow: hidden; 
+            background-color: #E8E6E1; margin-bottom: 40px; overflow: hidden; 
         }
         #pachinko-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
 
-        /* 跑馬燈 */
         .hero-marquee-container {
             position: absolute; bottom: 0; left: 0; width: 100%; background: #111; padding: 12px 0; border-top: 2px solid #00e5ff; overflow: hidden; z-index: 15; 
         }
@@ -82,6 +81,7 @@
         /* 🌟 固定在主畫面右下角的 3D 霓虹方塊 🌟 */
         .fixed-3d-scene {
             perspective: 1200px; width: 300px; height: 100px; position: fixed; bottom: 30px; right: 30px; z-index: 999; transform: scale(0.45); transform-origin: bottom right; pointer-events: none; 
+            transition: transform 0.3s;
         }
         .box-3d { width: 100%; height: 100%; position: absolute; transform-style: preserve-3d; animation: spin-y 6s infinite linear; }
         .box-face { position: absolute; top: 50%; left: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Pixelify Sans', monospace; font-weight: 700; font-size: 40px; letter-spacing: 3px; }
@@ -96,8 +96,12 @@
         /* =========================================
            4. 分類頁籤
            ========================================= */
-        .tabs { display: flex; justify-content: center; gap: 40px; width: 100%; max-width: 1200px; margin: 0 auto 40px auto; }
-        .tab { font-size: 14px; letter-spacing: 2px; color: #999; cursor: pointer; padding-bottom: 5px; transition: 0.3s; }
+        .tabs { 
+            display: flex; justify-content: center; gap: 20px 40px; width: 100%; max-width: 1200px; margin: 0 auto 30px auto; 
+            flex-wrap: wrap; /* 手機版自動換行 */
+            padding: 0 15px;
+        }
+        .tab { font-size: 14px; letter-spacing: 2px; color: #999; cursor: pointer; padding-bottom: 5px; transition: 0.3s; text-align: center; }
         .tab:hover { color: #333; }
         .tab.active { color: #333; border-bottom: 2px solid #333; }
 
@@ -112,11 +116,11 @@
         @keyframes glitch-anim-2 { 0% { clip-path: polygon(0 15%, 100% 15%, 100% 25%, 0 25%); transform: translate(2px, -1px); } 20% { clip-path: polygon(0 45%, 100% 45%, 100% 55%, 0 55%); transform: translate(-2px, 1px); } 40% { clip-path: polygon(0 75%, 100% 75%, 100% 85%, 0 85%); transform: translate(1px, -2px); } 60% { clip-path: polygon(0 25%, 100% 25%, 100% 35%, 0 35%); transform: translate(-1px, 2px); } 80% { clip-path: polygon(0 85%, 100% 85%, 100% 95%, 0 95%); transform: translate(2px, -1px); } 100% { clip-path: polygon(0 55%, 100% 55%, 100% 65%, 0 65%); transform: translate(-2px, 1px); } }
 
         /* =========================================
-           🌟 5. 沉浸式閱讀模式切換 (動態縮放) 🌟
+           🌟 5. 沉浸式閱讀模式切換 (全裝置相容版) 🌟
            ========================================= */
         .gallery { 
             display: none; 
-            grid-template-columns: repeat(3, 1fr); 
+            grid-template-columns: repeat(3, 1fr); /* 電腦版強制 3 欄 */
             gap: 30px; 
             width: 100%; 
             max-width: 1200px; /* 瀏覽模式：黃金比例 */
@@ -125,13 +129,8 @@
             transition: max-width 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); 
         }
         
-        .gallery.reading-mode {
-            max-width: 96%; /* 閱讀模式：瞬間展開 */
-        }
-        
-        .gallery.reading-mode .card:not(.expanded) {
-            display: none; 
-        }
+        .gallery.reading-mode { max-width: 96%; }
+        .gallery.reading-mode .card:not(.expanded) { display: none; }
         
         .card { 
             background: #fff; text-align: center; 
@@ -191,6 +190,7 @@
         .card.expanded .card-header { margin-bottom: 0; font-size: 20px; } 
         .card.expanded .card-body { width: auto; }
         
+        /* 紅色關閉按鈕 */
         .card.expanded .btn-read { 
             margin-bottom: 0; 
             padding: 8px 20px; 
@@ -203,6 +203,7 @@
         }
         .card.expanded .btn-read:hover { background-color: #ff3333; border-color: #ff3333; }
 
+        /* 內部 PDF 顯示區 */
         .inline-pdf-container {
             display: none; 
             width: 100%;
@@ -220,15 +221,42 @@
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* 手機與平板 RWD 排版保護 */
-        @media (max-width: 900px) {
-            .gallery { grid-template-columns: repeat(2, 1fr); } 
+        /* =========================================
+           📱 全面 RWD 手機版/平板版響應式設計 📱
+           ========================================= */
+        @media (max-width: 950px) {
+            /* 平板尺寸：自動轉為 2 欄 */
+            .gallery { grid-template-columns: repeat(2, 1fr); max-width: 100%; } 
         }
-        @media (max-width: 600px) {
-            .gallery { grid-template-columns: 1fr; } 
-            .card.expanded { padding: 15px; }
-            .card.expanded .card-face { flex-direction: column; align-items: flex-start; gap: 15px; margin-bottom: 15px;}
-            .inline-pdf-container { height: 75vh; }
+        
+        @media (max-width: 650px) {
+            /* 手機尺寸：自動轉為 1 欄滿版 */
+            .gallery { grid-template-columns: 1fr; padding: 0 15px; margin-bottom: 30px; } 
+            
+            /* 手機版：封面的高度降低，以免佔據太多螢幕 */
+            .hero { height: 35vh; min-height: 250px; }
+            
+            /* 手機版：3D 霓虹方塊縮小並靠邊，避免擋住按鈕 */
+            .fixed-3d-scene { transform: scale(0.25); bottom: 10px; right: 10px; }
+
+            /* 手機版：閱讀模式極致滿版，0邊界浪費 */
+            .gallery.reading-mode { max-width: 100%; padding: 0 5px; } 
+            
+            /* 手機版展開卡片：內部重排 */
+            .card.expanded { padding: 10px; }
+            .card.expanded .card-face { 
+                flex-direction: column; /* 手機上標題與按鈕上下排 */
+                align-items: stretch; 
+                gap: 10px; 
+                margin-bottom: 10px;
+            }
+            .card.expanded .card-header { font-size: 16px; text-align: center; }
+            
+            /* 手機版關閉按鈕：變成超大滿版按鈕，方便手指點擊 */
+            .card.expanded .btn-read { width: 100%; text-align: center; padding: 12px; font-size: 16px;}
+            
+            /* 手機版 PDF 高度：扣掉頂部按鈕後佔滿螢幕 */
+            .inline-pdf-container { height: 82vh; }
         }
     </style>
 </head>
@@ -246,8 +274,7 @@
         <div id="pachinko-canvas"></div>
         <div class="hero-marquee-container">
             <div class="marquee-track">
-                <!-- 💡 大幅擴充跑馬燈數量，解決大螢幕斷層問題 💡 -->
-                <!-- 第一組 (前半段) -->
+                <!-- 大量擴充的跑馬燈，永不斷尾 -->
                 <div class="marquee-item"><span>Proxmox VE</span></div>
                 <div class="marquee-item"><span>ShareTech</span></div>
                 <div class="marquee-item"><span>Palo Alto</span></div>
@@ -278,7 +305,6 @@
                 <div class="marquee-item"><span>Openfind</span></div>
                 <div class="marquee-item"><span>Aruba</span></div>
 
-                <!-- 第二組 (後半段，必須與前半段一模一樣) -->
                 <div class="marquee-item"><span>Proxmox VE</span></div>
                 <div class="marquee-item"><span>ShareTech</span></div>
                 <div class="marquee-item"><span>Palo Alto</span></div>
@@ -483,6 +509,7 @@
             const btn = card.querySelector('.btn-read'); 
             const iframe = card.querySelector('.inline-iframe');
             
+            // 如果已經展開，就收合並恢復卡片瀏覽模式
             if (card.classList.contains('expanded')) {
                 card.classList.remove('expanded');
                 gallery.classList.remove('reading-mode'); 
@@ -491,7 +518,9 @@
                 btn.innerText = "直接閱讀報告";
                 window.scrollTo({ top: document.querySelector('.tabs').offsetTop - 20, behavior: 'smooth' });
             } 
+            // 否則進入沉浸閱讀模式
             else {
+                // 先關閉同區塊的其他卡片
                 document.querySelectorAll('.card').forEach(c => {
                     c.classList.remove('expanded');
                     const cBtn = c.querySelector('.btn-read');
@@ -501,18 +530,21 @@
                 });
                 
                 card.classList.add('expanded');
-                gallery.classList.add('reading-mode'); 
+                gallery.classList.add('reading-mode'); // 觸發滿版，並隱藏其他卡片
                 
                 iframe.src = pdfFilename;
                 btn.innerText = "✕ 收起閱讀";
                 
                 setTimeout(() => {
+                    // 捲動對齊到卡片最上方
                     window.scrollTo({ top: gallery.offsetTop - 20, behavior: 'smooth' });
                 }, 150); 
             }
         }
 
+        /* --- 網頁分頁切換邏輯 --- */
         function openGallery(evt, projectName) {
+            // 切換分頁時，全面重置所有閱讀狀態
             document.querySelectorAll('.gallery').forEach(g => {
                 g.classList.remove('reading-mode');
             });
@@ -548,6 +580,14 @@
                 element: container,
                 engine: engine,
                 options: { width: container.clientWidth, height: container.clientHeight, background: 'transparent', wireframes: false }
+            });
+
+            // 監聽視窗大小改變，讓物理畫布跟著適應手機或電腦
+            window.addEventListener('resize', function() {
+                render.canvas.width = container.clientWidth;
+                render.canvas.height = container.clientHeight;
+                render.options.width = container.clientWidth;
+                render.options.height = container.clientHeight;
             });
 
             const pegs = [];
