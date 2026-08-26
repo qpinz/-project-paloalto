@@ -24,6 +24,8 @@
             color: #555; 
             line-height: 1.6; 
             overflow-x: hidden;
+            /* 讓底部留一點空間給小精靈跑道 */
+            padding-bottom: 20px; 
         }
         a { text-decoration: none; color: inherit; }
 
@@ -68,7 +70,6 @@
         }
         #pachinko-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
 
-        /* 跑馬燈 */
         .hero-marquee-container {
             position: absolute; bottom: 0; left: 0; width: 100%; background: #111; padding: 12px 0; border-top: 2px solid #00e5ff; overflow: hidden; z-index: 15; 
         }
@@ -116,7 +117,7 @@
         @keyframes glitch-anim-2 { 0% { clip-path: polygon(0 15%, 100% 15%, 100% 25%, 0 25%); transform: translate(2px, -1px); } 20% { clip-path: polygon(0 45%, 100% 45%, 100% 55%, 0 55%); transform: translate(-2px, 1px); } 40% { clip-path: polygon(0 75%, 100% 75%, 100% 85%, 0 85%); transform: translate(1px, -2px); } 60% { clip-path: polygon(0 25%, 100% 25%, 100% 35%, 0 35%); transform: translate(-1px, 2px); } 80% { clip-path: polygon(0 85%, 100% 85%, 100% 95%, 0 95%); transform: translate(2px, -1px); } 100% { clip-path: polygon(0 55%, 100% 55%, 100% 65%, 0 65%); transform: translate(-2px, 1px); } }
 
         /* =========================================
-           🌟 5. 沉浸式閱讀模式切換 🌟
+           🌟 5. 卡片展示區 (3欄黃金比例) 🌟
            ========================================= */
         .gallery { 
             display: none; 
@@ -124,7 +125,8 @@
             gap: 30px; 
             width: 100%; 
             max-width: 1200px; 
-            margin: 0 auto 60px auto; 
+            /* 調整 margin-bottom 不要留太多空白，因為小精靈有自己專屬跑道了 */
+            margin: 0 auto 0 auto; 
             padding: 0 20px; 
             transition: max-width 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); 
         }
@@ -190,6 +192,7 @@
         .card.expanded .card-header { margin-bottom: 0; font-size: 20px; } 
         .card.expanded .card-body { width: auto; }
         
+        /* 紅色關閉按鈕 */
         .card.expanded .btn-read { 
             margin-bottom: 0; padding: 8px 20px; font-size: 14px; font-weight: bold;
             background-color: #ff4c4c; color: #fff; border: 1px solid #ff4c4c; border-radius: 6px; 
@@ -205,12 +208,20 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* =========================================
-           🌟 6. 底部小精靈吃豆豆動畫 (Pac-Man) 🌟
+           🌟 6. 底部專屬空白跑道 - 小精靈吃豆豆 🌟
            ========================================= */
+        /* 💡 改為 relative 放置在網頁最底部的文檔流中，不再 fixed 覆蓋卡片 💡 */
+        .pacman-track {
+            position: relative; 
+            width: 100%; 
+            height: 60px; /* 給小精靈足夠的高度 */
+            margin-top: 80px; /* 與上方卡片保持很大一段的空白安全距離 */
+            overflow: hidden;
+            pointer-events: none;
+        }
+        
         .pacman-container {
-            position: fixed; bottom: 15px; left: 0; width: 100%; height: 40px;
-            z-index: 990; /* 位於3D方塊與卡片下方，底色上方 */
-            pointer-events: none; overflow: hidden;
+            position: absolute; top: 10px; left: 0; width: 100%; height: 40px;
         }
         
         .pacman-dots {
@@ -233,7 +244,7 @@
             position: absolute; top: 0; left: 100px; width: 40px; height: 40px; z-index: 2;
         }
         
-        /* 吃豆豆的完美遮罩 (使用背景同色隱藏點點) */
+        /* 吃豆豆的完美遮罩 (使用與網頁底色相同的 #f4f4f4 來隱藏點點) */
         .pacman-wrapper::after {
             content: ''; position: absolute; top: 15px; right: 20px; 
             width: 200vw; height: 10px; background-color: #f4f4f4;
@@ -252,7 +263,7 @@
         @keyframes pac-top { 0% { transform: rotate(-45deg); } 100% { transform: rotate(0deg); } }
         @keyframes pac-bot { 0% { transform: rotate(45deg); } 100% { transform: rotate(0deg); } }
 
-        /* 藍色小幽靈 (Inky) 追逐 */
+        /* 藍色小幽靈 (Inky) */
         .ghost {
             position: absolute; top: 4px; left: 20px; width: 32px; height: 32px;
             background: #00e5ff; border-radius: 16px 16px 0 0; z-index: 3;
@@ -274,7 +285,7 @@
             .gallery { grid-template-columns: repeat(2, 1fr); max-width: 100%; } 
         }
         @media (max-width: 650px) {
-            .gallery { grid-template-columns: 1fr; padding: 0 15px; margin-bottom: 30px; } 
+            .gallery { grid-template-columns: 1fr; padding: 0 15px; margin-bottom: 0; } 
             .hero { height: 35vh; min-height: 250px; }
             .fixed-3d-scene { transform: scale(0.25); bottom: 10px; right: 10px; }
             .gallery.reading-mode { max-width: 100%; padding: 0 5px; } 
@@ -363,21 +374,6 @@
         </div>
     </div>
 
-    <!-- 🌟 小精靈吃豆豆動畫 🌟 -->
-    <div class="pacman-container">
-        <div class="pacman-dots"></div>
-        <div class="pacman-scene">
-            <!-- 追逐的幽靈 -->
-            <div class="ghost">
-                <div class="ghost-eyes"></div>
-            </div>
-            <!-- 小精靈本體 -->
-            <div class="pacman-wrapper">
-                <div class="pacman-body"></div>
-            </div>
-        </div>
-    </div>
-
     <!-- 固定在主畫面右下角的 3D 霓虹方塊 -->
     <div class="fixed-3d-scene">
         <div class="box-3d">
@@ -404,6 +400,8 @@
     </div>
 
     <!-- 🌟 卡片展示區 🌟 -->
+    
+    <!-- 區塊 1：自行車產業專案 -->
     <main id="Project-Bike" class="gallery view-section" style="display: grid;">
         <article class="card">
             <div class="card-face">
@@ -429,6 +427,7 @@
         </article>
     </main>
 
+    <!-- 區塊 2：光電廠產業專案 -->
     <main id="Project-Opto" class="gallery view-section">
         <article class="card">
             <div class="card-face">
@@ -471,6 +470,7 @@
         </article>
     </main>
 
+    <!-- 區塊 3：電線電子產業專案 -->
     <main id="Project-Wire" class="gallery view-section">
         <article class="card">
             <div class="card-face">
@@ -536,6 +536,23 @@
         </article>
     </main>
 
+    <!-- 🌟 專屬底部跑道：小精靈吃豆豆 🌟 -->
+    <div class="pacman-track">
+        <div class="pacman-container">
+            <div class="pacman-dots"></div>
+            <div class="pacman-scene">
+                <!-- 追逐的幽靈 -->
+                <div class="ghost">
+                    <div class="ghost-eyes"></div>
+                </div>
+                <!-- 小精靈本體 -->
+                <div class="pacman-wrapper">
+                    <div class="pacman-body"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- 互動腳本 -->
     <script>
         function toggleInlinePdf(element, pdfFilename) {
@@ -591,7 +608,7 @@
             evt.currentTarget.className += " active";
         }
 
-        /* --- 🌟 完美點點與巨霸字母修正版 --- */
+        /* --- 柏青哥物理掉落引擎 --- */
         window.onload = function() {
             const Engine = Matter.Engine,
                   Render = Matter.Render,
@@ -617,7 +634,7 @@
             });
 
             const pegs = [];
-            const spacing = 120; // 加大間距讓巨大字母能掉落
+            const spacing = 120; 
             const cols = Math.ceil(container.clientWidth / spacing) + 1;
             const rows = Math.ceil(container.clientHeight / spacing) + 1;
 
@@ -625,7 +642,6 @@
                 for (let i = 0; i < cols; i++) {
                     let x = i * spacing + (j % 2 === 0 ? 0 : spacing / 2);
                     let y = j * spacing + 40;
-                    // 💡 點點半徑縮小到 5 (原本是 10)
                     pegs.push(Bodies.circle(x, y, 5, { isStatic: true, render: { fillStyle: '#222' } }));
                 }
             }
@@ -638,7 +654,6 @@
                 if(engine.timing.timestamp < 4000) return; 
                 const char = letters[Math.floor(Math.random() * letters.length)];
                 const x = Math.random() * container.clientWidth * 0.8 + container.clientWidth * 0.1;
-                // 💡 物理體半徑加大到 45
                 const body = Bodies.circle(x, -50, 45, { restitution: 0.7, friction: 0.05, render: { fillStyle: 'transparent' }, char: char });
                 activeBodies.push(body);
                 Composite.add(engine.world, body);
@@ -646,7 +661,6 @@
 
             Events.on(render, 'afterRender', function() {
                 const ctx = render.context;
-                // 💡 字體大幅調升至 80px
                 ctx.font = "bold 80px 'Pixelify Sans'";
                 ctx.fillStyle = "#111"; 
                 ctx.textAlign = "center";
