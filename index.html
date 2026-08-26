@@ -68,6 +68,7 @@
         }
         #pachinko-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
 
+        /* 跑馬燈 */
         .hero-marquee-container {
             position: absolute; bottom: 0; left: 0; width: 100%; background: #111; padding: 12px 0; border-top: 2px solid #00e5ff; overflow: hidden; z-index: 15; 
         }
@@ -98,7 +99,7 @@
            ========================================= */
         .tabs { 
             display: flex; justify-content: center; gap: 20px 40px; width: 100%; max-width: 1200px; margin: 0 auto 30px auto; 
-            flex-wrap: wrap; /* 手機版自動換行 */
+            flex-wrap: wrap; 
             padding: 0 15px;
         }
         .tab { font-size: 14px; letter-spacing: 2px; color: #999; cursor: pointer; padding-bottom: 5px; transition: 0.3s; text-align: center; }
@@ -120,10 +121,10 @@
            ========================================= */
         .gallery { 
             display: none; 
-            grid-template-columns: repeat(3, 1fr); /* 電腦版強制 3 欄 */
+            grid-template-columns: repeat(3, 1fr); 
             gap: 30px; 
             width: 100%; 
-            max-width: 1200px; /* 瀏覽模式：黃金比例 */
+            max-width: 1200px; 
             margin: 0 auto 60px auto; 
             padding: 0 20px; 
             transition: max-width 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); 
@@ -225,37 +226,18 @@
            📱 全面 RWD 手機版/平板版響應式設計 📱
            ========================================= */
         @media (max-width: 950px) {
-            /* 平板尺寸：自動轉為 2 欄 */
             .gallery { grid-template-columns: repeat(2, 1fr); max-width: 100%; } 
         }
         
         @media (max-width: 650px) {
-            /* 手機尺寸：自動轉為 1 欄滿版 */
             .gallery { grid-template-columns: 1fr; padding: 0 15px; margin-bottom: 30px; } 
-            
-            /* 手機版：封面的高度降低，以免佔據太多螢幕 */
             .hero { height: 35vh; min-height: 250px; }
-            
-            /* 手機版：3D 霓虹方塊縮小並靠邊，避免擋住按鈕 */
             .fixed-3d-scene { transform: scale(0.25); bottom: 10px; right: 10px; }
-
-            /* 手機版：閱讀模式極致滿版，0邊界浪費 */
             .gallery.reading-mode { max-width: 100%; padding: 0 5px; } 
-            
-            /* 手機版展開卡片：內部重排 */
             .card.expanded { padding: 10px; }
-            .card.expanded .card-face { 
-                flex-direction: column; /* 手機上標題與按鈕上下排 */
-                align-items: stretch; 
-                gap: 10px; 
-                margin-bottom: 10px;
-            }
+            .card.expanded .card-face { flex-direction: column; align-items: stretch; gap: 10px; margin-bottom: 10px;}
             .card.expanded .card-header { font-size: 16px; text-align: center; }
-            
-            /* 手機版關閉按鈕：變成超大滿版按鈕，方便手指點擊 */
             .card.expanded .btn-read { width: 100%; text-align: center; padding: 12px; font-size: 16px;}
-            
-            /* 手機版 PDF 高度：扣掉頂部按鈕後佔滿螢幕 */
             .inline-pdf-container { height: 82vh; }
         }
     </style>
@@ -564,7 +546,7 @@
             evt.currentTarget.className += " active";
         }
 
-        /* --- 柏青哥物理掉落引擎 --- */
+        /* --- 🌟 柏青哥物理掉落引擎 (精緻點點 x 巨大字母) 🌟 --- */
         window.onload = function() {
             const Engine = Matter.Engine,
                   Render = Matter.Render,
@@ -582,7 +564,7 @@
                 options: { width: container.clientWidth, height: container.clientHeight, background: 'transparent', wireframes: false }
             });
 
-            // 監聽視窗大小改變，讓物理畫布跟著適應手機或電腦
+            // 監聽視窗大小改變
             window.addEventListener('resize', function() {
                 render.canvas.width = container.clientWidth;
                 render.canvas.height = container.clientHeight;
@@ -591,7 +573,8 @@
             });
 
             const pegs = [];
-            const spacing = 110; 
+            // 💡 稍微放寬間距，讓大字母好掉落
+            const spacing = 120; 
             const cols = Math.ceil(container.clientWidth / spacing) + 1;
             const rows = Math.ceil(container.clientHeight / spacing) + 1;
 
@@ -599,7 +582,8 @@
                 for (let i = 0; i < cols; i++) {
                     let x = i * spacing + (j % 2 === 0 ? 0 : spacing / 2);
                     let y = j * spacing + 40;
-                    pegs.push(Bodies.circle(x, y, 10, { isStatic: true, render: { fillStyle: '#222' } }));
+                    // 💡 點點尺寸大幅縮小 (半徑由 10 變成 5)
+                    pegs.push(Bodies.circle(x, y, 5, { isStatic: true, render: { fillStyle: '#222' } }));
                 }
             }
             Composite.add(engine.world, pegs);
@@ -611,14 +595,16 @@
                 if(engine.timing.timestamp < 4000) return; 
                 const char = letters[Math.floor(Math.random() * letters.length)];
                 const x = Math.random() * container.clientWidth * 0.8 + container.clientWidth * 0.1;
-                const body = Bodies.circle(x, -50, 30, { restitution: 0.7, friction: 0.05, render: { fillStyle: 'transparent' }, char: char });
+                // 💡 字母的物理碰撞體放大 (半徑由 30 變成 45)
+                const body = Bodies.circle(x, -50, 45, { restitution: 0.7, friction: 0.05, render: { fillStyle: 'transparent' }, char: char });
                 activeBodies.push(body);
                 Composite.add(engine.world, body);
             }, 1200);
 
             Events.on(render, 'afterRender', function() {
                 const ctx = render.context;
-                ctx.font = "bold 52px 'Pixelify Sans'";
+                // 💡 視覺上的字體也大幅調大 (由 52px 變成 80px)
+                ctx.font = "bold 80px 'Pixelify Sans'";
                 ctx.fillStyle = "#111"; 
                 ctx.textAlign = "center";
                 ctx.textBaseline = "middle";
