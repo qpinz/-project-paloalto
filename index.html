@@ -116,21 +116,19 @@
            ========================================= */
         .gallery { 
             display: none; 
-            grid-template-columns: repeat(3, 1fr); /* 永遠鎖定 3 欄排列 */
+            grid-template-columns: repeat(3, 1fr); 
             gap: 30px; 
             width: 100%; 
-            max-width: 1200px; /* 💡 瀏覽模式：保持您最愛的精緻大小 💡 */
+            max-width: 1200px; /* 瀏覽模式：黃金比例 */
             margin: 0 auto 60px auto; 
             padding: 0 20px; 
-            transition: max-width 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); /* 平滑縮放動畫 */
+            transition: max-width 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); 
         }
         
-        /* 💡 閱讀模式：當啟動時，整個框架瞬間突破限制放大 💡 */
         .gallery.reading-mode {
-            max-width: 96%; /* 幾乎貼滿螢幕邊緣 */
+            max-width: 96%; /* 閱讀模式：瞬間展開 */
         }
         
-        /* 💡 閱讀模式：隱藏沒有被點開的卡片，保持版面乾淨 💡 */
         .gallery.reading-mode .card:not(.expanded) {
             display: none; 
         }
@@ -193,7 +191,6 @@
         .card.expanded .card-header { margin-bottom: 0; font-size: 20px; } 
         .card.expanded .card-body { width: auto; }
         
-        /* 💡 完美的紅色圓角關閉按鈕 💡 */
         .card.expanded .btn-read { 
             margin-bottom: 0; 
             padding: 8px 20px; 
@@ -206,7 +203,6 @@
         }
         .card.expanded .btn-read:hover { background-color: #ff3333; border-color: #ff3333; }
 
-        /* 💡 內部 PDF 顯示區：超大，佔據畫面 88vh 💡 */
         .inline-pdf-container {
             display: none; 
             width: 100%;
@@ -250,18 +246,68 @@
         <div id="pachinko-canvas"></div>
         <div class="hero-marquee-container">
             <div class="marquee-track">
+                <!-- 💡 大幅擴充跑馬燈數量，解決大螢幕斷層問題 💡 -->
+                <!-- 第一組 (前半段) -->
                 <div class="marquee-item"><span>Proxmox VE</span></div>
                 <div class="marquee-item"><span>ShareTech</span></div>
                 <div class="marquee-item"><span>Palo Alto</span></div>
                 <div class="marquee-item"><span>Fortinet</span></div>
                 <div class="marquee-item"><span>Synology</span></div>
                 <div class="marquee-item"><span>VMware</span></div>
+                <div class="marquee-item"><span>Sun & Moon Rise</span></div>
+                <div class="marquee-item"><span>Openfind</span></div>
+                <div class="marquee-item"><span>Aruba</span></div>
+                
                 <div class="marquee-item"><span>Proxmox VE</span></div>
                 <div class="marquee-item"><span>ShareTech</span></div>
                 <div class="marquee-item"><span>Palo Alto</span></div>
                 <div class="marquee-item"><span>Fortinet</span></div>
                 <div class="marquee-item"><span>Synology</span></div>
                 <div class="marquee-item"><span>VMware</span></div>
+                <div class="marquee-item"><span>Sun & Moon Rise</span></div>
+                <div class="marquee-item"><span>Openfind</span></div>
+                <div class="marquee-item"><span>Aruba</span></div>
+                
+                <div class="marquee-item"><span>Proxmox VE</span></div>
+                <div class="marquee-item"><span>ShareTech</span></div>
+                <div class="marquee-item"><span>Palo Alto</span></div>
+                <div class="marquee-item"><span>Fortinet</span></div>
+                <div class="marquee-item"><span>Synology</span></div>
+                <div class="marquee-item"><span>VMware</span></div>
+                <div class="marquee-item"><span>Sun & Moon Rise</span></div>
+                <div class="marquee-item"><span>Openfind</span></div>
+                <div class="marquee-item"><span>Aruba</span></div>
+
+                <!-- 第二組 (後半段，必須與前半段一模一樣) -->
+                <div class="marquee-item"><span>Proxmox VE</span></div>
+                <div class="marquee-item"><span>ShareTech</span></div>
+                <div class="marquee-item"><span>Palo Alto</span></div>
+                <div class="marquee-item"><span>Fortinet</span></div>
+                <div class="marquee-item"><span>Synology</span></div>
+                <div class="marquee-item"><span>VMware</span></div>
+                <div class="marquee-item"><span>Sun & Moon Rise</span></div>
+                <div class="marquee-item"><span>Openfind</span></div>
+                <div class="marquee-item"><span>Aruba</span></div>
+
+                <div class="marquee-item"><span>Proxmox VE</span></div>
+                <div class="marquee-item"><span>ShareTech</span></div>
+                <div class="marquee-item"><span>Palo Alto</span></div>
+                <div class="marquee-item"><span>Fortinet</span></div>
+                <div class="marquee-item"><span>Synology</span></div>
+                <div class="marquee-item"><span>VMware</span></div>
+                <div class="marquee-item"><span>Sun & Moon Rise</span></div>
+                <div class="marquee-item"><span>Openfind</span></div>
+                <div class="marquee-item"><span>Aruba</span></div>
+                
+                <div class="marquee-item"><span>Proxmox VE</span></div>
+                <div class="marquee-item"><span>ShareTech</span></div>
+                <div class="marquee-item"><span>Palo Alto</span></div>
+                <div class="marquee-item"><span>Fortinet</span></div>
+                <div class="marquee-item"><span>Synology</span></div>
+                <div class="marquee-item"><span>VMware</span></div>
+                <div class="marquee-item"><span>Sun & Moon Rise</span></div>
+                <div class="marquee-item"><span>Openfind</span></div>
+                <div class="marquee-item"><span>Aruba</span></div>
             </div>
         </div>
     </div>
@@ -437,18 +483,15 @@
             const btn = card.querySelector('.btn-read'); 
             const iframe = card.querySelector('.inline-iframe');
             
-            // 如果已經展開，就收合並恢復卡片瀏覽模式
             if (card.classList.contains('expanded')) {
                 card.classList.remove('expanded');
-                gallery.classList.remove('reading-mode'); // 解除滿版模式
+                gallery.classList.remove('reading-mode'); 
                 
                 iframe.src = ""; 
                 btn.innerText = "直接閱讀報告";
                 window.scrollTo({ top: document.querySelector('.tabs').offsetTop - 20, behavior: 'smooth' });
             } 
-            // 否則進入沉浸閱讀模式
             else {
-                // 先關閉同區塊的其他卡片
                 document.querySelectorAll('.card').forEach(c => {
                     c.classList.remove('expanded');
                     const cBtn = c.querySelector('.btn-read');
@@ -458,21 +501,18 @@
                 });
                 
                 card.classList.add('expanded');
-                gallery.classList.add('reading-mode'); // 觸發滿版，並隱藏其他卡片
+                gallery.classList.add('reading-mode'); 
                 
                 iframe.src = pdfFilename;
                 btn.innerText = "✕ 收起閱讀";
                 
                 setTimeout(() => {
-                    // 捲動對齊到卡片最上方
                     window.scrollTo({ top: gallery.offsetTop - 20, behavior: 'smooth' });
                 }, 150); 
             }
         }
 
-        /* --- 網頁分頁切換邏輯 --- */
         function openGallery(evt, projectName) {
-            // 切換分頁時，全面重置所有閱讀狀態
             document.querySelectorAll('.gallery').forEach(g => {
                 g.classList.remove('reading-mode');
             });
