@@ -29,7 +29,7 @@
         a { text-decoration: none; color: inherit; }
 
         /* =========================================
-           2. 🌟 復古精緻 4 秒開場動畫 🌟 
+           2. 🌟 開場動畫 🌟 
            ========================================= */
         .splash-screen {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
@@ -142,8 +142,6 @@
         
         .card-face { width: 100%; padding: 30px 25px; transition: 0.3s; display: flex; flex-direction: column; align-items: center; }
         .card-header { font-size: 16px; letter-spacing: 1px; color: #333; margin-bottom: 20px; font-weight: bold; }
-        
-        /* 圖片容器 */
         .card-image-wrapper { position: relative; width: 100%; aspect-ratio: 4/3; overflow: hidden; background: #eee; margin-bottom: 20px; cursor: pointer; border-radius: 4px; }
         .card-image-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: 0.4s; opacity: 0.9; }
         .card:hover .card-image-wrapper img { opacity: 1; transform: scale(1.05); }
@@ -352,7 +350,7 @@
         </div>
     </div>
 
-    <!-- 🌟 卡片展示區 (恢復線上隨機風景圖 + 阻擋防呆提醒) 🌟 -->
+    <!-- 🌟 卡片展示區 🌟 -->
     
     <!-- 區塊 1：自行車產業專案 -->
     <main id="Project-Bike" class="gallery view-section" style="display: grid;">
@@ -361,9 +359,9 @@
                 <div class="card-header">
                     <span class="glitch-text" data-text="自行車廠專案簡述">自行車廠專案簡述</span>
                 </div>
+                <!-- 圖片統一加上 random-cover 類別，供下方 JavaScript 進行隨機抽圖 -->
                 <div class="card-image-wrapper" onclick="toggleInlinePdf(this, '自行車產業_專案敘述.pdf')">
-                    <!-- 💡 加上 onerror 事件，如果圖庫被擋掉，會自動顯示紅字的警告圖案，不會破圖 -->
-                    <img src="https://picsum.photos/400/300?random=5" alt="自行車專案" onerror="this.onerror=null; this.src='data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22400%22%20height%3D%22300%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%23ffe6e6%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20font-size%3D%2218%22%20text-anchor%3D%22middle%22%20alignment-baseline%3D%22middle%22%20font-family%3D%22sans-serif%22%20fill%3D%22%23cc0000%22%3E%E5%9C%96%E5%BA%AB%E8%A2%AB%E7%B6%B2%E8%B7%AF%E9%98%B2%E7%81%AB%E7%89%A6%E6%8C%BB%E6%93%8B%3C%2Ftext%3E%3C%2Fsvg%3E';">
+                    <img src="" class="random-cover" alt="自行車專案">
                     <div class="card-icon">◎</div>
                 </div>
                 <div class="card-body">
@@ -389,7 +387,7 @@
                     <span class="glitch-text" data-text="光電廠作業計畫書">光電廠作業計畫書</span>
                 </div>
                 <div class="card-image-wrapper" onclick="toggleInlinePdf(this, '光電廠_作業計畫書.pdf')">
-                    <img src="https://picsum.photos/400/300?random=1" alt="作業計畫書" onerror="this.onerror=null; this.src='data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22400%22%20height%3D%22300%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%23ffe6e6%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20font-size%3D%2218%22%20text-anchor%3D%22middle%22%20alignment-baseline%3D%22middle%22%20font-family%3D%22sans-serif%22%20fill%3D%22%23cc0000%22%3E%E5%9C%96%E5%BA%AB%E8%A2%AB%E7%B6%B2%E8%B7%AF%E9%98%B2%E7%81%AB%E7%89%A6%E6%8C%BB%E6%93%8B%3C%2Ftext%3E%3C%2Fsvg%3E';">
+                    <img src="" class="random-cover" alt="作業計畫書">
                     <div class="card-icon">◇</div>
                 </div>
                 <div class="card-body">
@@ -409,7 +407,7 @@
                     <span class="glitch-text" data-text="光電廠專案簡述">光電廠專案簡述</span>
                 </div>
                 <div class="card-image-wrapper" onclick="toggleInlinePdf(this, '光電廠_專案簡述.pdf')">
-                    <img src="https://picsum.photos/400/300?random=2" alt="專案簡述" onerror="this.onerror=null; this.src='data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22400%22%20height%3D%22300%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%23ffe6e6%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20font-size%3D%2218%22%20text-anchor%3D%22middle%22%20alignment-baseline%3D%22middle%22%20font-family%3D%22sans-serif%22%20fill%3D%22%23cc0000%22%3E%E5%9C%96%E5%BA%AB%E8%A2%AB%E7%B6%B2%E8%B7%AF%E9%98%B2%E7%81%AB%E7%89%A6%E6%8C%BB%E6%93%8B%3C%2Ftext%3E%3C%2Fsvg%3E';">
+                    <img src="" class="random-cover" alt="專案簡述">
                     <div class="card-icon">△</div>
                 </div>
                 <div class="card-body">
@@ -432,7 +430,7 @@
                     <span class="glitch-text" data-text="電線電子廠作業計畫書">電線電子廠作業計畫書</span>
                 </div>
                 <div class="card-image-wrapper" onclick="toggleInlinePdf(this, '電線電子廠_作業計畫書.pdf')">
-                    <img src="https://picsum.photos/400/300?random=8" alt="作業計畫書" onerror="this.onerror=null; this.src='data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22400%22%20height%3D%22300%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%23ffe6e6%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20font-size%3D%2218%22%20text-anchor%3D%22middle%22%20alignment-baseline%3D%22middle%22%20font-family%3D%22sans-serif%22%20fill%3D%22%23cc0000%22%3E%E5%9C%96%E5%BA%AB%E8%A2%AB%E7%B6%B2%E8%B7%AF%E9%98%B2%E7%81%AB%E7%89%A6%E6%8C%BB%E6%93%8B%3C%2Ftext%3E%3C%2Fsvg%3E';">
+                    <img src="" class="random-cover" alt="作業計畫書">
                     <div class="card-icon">□</div>
                 </div>
                 <div class="card-body">
@@ -455,7 +453,7 @@
                     <span class="glitch-text" data-text="電線電子廠專案簡述">電線電子廠專案簡述</span>
                 </div>
                 <div class="card-image-wrapper" onclick="toggleInlinePdf(this, '電線電子廠_專案簡述.pdf')">
-                    <img src="https://picsum.photos/400/300?random=9" alt="專案簡述" onerror="this.onerror=null; this.src='data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22400%22%20height%3D%22300%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%23ffe6e6%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20font-size%3D%2218%22%20text-anchor%3D%22middle%22%20alignment-baseline%3D%22middle%22%20font-family%3D%22sans-serif%22%20fill%3D%22%23cc0000%22%3E%E5%9C%96%E5%BA%AB%E8%A2%AB%E7%B6%B2%E8%B7%AF%E9%98%B2%E7%81%AB%E7%89%A6%E6%8C%BB%E6%93%8B%3C%2Ftext%3E%3C%2Fsvg%3E';">
+                    <img src="" class="random-cover" alt="專案簡述">
                     <div class="card-icon">◇</div>
                 </div>
                 <div class="card-body">
@@ -475,12 +473,12 @@
                     <span class="glitch-text" data-text="電線電子廠架構異動說明">電線電子廠架構異動說明</span>
                 </div>
                 <div class="card-image-wrapper" onclick="toggleInlinePdf(this, '電線電子廠_架構異動說明.pdf')">
-                    <img src="https://picsum.photos/400/300?random=10" alt="架構異動說明" onerror="this.onerror=null; this.src='data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22400%22%20height%3D%22300%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%23ffe6e6%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20font-size%3D%2218%22%20text-anchor%3D%22middle%22%20alignment-baseline%3D%22middle%22%20font-family%3D%22sans-serif%22%20fill%3D%22%23cc0000%22%3E%E5%9C%96%E5%BA%AB%E8%A2%AB%E7%B6%B2%E8%B7%AF%E9%98%B2%E7%81%AB%E7%89%A6%E6%8C%BB%E6%93%8B%3C%2Ftext%3E%3C%2Fsvg%3E';">
+                    <img src="" class="random-cover" alt="架構異動說明">
                     <div class="card-icon">△</div>
                 </div>
                 <div class="card-body">
                     <div class="btn-read" onclick="toggleInlinePdf(this, '電線電子廠_架構異動說明.pdf')">直接閱讀報告</div>
-                    <span class="card-tags">#架構異持 #網路拓樸 #系統調整</span>
+                    <span class="card-tags">#架構異動 #網路拓樸 #系統調整</span>
                     <div class="color-dots"><span class="dot" style="background: #27ae60;"></span></div>
                 </div>
             </div>
@@ -556,8 +554,51 @@
             evt.currentTarget.className += " active";
         }
 
-        /* --- 🌟 完美同步的彈珠台腳本 🌟 --- */
+        /* --- 🌟 [全新] 零網路 隨機科技圖庫產生器 🌟 --- */
+        function assignRandomCovers() {
+            const covers = document.querySelectorAll('.random-cover');
+            
+            // 💡 未來如果您有自己的照片，請把照片放在資料夾，並在這裡填入檔名：
+            // 例如：const myLocalPhotos = ['photo1.jpg', 'photo2.jpg', 'photo3.jpg'];
+            const myLocalPhotos = []; 
+
+            covers.forEach(img => {
+                if (myLocalPhotos.length > 0) {
+                    // 如果有真實照片，隨機抽一張
+                    img.src = myLocalPhotos[Math.floor(Math.random() * myLocalPhotos.length)];
+                } else {
+                    // 💡 防火牆殺手：純程式碼繪製的賽博龐克圖庫，0秒載入，絕對不破圖！
+                    const hue1 = Math.floor(Math.random() * 360);
+                    const hue2 = (hue1 + 40 + Math.floor(Math.random() * 40)) % 360; 
+                    
+                    const svg = `<svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="hsl(${hue1}, 70%, 25%)" />
+                                <stop offset="100%" stop-color="hsl(${hue2}, 80%, 45%)" />
+                            </linearGradient>
+                            <pattern id="p" x="0" y="0" width="30" height="30" patternUnits="userSpaceOnUse">
+                                <circle cx="2" cy="2" r="1.5" fill="rgba(255,255,255,0.2)" />
+                                <path d="M0 30 L30 0" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+                            </pattern>
+                        </defs>
+                        <rect width="100%" height="100%" fill="url(#g)" />
+                        <rect width="100%" height="100%" fill="url(#p)" />
+                        <text x="50%" y="50%" font-family="sans-serif" font-weight="bold" font-size="22" fill="rgba(255,255,255,0.3)" text-anchor="middle" dominant-baseline="middle">PROJECT COVER</text>
+                    </svg>`;
+                    
+                    img.src = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
+                }
+            });
+        }
+
+        /* --- 🌟 關鍵修復：網頁架構一載入就瞬間啟動 🌟 --- */
         document.addEventListener("DOMContentLoaded", function() {
+            
+            // 1. 瞬間產生不會破圖的封面
+            assignRandomCovers();
+
+            // 2. 瞬間啟動彈珠台
             if (typeof Matter === 'undefined') {
                 console.warn('Matter.js 無法載入，物理引擎略過。');
                 return; 
@@ -611,12 +652,11 @@
                 Composite.add(engine.world, body);
             }
 
-            // 💡 瞬間執行：網頁一打開，就在背景立刻開始掉落字母
+            // 💡 一開網頁，直接先掉 3 顆字母，絕不冷場
             setTimeout(dropLetter, 100);
-            setTimeout(dropLetter, 800);
-            setTimeout(dropLetter, 1500);
+            setTimeout(dropLetter, 400);
+            setTimeout(dropLetter, 700);
 
-            // 持續掉落
             setInterval(dropLetter, 1200);
 
             Events.on(render, 'afterRender', function() {
