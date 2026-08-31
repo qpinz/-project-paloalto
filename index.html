@@ -72,4 +72,474 @@
         .marquee-track { display: flex; width: max-content; animation: scroll 50s linear infinite; }
         .marquee-track:hover { animation-play-state: paused; }
         .marquee-item { padding: 0 40px; display: flex; align-items: center; justify-content: center; }
-        .marquee-item span { font-size: 14px
+        .marquee-item span { font-size: 14px; font-weight: 600; letter-spacing: 1.5px; color: rgba(255, 255, 255, 0.7); transition: 0.3s; cursor: pointer; white-space: nowrap; }
+        .marquee-item span:hover { color: #00e5ff; transform: scale(1.05); }
+        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        /* 🌟 固定在主畫面右下角的 3D 霓虹方塊 🌟 */
+        .fixed-3d-scene {
+            perspective: 1200px; width: 300px; height: 100px; position: fixed; bottom: 30px; right: 30px; z-index: 999; transform: scale(0.45); transform-origin: bottom right; pointer-events: none; transition: transform 0.3s;
+        }
+        .box-3d { width: 100%; height: 100%; position: absolute; transform-style: preserve-3d; animation: spin-y 6s infinite linear; }
+        .box-face { position: absolute; top: 50%; left: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Pixelify Sans', monospace; font-weight: 700; font-size: 40px; letter-spacing: 3px; }
+        .box-front, .box-back { width: 300px; height: 100px; background-color: #111; color: #fff; margin-top: -50px; margin-left: -150px; }
+        .box-front { transform: rotateY(0deg) translateZ(20px); } .box-back { transform: rotateY(180deg) translateZ(20px); }
+        .box-right, .box-left { width: 40px; height: 100px; background: linear-gradient(to bottom, #10ff00, #ffe53b, #00e5ff); margin-top: -50px; margin-left: -20px; }
+        .box-right { transform: rotateY(90deg) translateZ(150px); } .box-left { transform: rotateY(-90deg) translateZ(150px); }
+        .box-top, .box-bottom { width: 300px; height: 40px; background: linear-gradient(to right, #10ff00, #ffe53b, #00e5ff); margin-top: -20px; margin-left: -150px; }
+        .box-top { transform: rotateX(90deg) translateZ(50px); } .box-bottom { transform: rotateX(-90deg) translateZ(50px); }
+        @keyframes spin-y { 0% { transform: rotateY(0deg); } 100% { transform: rotateY(360deg); } }
+
+        /* =========================================
+           4. 分類頁籤
+           ========================================= */
+        .tabs { 
+            display: flex; justify-content: center; gap: 20px 40px; width: 100%; max-width: 1200px; margin: 0 auto 30px auto; flex-wrap: wrap; padding: 0 15px;
+        }
+        .tab { font-size: 14px; letter-spacing: 2px; color: #999; cursor: pointer; padding-bottom: 5px; transition: 0.3s; text-align: center; }
+        .tab:hover { color: #333; }
+        .tab.active { color: #333; border-bottom: 2px solid #333; }
+
+        .glitch-text { position: relative; display: inline-block; transition: color 0.3s, text-shadow 0.3s; }
+        .tab.active .glitch-text, .glitch-text:hover { color: #1e90ff; text-shadow: 0 0 8px rgba(30, 144, 255, 0.8); animation: text-flicker 2s linear infinite; }
+        .glitch-text::before, .glitch-text::after { content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #f4f4f4; opacity: 0; }
+        .card .glitch-text::before, .card .glitch-text::after { background: #fff; }
+        .tab.active .glitch-text::before, .glitch-text:hover::before { opacity: 1; left: 2px; text-shadow: -2px 0 #ff003c; animation: glitch-anim-1 1.2s infinite linear alternate-reverse; }
+        .tab.active .glitch-text::after, .glitch-text:hover::after { opacity: 1; left: -2px; text-shadow: -2px 0 #00e5ff; animation: glitch-anim-2 1.5s infinite linear alternate-reverse; }
+        @keyframes text-flicker { 0% { opacity: 1; } 2% { opacity: 0.8; } 4% { opacity: 1; } 19% { opacity: 1; text-shadow: 0 0 8px rgba(30, 144, 255, 0.8); } 21% { opacity: 0.4; text-shadow: none; } 23% { opacity: 1; text-shadow: 0 0 8px rgba(30, 144, 255, 0.8); } 80% { opacity: 1; } 82% { opacity: 0.8; transform: skewX(-5deg); } 84% { opacity: 1; transform: skewX(0); } 100% { opacity: 1; } }
+        @keyframes glitch-anim-1 { 0% { clip-path: polygon(0 10%, 100% 10%, 100% 20%, 0 20%); transform: translate(-2px, 1px); } 20% { clip-path: polygon(0 40%, 100% 40%, 100% 50%, 0 50%); transform: translate(2px, -1px); } 40% { clip-path: polygon(0 70%, 100% 70%, 100% 80%, 0 80%); transform: translate(-1px, 2px); } 60% { clip-path: polygon(0 20%, 100% 20%, 100% 30%, 0 30%); transform: translate(1px, -2px); } 80% { clip-path: polygon(0 80%, 100% 80%, 100% 90%, 0 90%); transform: translate(-2px, 1px); } 100% { clip-path: polygon(0 50%, 100% 50%, 100% 60%, 0 60%); transform: translate(2px, -1px); } }
+        @keyframes glitch-anim-2 { 0% { clip-path: polygon(0 15%, 100% 15%, 100% 25%, 0 25%); transform: translate(2px, -1px); } 20% { clip-path: polygon(0 45%, 100% 45%, 100% 55%, 0 55%); transform: translate(-2px, 1px); } 40% { clip-path: polygon(0 75%, 100% 75%, 100% 85%, 0 85%); transform: translate(1px, -2px); } 60% { clip-path: polygon(0 25%, 100% 25%, 100% 35%, 0 35%); transform: translate(-1px, 2px); } 80% { clip-path: polygon(0 85%, 100% 85%, 100% 95%, 0 95%); transform: translate(2px, -1px); } 100% { clip-path: polygon(0 55%, 100% 55%, 100% 65%, 0 65%); transform: translate(-2px, 1px); } }
+
+        /* =========================================
+           🌟 5. 沉浸式閱讀模式切換與明信片設計 🌟
+           ========================================= */
+        .gallery { 
+            display: none; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 30px; width: 100%; max-width: 1200px; margin: 0 auto 0 auto; padding: 0 20px; 
+            transition: max-width 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); 
+        }
+        .gallery.reading-mode { max-width: 96%; }
+        .gallery.reading-mode .card:not(.expanded) { display: none; }
+        
+        .card { 
+            background: #fff; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.03); 
+            transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); display: flex; flex-direction: column; overflow: hidden; border-radius: 8px;
+        }
+        .card:hover { box-shadow: 0 8px 25px rgba(0,0,0,0.08); transform: translateY(-3px); }
+        .card-face { width: 100%; padding: 30px 25px; transition: 0.3s; display: flex; flex-direction: column; align-items: center; }
+        .card-header { font-size: 16px; letter-spacing: 1px; color: #333; margin-bottom: 20px; font-weight: bold; }
+        
+        /* 🔥 復古明信片設計 🔥 */
+        .postcard-frame {
+            background: #fff; padding: 10px 10px 35px 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.05);
+            border: 1px solid #f0f0f0; border-radius: 3px; margin-bottom: 25px; width: 95%; cursor: pointer; position: relative; transition: 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .card:nth-child(1) .postcard-frame { transform: rotate(-2deg); }
+        .card:nth-child(2) .postcard-frame { transform: rotate(1.5deg); }
+        .card:nth-child(3) .postcard-frame { transform: rotate(-1deg); }
+
+        .card-image-wrapper { position: relative; width: 100%; aspect-ratio: 4/3; overflow: hidden; background: #e0e0e0; border-radius: 2px; }
+        .card-image-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; filter: sepia(20%) contrast(105%) brightness(95%); }
+        .postcard-frame:hover { transform: scale(1.06) rotate(0deg) !important; box-shadow: 0 12px 25px rgba(0,0,0,0.15); z-index: 10; }
+        .postcard-frame:hover .card-image-wrapper img { filter: sepia(0%) contrast(110%) brightness(105%); transform: scale(1.05); }
+
+        .card-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 45px; height: 45px; border: 2px solid #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: #fff; font-size: 18px; pointer-events: none; z-index: 2; opacity: 0.8; transition: 0.3s;}
+        .postcard-frame:hover .card-icon { opacity: 1; background: rgba(0,0,0,0.2); }
+
+        .card-body { font-size: 12px; color: #888; line-height: 1.8; width: 100%; }
+        .btn-read { display: inline-block; margin-bottom: 15px; padding: 8px 20px; border: 1px solid #ddd; border-radius: 20px; color: #555; cursor: pointer; transition: 0.3s; font-size: 12px; background: transparent; }
+        .btn-read:hover { background-color: #333; color: #fff; border-color: #333; }
+        .card-tags { margin: 10px 0; display: block; }
+        .color-dots { display: flex; justify-content: center; gap: 6px; margin-top: 15px; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+
+        /* 🔥 當卡片被展開時 🔥 */
+        .card.expanded { grid-column: 1 / -1; flex-direction: column; text-align: left; padding: 25px; gap: 0; transform: none; cursor: default; background: #fff; }
+        .card.expanded .card-face { width: 100%; padding: 0; margin-bottom: 15px; display: flex; flex-direction: row; justify-content: space-between; align-items: center; border-bottom: none; }
+        .card.expanded .postcard-frame, .card.expanded .card-tags, .card.expanded .color-dots { display: none; } 
+        .card.expanded .card-header { margin-bottom: 0; font-size: 20px; } 
+        .card.expanded .card-body { width: auto; }
+        .card.expanded .btn-read { margin-bottom: 0; padding: 8px 20px; font-size: 14px; font-weight: bold; background-color: #ff4c4c; color: #fff; border: 1px solid #ff4c4c; border-radius: 6px; }
+        .card.expanded .btn-read:hover { background-color: #ff3333; border-color: #ff3333; }
+        .inline-pdf-container { display: none; width: 100%; height: 88vh; animation: fadeIn 0.6s ease forwards; }
+        .card.expanded .inline-pdf-container { display: block; }
+        .inline-iframe { width: 100%; height: 100%; border: none; border-radius: 4px; background-color: #323639; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* =========================================
+           🌟 6. 底部專屬空白跑道 - 小精靈吃豆豆 🌟
+           ========================================= */
+        .pacman-track { position: relative; width: 100%; height: 60px; margin-top: 80px; overflow: hidden; pointer-events: none; }
+        .pacman-container { position: absolute; top: 10px; left: 0; width: 100%; height: 40px; }
+        .pacman-dots { position: absolute; top: 15px; left: 0; width: 100%; height: 10px; background: radial-gradient(circle, #d4d4d4 4px, transparent 4px); background-size: 40px 10px; background-repeat: repeat-x; }
+        .pacman-scene { position: absolute; top: 0; left: 0; width: 100%; height: 100%; animation: movePacman 16s linear infinite; }
+        @keyframes movePacman { 0% { transform: translateX(-200px); } 100% { transform: translateX(110vw); } }
+        .pacman-wrapper { position: absolute; top: 0; left: 100px; width: 40px; height: 40px; z-index: 2; }
+        .pacman-wrapper::after { content: ''; position: absolute; top: 15px; right: 20px; width: 200vw; height: 10px; background-color: #f4f4f4; }
+        .pacman-body { position: relative; width: 40px; height: 40px; z-index: 3; }
+        .pacman-body::before, .pacman-body::after { content: ''; position: absolute; top: 0; left: 0; width: 0; height: 0; border: 20px solid #FFCC00; border-radius: 50%; }
+        .pacman-body::before { border-right-color: transparent; border-bottom-color: transparent; animation: pac-top 0.25s ease infinite alternate; }
+        .pacman-body::after { border-right-color: transparent; border-top-color: transparent; animation: pac-bot 0.25s ease infinite alternate; }
+        @keyframes pac-top { 0% { transform: rotate(-45deg); } 100% { transform: rotate(0deg); } }
+        @keyframes pac-bot { 0% { transform: rotate(45deg); } 100% { transform: rotate(0deg); } }
+        .ghost { position: absolute; top: 4px; left: 20px; width: 32px; height: 32px; background: #00e5ff; border-radius: 16px 16px 0 0; z-index: 3; clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 83% 85%, 66% 100%, 50% 85%, 33% 100%, 16% 85%, 0% 100%); }
+        .ghost-eyes { position: absolute; top: 8px; left: 5px; width: 8px; height: 10px; background: #fff; border-radius: 50%; box-shadow: 14px 0 #fff; }
+        .ghost-eyes::after { content: ''; position: absolute; top: 3px; left: 4px; width: 4px; height: 4px; background: #000; border-radius: 50%; box-shadow: 14px 0 #000; }
+
+        /* =========================================
+           📱 RWD 手機版響應式設計
+           ========================================= */
+        @media (max-width: 950px) { .gallery { grid-template-columns: repeat(2, 1fr); max-width: 100%; } }
+        @media (max-width: 650px) {
+            .gallery { grid-template-columns: 1fr; padding: 0 15px; margin-bottom: 30px; } 
+            .hero { height: 35vh; min-height: 250px; }
+            .fixed-3d-scene { transform: scale(0.25); bottom: 10px; right: 10px; }
+            .gallery.reading-mode { max-width: 100%; padding: 0 5px; } 
+            .card.expanded { padding: 10px; }
+            .card.expanded .card-face { flex-direction: column; align-items: stretch; gap: 10px; margin-bottom: 10px;}
+            .card.expanded .card-header { font-size: 16px; text-align: center; }
+            .card.expanded .btn-read { width: 100%; text-align: center; padding: 12px; font-size: 16px;}
+            .inline-pdf-container { height: 82vh; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="splash-screen" id="splashScreen">
+        <div class="splash-icons">✧ ⬢ ☁ ♘ ♨ ☹</div>
+        <div class="splash-project">PROJECT</div>
+        <div class="splash-pin">PIN</div>
+    </div>
+
+    <div class="hero">
+        <div id="pachinko-canvas"></div>
+        <div class="hero-marquee-container">
+            <div class="marquee-track">
+                <div class="marquee-item"><span>Proxmox VE</span></div><div class="marquee-item"><span>ShareTech</span></div><div class="marquee-item"><span>Palo Alto</span></div><div class="marquee-item"><span>Fortinet</span></div><div class="marquee-item"><span>Synology</span></div><div class="marquee-item"><span>VMware</span></div><div class="marquee-item"><span>Sun & Moon Rise</span></div><div class="marquee-item"><span>Openfind</span></div><div class="marquee-item"><span>Aruba</span></div>
+                <div class="marquee-item"><span>Proxmox VE</span></div><div class="marquee-item"><span>ShareTech</span></div><div class="marquee-item"><span>Palo Alto</span></div><div class="marquee-item"><span>Fortinet</span></div><div class="marquee-item"><span>Synology</span></div><div class="marquee-item"><span>VMware</span></div><div class="marquee-item"><span>Sun & Moon Rise</span></div><div class="marquee-item"><span>Openfind</span></div><div class="marquee-item"><span>Aruba</span></div>
+                <div class="marquee-item"><span>Proxmox VE</span></div><div class="marquee-item"><span>ShareTech</span></div><div class="marquee-item"><span>Palo Alto</span></div><div class="marquee-item"><span>Fortinet</span></div><div class="marquee-item"><span>Synology</span></div><div class="marquee-item"><span>VMware</span></div><div class="marquee-item"><span>Sun & Moon Rise</span></div><div class="marquee-item"><span>Openfind</span></div><div class="marquee-item"><span>Aruba</span></div>
+                <div class="marquee-item"><span>Proxmox VE</span></div><div class="marquee-item"><span>ShareTech</span></div><div class="marquee-item"><span>Palo Alto</span></div><div class="marquee-item"><span>Fortinet</span></div><div class="marquee-item"><span>Synology</span></div><div class="marquee-item"><span>VMware</span></div><div class="marquee-item"><span>Sun & Moon Rise</span></div><div class="marquee-item"><span>Openfind</span></div><div class="marquee-item"><span>Aruba</span></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="fixed-3d-scene">
+        <div class="box-3d">
+            <div class="box-face box-front">PORTFOLIO</div>
+            <div class="box-face box-back">GALLERY</div>
+            <div class="box-face box-right"></div>
+            <div class="box-face box-left"></div>
+            <div class="box-face box-top"></div>
+            <div class="box-face box-bottom"></div>
+        </div>
+    </div>
+
+    <div class="tabs">
+        <div class="tab active" onclick="openGallery(event, 'Project-Bike')">
+            <span class="glitch-text" data-text="自行車產業專案">自行車產業專案</span>
+        </div>
+        <div class="tab" onclick="openGallery(event, 'Project-Opto')">
+            <span class="glitch-text" data-text="光電廠產業專案">光電廠產業專案</span>
+        </div>
+        <div class="tab" onclick="openGallery(event, 'Project-Wire')">
+            <span class="glitch-text" data-text="電線電子產業專案">電線電子產業專案</span>
+        </div>
+    </div>
+
+    <main id="Project-Bike" class="gallery view-section" style="display: grid;">
+        <article class="card">
+            <div class="card-face">
+                <div class="card-header"><span class="glitch-text" data-text="自行車廠專案簡述">自行車廠專案簡述</span></div>
+                <div class="postcard-frame" onclick="toggleInlinePdf(this, '自行車產業_專案敘述.pdf')">
+                    <div class="card-image-wrapper">
+                        <img src="https://images.unsplash.com/photo-1485965120184-e220f721d03e?auto=format&fit=crop&w=600&q=80" alt="自行車專案">
+                        <div class="card-icon">◎</div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="btn-read" onclick="toggleInlinePdf(this, '自行車產業_專案敘述.pdf')">直接閱讀報告</div>
+                    <span class="card-tags">#自行車廠 #專案簡述 #基礎架構</span>
+                    <div class="color-dots"><span class="dot" style="background: #e74c3c;"></span><span class="dot" style="background: #34495e;"></span></div>
+                </div>
+            </div>
+            <div class="inline-pdf-container"><iframe class="inline-iframe" src=""></iframe></div>
+        </article>
+    </main>
+
+    <main id="Project-Opto" class="gallery view-section">
+        <article class="card">
+            <div class="card-face">
+                <div class="card-header"><span class="glitch-text" data-text="光電廠作業計畫書">光電廠作業計畫書</span></div>
+                <div class="postcard-frame" onclick="toggleInlinePdf(this, '光電廠_作業計畫書.pdf')">
+                    <div class="card-image-wrapper">
+                        <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=600&q=80" alt="作業計畫書">
+                        <div class="card-icon">◇</div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="btn-read" onclick="toggleInlinePdf(this, '光電廠_作業計畫書.pdf')">直接閱讀報告</div>
+                    <span class="card-tags">#計畫書 #光電產業 #防火牆</span>
+                    <div class="color-dots"><span class="dot" style="background: #2a6199;"></span></div>
+                </div>
+            </div>
+            <div class="inline-pdf-container"><iframe class="inline-iframe" src=""></iframe></div>
+        </article>
+        
+        <article class="card">
+            <div class="card-face">
+                <div class="card-header"><span class="glitch-text" data-text="光電廠專案簡述">光電廠專案簡述</span></div>
+                <div class="postcard-frame" onclick="toggleInlinePdf(this, '光電廠_專案簡述.pdf')">
+                    <div class="card-image-wrapper">
+                        <img src="https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?auto=format&fit=crop&w=600&q=80" alt="專案簡述">
+                        <div class="card-icon">△</div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="btn-read" onclick="toggleInlinePdf(this, '光電廠_專案簡述.pdf')">直接閱讀報告</div>
+                    <span class="card-tags">#專案簡介 #無縫說明</span>
+                    <div class="color-dots"><span class="dot" style="background: #4caf50;"></span></div>
+                </div>
+            </div>
+            <div class="inline-pdf-container"><iframe class="inline-iframe" src=""></iframe></div>
+        </article>
+    </main>
+
+    <main id="Project-Wire" class="gallery view-section">
+        <article class="card">
+            <div class="card-face">
+                <div class="card-header"><span class="glitch-text" data-text="電線電子廠作業計畫書">電線電子廠作業計畫書</span></div>
+                <div class="postcard-frame" onclick="toggleInlinePdf(this, '電線電子廠_作業計畫書.pdf')">
+                    <div class="card-image-wrapper">
+                        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80" alt="作業計畫書">
+                        <div class="card-icon">□</div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="btn-read" onclick="toggleInlinePdf(this, '電線電子廠_作業計畫書.pdf')">直接閱讀報告</div>
+                    <span class="card-tags">#作業計畫書 #電線電子廠 #專案規劃</span>
+                    <div class="color-dots"><span class="dot" style="background: #f39c12;"></span><span class="dot" style="background: #8e44ad;"></span></div>
+                </div>
+            </div>
+            <div class="inline-pdf-container"><iframe class="inline-iframe" src=""></iframe></div>
+        </article>
+
+        <article class="card">
+            <div class="card-face">
+                <div class="card-header"><span class="glitch-text" data-text="電線電子廠專案簡述">電線電子廠專案簡述</span></div>
+                <div class="postcard-frame" onclick="toggleInlinePdf(this, '電線電子廠_專案簡述.pdf')">
+                    <div class="card-image-wrapper">
+                        <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=600&q=80" alt="專案簡述">
+                        <div class="card-icon">◇</div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="btn-read" onclick="toggleInlinePdf(this, '電線電子廠_專案簡述.pdf')">直接閱讀報告</div>
+                    <span class="card-tags">#專案簡介 #無縫說明 #實施細節</span>
+                    <div class="color-dots"><span class="dot" style="background: #e67e22;"></span></div>
+                </div>
+            </div>
+            <div class="inline-pdf-container"><iframe class="inline-iframe" src=""></iframe></div>
+        </article>
+
+        <article class="card">
+            <div class="card-face">
+                <div class="card-header"><span class="glitch-text" data-text="電線電子廠架構異動說明">電線電子廠架構異動說明</span></div>
+                <div class="postcard-frame" onclick="toggleInlinePdf(this, '電線電子廠_架構異動說明.pdf')">
+                    <div class="card-image-wrapper">
+                        <img src="https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?auto=format&fit=crop&w=600&q=80" alt="架構異動說明">
+                        <div class="card-icon">△</div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="btn-read" onclick="toggleInlinePdf(this, '電線電子廠_架構異動說明.pdf')">直接閱讀報告</div>
+                    <span class="card-tags">#架構異動 #網路拓樸 #系統調整</span>
+                    <div class="color-dots"><span class="dot" style="background: #27ae60;"></span></div>
+                </div>
+            </div>
+            <div class="inline-pdf-container"><iframe class="inline-iframe" src=""></iframe></div>
+        </article>
+    </main>
+
+    <div class="pacman-track">
+        <div class="pacman-container">
+            <div class="pacman-dots"></div>
+            <div class="pacman-scene">
+                <div class="ghost"><div class="ghost-eyes"></div></div>
+                <div class="pacman-wrapper"><div class="pacman-body"></div></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 💡 終極防當機：3秒後強制移除開場黑畫面，保證不卡死
+        setTimeout(() => {
+            const splash = document.getElementById('splashScreen');
+            if (splash) splash.remove();
+        }, 3000);
+
+        function toggleInlinePdf(element, pdfFilename) {
+            const card = element.closest('.card');
+            const gallery = card.closest('.gallery');
+            const btn = card.querySelector('.btn-read'); 
+            const iframe = card.querySelector('.inline-iframe');
+            
+            if (card.classList.contains('expanded')) {
+                card.classList.remove('expanded');
+                gallery.classList.remove('reading-mode'); 
+                iframe.src = ""; 
+                btn.innerText = "直接閱讀報告";
+                window.scrollTo({ top: document.querySelector('.tabs').offsetTop - 20, behavior: 'smooth' });
+            } 
+            else {
+                document.querySelectorAll('.card').forEach(c => {
+                    c.classList.remove('expanded');
+                    const cBtn = c.querySelector('.btn-read');
+                    const cIframe = c.querySelector('.inline-iframe');
+                    if(cBtn) cBtn.innerText = "直接閱讀報告";
+                    if(cIframe) cIframe.src = "";
+                });
+                
+                card.classList.add('expanded');
+                gallery.classList.add('reading-mode'); 
+                iframe.src = pdfFilename;
+                btn.innerText = "✕ 收起閱讀";
+                setTimeout(() => { window.scrollTo({ top: gallery.offsetTop - 20, behavior: 'smooth' }); }, 150); 
+            }
+        }
+
+        function openGallery(evt, projectName) {
+            document.querySelectorAll('.gallery').forEach(g => g.classList.remove('reading-mode'));
+            document.querySelectorAll('.card').forEach(c => {
+                c.classList.remove('expanded');
+                const cBtn = c.querySelector('.btn-read');
+                const cIframe = c.querySelector('.inline-iframe');
+                if(cBtn) cBtn.innerText = "直接閱讀報告"; 
+                if(cIframe) cIframe.src = "";
+            });
+            var sections = document.getElementsByClassName("view-section");
+            for (var i = 0; i < sections.length; i++) sections[i].style.display = "none";
+            var tablinks = document.getElementsByClassName("tab");
+            for (var i = 0; i < tablinks.length; i++) tablinks[i].className = tablinks[i].className.replace(" active", "");
+            document.getElementById(projectName).style.display = "grid";
+            evt.currentTarget.className += " active";
+        }
+
+        /* --- 🌟 終極殺手鐧：純手工打造的輕量彈珠台 (零外部腳本載入) 🌟 --- */
+        document.addEventListener("DOMContentLoaded", function() {
+            const container = document.getElementById('pachinko-canvas');
+            const canvas = document.createElement('canvas');
+            container.appendChild(canvas);
+            const ctx = canvas.getContext('2d');
+
+            let width, height;
+            function resize() {
+                width = container.clientWidth;
+                height = container.clientHeight;
+                canvas.width = width;
+                canvas.height = height;
+                initPegs();
+            }
+
+            const pegs = [];
+            const spacing = 120;
+            function initPegs() {
+                pegs.length = 0;
+                const cols = Math.ceil(width / spacing) + 1;
+                const rows = Math.ceil(height / spacing) + 1;
+                for (let j = 0; j < rows; j++) {
+                    for (let i = 0; i < cols; i++) {
+                        let x = i * spacing + (j % 2 === 0 ? 0 : spacing / 2);
+                        let y = j * spacing + 40;
+                        pegs.push({x, y, radius: 5});
+                    }
+                }
+            }
+            
+            window.addEventListener('resize', resize);
+            resize();
+
+            const letters = ['P', 'I', 'N', 'G', 'A', 'L', 'L', 'E', 'R', 'Y'];
+            const balls = [];
+
+            class Ball {
+                constructor() {
+                    this.radius = 35; // 巨無霸字母尺寸
+                    this.x = Math.random() * (width - 100) + 50;
+                    this.y = -50;
+                    this.vx = (Math.random() - 0.5) * 4;
+                    this.vy = Math.random() * 2;
+                    this.char = letters[Math.floor(Math.random() * letters.length)];
+                    this.angle = 0;
+                    this.va = (Math.random() - 0.5) * 0.2;
+                }
+                update() {
+                    this.vy += 0.4; // 物理重力
+                    this.x += this.vx;
+                    this.y += this.vy;
+                    this.angle += this.va;
+                    this.vx *= 0.99; // 空氣阻力
+                    this.vy *= 0.99;
+
+                    // 與釘子碰撞計算
+                    for (let peg of pegs) {
+                        let dx = this.x - peg.x;
+                        let dy = this.y - peg.y;
+                        let dist = Math.sqrt(dx*dx + dy*dy);
+                        if (dist < this.radius + peg.radius) {
+                            let overlap = this.radius + peg.radius - dist;
+                            let nx = dx / dist;
+                            let ny = dy / dist;
+                            this.x += nx * overlap;
+                            this.y += ny * overlap;
+                            let dot = this.vx * nx + this.vy * ny;
+                            this.vx = (this.vx - 2 * dot * nx) * 0.6;
+                            this.vy = (this.vy - 2 * dot * ny) * 0.6;
+                            this.va += (Math.random() - 0.5) * 0.1;
+                        }
+                    }
+                }
+                draw(ctx) {
+                    ctx.save();
+                    ctx.translate(this.x, this.y);
+                    ctx.rotate(this.angle);
+                    ctx.font = "bold 70px 'Pixelify Sans', sans-serif";
+                    ctx.fillStyle = "#111";
+                    ctx.textAlign = "center";
+                    ctx.textBaseline = "middle";
+                    ctx.fillText(this.char, 0, 0);
+                    ctx.restore();
+                }
+            }
+
+            function spawnBall() { balls.push(new Ball()); }
+
+            // 瞬間啟動，絕不延遲
+            setTimeout(spawnBall, 100);
+            setTimeout(spawnBall, 600);
+            setTimeout(spawnBall, 1100);
+            setInterval(spawnBall, 1500);
+
+            function animate() {
+                ctx.clearRect(0, 0, width, height);
+                ctx.fillStyle = '#222';
+                pegs.forEach(peg => {
+                    ctx.beginPath();
+                    ctx.arc(peg.x, peg.y, peg.radius, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+
+                for (let i = balls.length - 1; i >= 0; i--) {
+                    balls[i].update();
+                    balls[i].draw(ctx);
+                    if (balls[i].y > height + 100) {
+                        balls.splice(i, 1);
+                    }
+                }
+                requestAnimationFrame(animate);
+            }
+            animate();
+        });
+    </script>
+</body>
+</html>
