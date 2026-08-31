@@ -29,14 +29,14 @@
         a { text-decoration: none; color: inherit; }
 
         /* =========================================
-           2. 🌟 開場動畫 (大幅縮短為 1 秒，解決卡頓感) 🌟 
+           2. 🌟 開場動畫 (1 秒極速過場) 🌟 
            ========================================= */
         .splash-screen {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background-color: #63362B; 
             display: flex; justify-content: center; align-items: center;
             z-index: 9999; overflow: hidden; 
-            animation: splashBgFade 0.4s ease-in-out 1s forwards; /* 延遲1秒後消失 */
+            animation: splashBgFade 0.4s ease-in-out 1s forwards;
         }
         .splash-icons {
             position: absolute; top: 30px; left: 30px;
@@ -116,7 +116,7 @@
         @keyframes glitch-anim-2 { 0% { clip-path: polygon(0 15%, 100% 15%, 100% 25%, 0 25%); transform: translate(2px, -1px); } 20% { clip-path: polygon(0 45%, 100% 45%, 100% 55%, 0 55%); transform: translate(-2px, 1px); } 40% { clip-path: polygon(0 75%, 100% 75%, 100% 85%, 0 85%); transform: translate(1px, -2px); } 60% { clip-path: polygon(0 25%, 100% 25%, 100% 35%, 0 35%); transform: translate(-1px, 2px); } 80% { clip-path: polygon(0 85%, 100% 85%, 100% 95%, 0 95%); transform: translate(2px, -1px); } 100% { clip-path: polygon(0 55%, 100% 55%, 100% 65%, 0 65%); transform: translate(-2px, 1px); } }
 
         /* =========================================
-           🌟 5. 卡片展示區 (3欄黃金比例) 🌟
+           🌟 5. 沉浸式閱讀模式切換 🌟
            ========================================= */
         .gallery { 
             display: none; 
@@ -173,14 +173,8 @@
         }
         
         .card.expanded .card-face {
-            width: 100%; 
-            padding: 0; 
-            margin-bottom: 15px;
-            display: flex;
-            flex-direction: row; 
-            justify-content: space-between; 
-            align-items: center;
-            border-bottom: none; 
+            width: 100%; padding: 0; margin-bottom: 15px;
+            display: flex; flex-direction: row; justify-content: space-between; align-items: center; border-bottom: none; 
         }
         
         .card.expanded .card-image-wrapper,
@@ -356,7 +350,7 @@
         </div>
     </div>
 
-    <!-- 🌟 卡片展示區 (圖片換成 100% 安全的純文字 SVG 假圖) 🌟 -->
+    <!-- 🌟 卡片展示區 (圖庫回歸版) 🌟 -->
     
     <!-- 區塊 1：自行車產業專案 -->
     <main id="Project-Bike" class="gallery view-section" style="display: grid;">
@@ -366,8 +360,8 @@
                     <span class="glitch-text" data-text="自行車廠專案簡述">自行車廠專案簡述</span>
                 </div>
                 <div class="card-image-wrapper" onclick="toggleInlinePdf(this, '自行車產業_專案敘述.pdf')">
-                    <!-- 💡 使用超級安全的 inline SVG 作為預設圖，絕對不會破圖！ -->
-                    <img src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22400%22%20height%3D%22300%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%23e6e6e6%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20font-size%3D%2218%22%20text-anchor%3D%22middle%22%20alignment-baseline%3D%22middle%22%20font-family%3D%22sans-serif%22%20fill%3D%22%23999999%22%3E%E5%B0%88%E6%A1%88%E5%B0%81%E9%9D%A2%E7%85%A7%E7%89%87%E6%94%BE%E9%80%99%E8%A3%A1%3C%2Ftext%3E%3C%2Fsvg%3E" alt="自行車專案">
+                    <!-- 改回隨機線上圖庫 -->
+                    <img src="https://picsum.photos/400/300?random=5" alt="自行車專案">
                     <div class="card-icon">◎</div>
                 </div>
                 <div class="card-body">
@@ -393,7 +387,7 @@
                     <span class="glitch-text" data-text="光電廠作業計畫書">光電廠作業計畫書</span>
                 </div>
                 <div class="card-image-wrapper" onclick="toggleInlinePdf(this, '光電廠_作業計畫書.pdf')">
-                    <img src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22400%22%20height%3D%22300%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%23e6e6e6%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20font-size%3D%2218%22%20text-anchor%3D%22middle%22%20alignment-baseline%3D%22middle%22%20font-family%3D%22sans-serif%22%20fill%3D%22%23999999%22%3E%E5%B0%88%E6%A1%88%E5%B0%81%E9%9D%A2%E7%85%A7%E7%89%87%E6%94%BE%E9%80%99%E8%A3%A1%3C%2Ftext%3E%3C%2Fsvg%3E" alt="作業計畫書">
+                    <img src="https://picsum.photos/400/300?random=1" alt="作業計畫書">
                     <div class="card-icon">◇</div>
                 </div>
                 <div class="card-body">
@@ -413,7 +407,7 @@
                     <span class="glitch-text" data-text="光電廠專案簡述">光電廠專案簡述</span>
                 </div>
                 <div class="card-image-wrapper" onclick="toggleInlinePdf(this, '光電廠_專案簡述.pdf')">
-                    <img src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22400%22%20height%3D%22300%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%23e6e6e6%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20font-size%3D%2218%22%20text-anchor%3D%22middle%22%20alignment-baseline%3D%22middle%22%20font-family%3D%22sans-serif%22%20fill%3D%22%23999999%22%3E%E5%B0%88%E6%A1%88%E5%B0%81%E9%9D%A2%E7%85%A7%E7%89%87%E6%94%BE%E9%80%99%E8%A3%A1%3C%2Ftext%3E%3C%2Fsvg%3E" alt="專案簡述">
+                    <img src="https://picsum.photos/400/300?random=2" alt="專案簡述">
                     <div class="card-icon">△</div>
                 </div>
                 <div class="card-body">
@@ -436,7 +430,7 @@
                     <span class="glitch-text" data-text="電線電子廠作業計畫書">電線電子廠作業計畫書</span>
                 </div>
                 <div class="card-image-wrapper" onclick="toggleInlinePdf(this, '電線電子廠_作業計畫書.pdf')">
-                    <img src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22400%22%20height%3D%22300%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%23e6e6e6%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20font-size%3D%2218%22%20text-anchor%3D%22middle%22%20alignment-baseline%3D%22middle%22%20font-family%3D%22sans-serif%22%20fill%3D%22%23999999%22%3E%E5%B0%88%E6%A1%88%E5%B0%81%E9%9D%A2%E7%85%A7%E7%89%87%E6%94%BE%E9%80%99%E8%A3%A1%3C%2Ftext%3E%3C%2Fsvg%3E" alt="作業計畫書">
+                    <img src="https://picsum.photos/400/300?random=8" alt="作業計畫書">
                     <div class="card-icon">□</div>
                 </div>
                 <div class="card-body">
@@ -459,7 +453,7 @@
                     <span class="glitch-text" data-text="電線電子廠專案簡述">電線電子廠專案簡述</span>
                 </div>
                 <div class="card-image-wrapper" onclick="toggleInlinePdf(this, '電線電子廠_專案簡述.pdf')">
-                    <img src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22400%22%20height%3D%22300%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%23e6e6e6%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20font-size%3D%2218%22%20text-anchor%3D%22middle%22%20alignment-baseline%3D%22middle%22%20font-family%3D%22sans-serif%22%20fill%3D%22%23999999%22%3E%E5%B0%88%E6%A1%88%E5%B0%81%E9%9D%A2%E7%85%A7%E7%89%87%E6%94%BE%E9%80%99%E8%A3%A1%3C%2Ftext%3E%3C%2Fsvg%3E" alt="專案簡述">
+                    <img src="https://picsum.photos/400/300?random=9" alt="專案簡述">
                     <div class="card-icon">◇</div>
                 </div>
                 <div class="card-body">
@@ -479,7 +473,7 @@
                     <span class="glitch-text" data-text="電線電子廠架構異動說明">電線電子廠架構異動說明</span>
                 </div>
                 <div class="card-image-wrapper" onclick="toggleInlinePdf(this, '電線電子廠_架構異動說明.pdf')">
-                    <img src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22400%22%20height%3D%22300%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%23e6e6e6%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20font-size%3D%2218%22%20text-anchor%3D%22middle%22%20alignment-baseline%3D%22middle%22%20font-family%3D%22sans-serif%22%20fill%3D%22%23999999%22%3E%E5%B0%88%E6%A1%88%E5%B0%81%E9%9D%A2%E7%85%A7%E7%89%87%E6%94%BE%E9%80%99%E8%A3%A1%3C%2Ftext%3E%3C%2Fsvg%3E" alt="架構異動說明">
+                    <img src="https://picsum.photos/400/300?random=10" alt="架構異動說明">
                     <div class="card-icon">△</div>
                 </div>
                 <div class="card-body">
@@ -607,7 +601,6 @@
             const letters = ['P', 'I', 'N', 'G', 'A', 'L', 'L', 'E', 'R', 'Y'];
             let activeBodies = [];
 
-            // 💡 移除 4 秒延遲，立即開始產生字母 💡
             function dropLetter() {
                 const char = letters[Math.floor(Math.random() * letters.length)];
                 const x = Math.random() * container.clientWidth * 0.8 + container.clientWidth * 0.1;
@@ -616,12 +609,11 @@
                 Composite.add(engine.world, body);
             }
 
-            // 立刻先掉落 3 顆字母，填滿畫面
+            // 立刻掉落，不用苦等 4 秒
             setTimeout(dropLetter, 100);
             setTimeout(dropLetter, 500);
             setTimeout(dropLetter, 900);
 
-            // 之後每 1.2 秒持續掉落
             setInterval(dropLetter, 1200);
 
             Events.on(render, 'afterRender', function() {
