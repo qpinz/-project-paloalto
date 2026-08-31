@@ -29,7 +29,7 @@
         a { text-decoration: none; color: inherit; }
 
         /* =========================================
-           2. 🌟 開場動畫 🌟 
+           2. 🌟 復古精緻 4 秒開場動畫 🌟 
            ========================================= */
         .splash-screen {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
@@ -116,7 +116,7 @@
         @keyframes glitch-anim-2 { 0% { clip-path: polygon(0 15%, 100% 15%, 100% 25%, 0 25%); transform: translate(2px, -1px); } 20% { clip-path: polygon(0 45%, 100% 45%, 100% 55%, 0 55%); transform: translate(-2px, 1px); } 40% { clip-path: polygon(0 75%, 100% 75%, 100% 85%, 0 85%); transform: translate(1px, -2px); } 60% { clip-path: polygon(0 25%, 100% 25%, 100% 35%, 0 35%); transform: translate(-1px, 2px); } 80% { clip-path: polygon(0 85%, 100% 85%, 100% 95%, 0 95%); transform: translate(2px, -1px); } 100% { clip-path: polygon(0 55%, 100% 55%, 100% 65%, 0 65%); transform: translate(-2px, 1px); } }
 
         /* =========================================
-           🌟 5. 沉浸式閱讀模式切換 🌟
+           🌟 5. 沉浸式閱讀模式切換與明信片設計 🌟
            ========================================= */
         .gallery { 
             display: none; 
@@ -142,11 +142,50 @@
         
         .card-face { width: 100%; padding: 30px 25px; transition: 0.3s; display: flex; flex-direction: column; align-items: center; }
         .card-header { font-size: 16px; letter-spacing: 1px; color: #333; margin-bottom: 20px; font-weight: bold; }
-        .card-image-wrapper { position: relative; width: 100%; aspect-ratio: 4/3; overflow: hidden; background: #eee; margin-bottom: 20px; cursor: pointer; border-radius: 4px; }
-        .card-image-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: 0.4s; opacity: 0.9; }
-        .card:hover .card-image-wrapper img { opacity: 1; transform: scale(1.05); }
-        .card-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 45px; height: 45px; border: 2px solid #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: #fff; font-size: 18px; pointer-events: none; z-index: 2; }
         
+        /* 🔥 超美明信片/拍立得設計 🔥 */
+        .postcard-frame {
+            background: #fff;
+            padding: 10px 10px 35px 10px; /* 下方留白，創造拍立得感 */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.05);
+            border: 1px solid #f0f0f0;
+            border-radius: 3px;
+            margin-bottom: 25px;
+            width: 95%; /* 讓它在卡片內稍微內縮 */
+            cursor: pointer;
+            position: relative;
+            transition: 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        
+        /* 讓每張明信片都有不同的自然微傾斜 */
+        .card:nth-child(1) .postcard-frame { transform: rotate(-2deg); }
+        .card:nth-child(2) .postcard-frame { transform: rotate(1.5deg); }
+        .card:nth-child(3) .postcard-frame { transform: rotate(-1deg); }
+
+        .card-image-wrapper { 
+            position: relative; width: 100%; aspect-ratio: 4/3; overflow: hidden; background: #e0e0e0; border-radius: 2px;
+        }
+        
+        /* 圖片加上復古濾鏡 */
+        .card-image-wrapper img { 
+            width: 100%; height: 100%; object-fit: cover; transition: 0.5s; 
+            filter: sepia(20%) contrast(105%) brightness(95%); /* 輕微老照片感 */
+        }
+        
+        /* 滑鼠移入：明信片轉正放大、圖片恢復真實色彩 */
+        .postcard-frame:hover { 
+            transform: scale(1.06) rotate(0deg) !important; 
+            box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+            z-index: 10;
+        }
+        .postcard-frame:hover .card-image-wrapper img { 
+            filter: sepia(0%) contrast(110%) brightness(105%); 
+            transform: scale(1.05);
+        }
+
+        .card-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 45px; height: 45px; border: 2px solid #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: #fff; font-size: 18px; pointer-events: none; z-index: 2; opacity: 0.8; transition: 0.3s;}
+        .postcard-frame:hover .card-icon { opacity: 1; background: rgba(0,0,0,0.2); }
+
         .card-body { font-size: 12px; color: #888; line-height: 1.8; width: 100%; }
         
         .btn-read { 
@@ -160,7 +199,7 @@
         .color-dots { display: flex; justify-content: center; gap: 6px; margin-top: 15px; }
         .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
 
-        /* 🔥 當卡片被展開時 🔥 */
+        /* 🔥 當卡片被展開時 (進入閱讀模式) 🔥 */
         .card.expanded {
             grid-column: 1 / -1; 
             flex-direction: column; 
@@ -177,7 +216,8 @@
             display: flex; flex-direction: row; justify-content: space-between; align-items: center; border-bottom: none; 
         }
         
-        .card.expanded .card-image-wrapper,
+        /* 展開時隱藏明信片與標籤 */
+        .card.expanded .postcard-frame,
         .card.expanded .card-tags,
         .card.expanded .color-dots { display: none; } 
         
@@ -261,7 +301,6 @@
         <div id="pachinko-canvas"></div>
         <div class="hero-marquee-container">
             <div class="marquee-track">
-                <!-- 大量擴充的跑馬燈，永不斷尾 -->
                 <div class="marquee-item"><span>Proxmox VE</span></div>
                 <div class="marquee-item"><span>ShareTech</span></div>
                 <div class="marquee-item"><span>Palo Alto</span></div>
@@ -350,7 +389,7 @@
         </div>
     </div>
 
-    <!-- 🌟 卡片展示區 🌟 -->
+    <!-- 🌟 卡片展示區 (明信片設計 + 線上隨機圖庫) 🌟 -->
     
     <!-- 區塊 1：自行車產業專案 -->
     <main id="Project-Bike" class="gallery view-section" style="display: grid;">
@@ -359,10 +398,13 @@
                 <div class="card-header">
                     <span class="glitch-text" data-text="自行車廠專案簡述">自行車廠專案簡述</span>
                 </div>
-                <!-- 圖片統一加上 random-cover 類別，供下方 JavaScript 進行隨機抽圖 -->
-                <div class="card-image-wrapper" onclick="toggleInlinePdf(this, '自行車產業_專案敘述.pdf')">
-                    <img src="" class="random-cover" alt="自行車專案">
-                    <div class="card-icon">◎</div>
+                <!-- 💡 復古拍立得/明信片外框 💡 -->
+                <div class="postcard-frame" onclick="toggleInlinePdf(this, '自行車產業_專案敘述.pdf')">
+                    <div class="card-image-wrapper">
+                        <!-- 恢復最原汁原味的隨機風景圖庫，加入 loading="lazy" 優化效能 -->
+                        <img src="https://picsum.photos/400/300?random=1" alt="自行車專案" loading="lazy">
+                        <div class="card-icon">◎</div>
+                    </div>
                 </div>
                 <div class="card-body">
                     <div class="btn-read" onclick="toggleInlinePdf(this, '自行車產業_專案敘述.pdf')">直接閱讀報告</div>
@@ -386,9 +428,11 @@
                 <div class="card-header">
                     <span class="glitch-text" data-text="光電廠作業計畫書">光電廠作業計畫書</span>
                 </div>
-                <div class="card-image-wrapper" onclick="toggleInlinePdf(this, '光電廠_作業計畫書.pdf')">
-                    <img src="" class="random-cover" alt="作業計畫書">
-                    <div class="card-icon">◇</div>
+                <div class="postcard-frame" onclick="toggleInlinePdf(this, '光電廠_作業計畫書.pdf')">
+                    <div class="card-image-wrapper">
+                        <img src="https://picsum.photos/400/300?random=2" alt="作業計畫書" loading="lazy">
+                        <div class="card-icon">◇</div>
+                    </div>
                 </div>
                 <div class="card-body">
                     <div class="btn-read" onclick="toggleInlinePdf(this, '光電廠_作業計畫書.pdf')">直接閱讀報告</div>
@@ -406,9 +450,11 @@
                 <div class="card-header">
                     <span class="glitch-text" data-text="光電廠專案簡述">光電廠專案簡述</span>
                 </div>
-                <div class="card-image-wrapper" onclick="toggleInlinePdf(this, '光電廠_專案簡述.pdf')">
-                    <img src="" class="random-cover" alt="專案簡述">
-                    <div class="card-icon">△</div>
+                <div class="postcard-frame" onclick="toggleInlinePdf(this, '光電廠_專案簡述.pdf')">
+                    <div class="card-image-wrapper">
+                        <img src="https://picsum.photos/400/300?random=3" alt="專案簡述" loading="lazy">
+                        <div class="card-icon">△</div>
+                    </div>
                 </div>
                 <div class="card-body">
                     <div class="btn-read" onclick="toggleInlinePdf(this, '光電廠_專案簡述.pdf')">直接閱讀報告</div>
@@ -429,9 +475,11 @@
                 <div class="card-header">
                     <span class="glitch-text" data-text="電線電子廠作業計畫書">電線電子廠作業計畫書</span>
                 </div>
-                <div class="card-image-wrapper" onclick="toggleInlinePdf(this, '電線電子廠_作業計畫書.pdf')">
-                    <img src="" class="random-cover" alt="作業計畫書">
-                    <div class="card-icon">□</div>
+                <div class="postcard-frame" onclick="toggleInlinePdf(this, '電線電子廠_作業計畫書.pdf')">
+                    <div class="card-image-wrapper">
+                        <img src="https://picsum.photos/400/300?random=4" alt="作業計畫書" loading="lazy">
+                        <div class="card-icon">□</div>
+                    </div>
                 </div>
                 <div class="card-body">
                     <div class="btn-read" onclick="toggleInlinePdf(this, '電線電子廠_作業計畫書.pdf')">直接閱讀報告</div>
@@ -452,9 +500,11 @@
                 <div class="card-header">
                     <span class="glitch-text" data-text="電線電子廠專案簡述">電線電子廠專案簡述</span>
                 </div>
-                <div class="card-image-wrapper" onclick="toggleInlinePdf(this, '電線電子廠_專案簡述.pdf')">
-                    <img src="" class="random-cover" alt="專案簡述">
-                    <div class="card-icon">◇</div>
+                <div class="postcard-frame" onclick="toggleInlinePdf(this, '電線電子廠_專案簡述.pdf')">
+                    <div class="card-image-wrapper">
+                        <img src="https://picsum.photos/400/300?random=5" alt="專案簡述" loading="lazy">
+                        <div class="card-icon">◇</div>
+                    </div>
                 </div>
                 <div class="card-body">
                     <div class="btn-read" onclick="toggleInlinePdf(this, '電線電子廠_專案簡述.pdf')">直接閱讀報告</div>
@@ -472,9 +522,11 @@
                 <div class="card-header">
                     <span class="glitch-text" data-text="電線電子廠架構異動說明">電線電子廠架構異動說明</span>
                 </div>
-                <div class="card-image-wrapper" onclick="toggleInlinePdf(this, '電線電子廠_架構異動說明.pdf')">
-                    <img src="" class="random-cover" alt="架構異動說明">
-                    <div class="card-icon">△</div>
+                <div class="postcard-frame" onclick="toggleInlinePdf(this, '電線電子廠_架構異動說明.pdf')">
+                    <div class="card-image-wrapper">
+                        <img src="https://picsum.photos/400/300?random=6" alt="架構異動說明" loading="lazy">
+                        <div class="card-icon">△</div>
+                    </div>
                 </div>
                 <div class="card-body">
                     <div class="btn-read" onclick="toggleInlinePdf(this, '電線電子廠_架構異動說明.pdf')">直接閱讀報告</div>
@@ -554,51 +606,8 @@
             evt.currentTarget.className += " active";
         }
 
-        /* --- 🌟 [全新] 零網路 隨機科技圖庫產生器 🌟 --- */
-        function assignRandomCovers() {
-            const covers = document.querySelectorAll('.random-cover');
-            
-            // 💡 未來如果您有自己的照片，請把照片放在資料夾，並在這裡填入檔名：
-            // 例如：const myLocalPhotos = ['photo1.jpg', 'photo2.jpg', 'photo3.jpg'];
-            const myLocalPhotos = []; 
-
-            covers.forEach(img => {
-                if (myLocalPhotos.length > 0) {
-                    // 如果有真實照片，隨機抽一張
-                    img.src = myLocalPhotos[Math.floor(Math.random() * myLocalPhotos.length)];
-                } else {
-                    // 💡 防火牆殺手：純程式碼繪製的賽博龐克圖庫，0秒載入，絕對不破圖！
-                    const hue1 = Math.floor(Math.random() * 360);
-                    const hue2 = (hue1 + 40 + Math.floor(Math.random() * 40)) % 360; 
-                    
-                    const svg = `<svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stop-color="hsl(${hue1}, 70%, 25%)" />
-                                <stop offset="100%" stop-color="hsl(${hue2}, 80%, 45%)" />
-                            </linearGradient>
-                            <pattern id="p" x="0" y="0" width="30" height="30" patternUnits="userSpaceOnUse">
-                                <circle cx="2" cy="2" r="1.5" fill="rgba(255,255,255,0.2)" />
-                                <path d="M0 30 L30 0" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
-                            </pattern>
-                        </defs>
-                        <rect width="100%" height="100%" fill="url(#g)" />
-                        <rect width="100%" height="100%" fill="url(#p)" />
-                        <text x="50%" y="50%" font-family="sans-serif" font-weight="bold" font-size="22" fill="rgba(255,255,255,0.3)" text-anchor="middle" dominant-baseline="middle">PROJECT COVER</text>
-                    </svg>`;
-                    
-                    img.src = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
-                }
-            });
-        }
-
-        /* --- 🌟 關鍵修復：網頁架構一載入就瞬間啟動 🌟 --- */
+        /* --- 🌟 完美同步的彈珠台腳本 (不被圖片載入干擾) 🌟 --- */
         document.addEventListener("DOMContentLoaded", function() {
-            
-            // 1. 瞬間產生不會破圖的封面
-            assignRandomCovers();
-
-            // 2. 瞬間啟動彈珠台
             if (typeof Matter === 'undefined') {
                 console.warn('Matter.js 無法載入，物理引擎略過。');
                 return; 
@@ -652,11 +661,12 @@
                 Composite.add(engine.world, body);
             }
 
-            // 💡 一開網頁，直接先掉 3 顆字母，絕不冷場
+            // 💡 瞬間啟動：完全不等圖片下載，直接開始掉落字母
             setTimeout(dropLetter, 100);
-            setTimeout(dropLetter, 400);
-            setTimeout(dropLetter, 700);
+            setTimeout(dropLetter, 800);
+            setTimeout(dropLetter, 1500);
 
+            // 持續掉落
             setInterval(dropLetter, 1200);
 
             Events.on(render, 'afterRender', function() {
