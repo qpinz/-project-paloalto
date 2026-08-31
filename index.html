@@ -29,7 +29,7 @@
         a { text-decoration: none; color: inherit; }
 
         /* =========================================
-           2. 🌟 4 秒復古開場動畫 🌟 
+           2. 🌟 復古精緻 4 秒開場動畫 🌟 
            ========================================= */
         .splash-screen {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
@@ -142,8 +142,10 @@
         
         .card-face { width: 100%; padding: 30px 25px; transition: 0.3s; display: flex; flex-direction: column; align-items: center; }
         .card-header { font-size: 16px; letter-spacing: 1px; color: #333; margin-bottom: 20px; font-weight: bold; }
+        
+        /* 圖片容器 */
         .card-image-wrapper { position: relative; width: 100%; aspect-ratio: 4/3; overflow: hidden; background: #eee; margin-bottom: 20px; cursor: pointer; border-radius: 4px; }
-        .card-image-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: 0.4s; opacity: 0.85; }
+        .card-image-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: 0.4s; opacity: 0.9; }
         .card:hover .card-image-wrapper img { opacity: 1; transform: scale(1.05); }
         .card-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 45px; height: 45px; border: 2px solid #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: #fff; font-size: 18px; pointer-events: none; z-index: 2; }
         
@@ -249,7 +251,7 @@
 </head>
 <body>
 
-    <!-- 🌟 完美的 4 秒復古開場動畫 🌟 -->
+    <!-- 開場動畫 -->
     <div class="splash-screen">
         <div class="splash-icons">✧ ⬢ ☁ ♘ ♨ ☹</div>
         <div class="splash-project">PROJECT</div>
@@ -261,6 +263,7 @@
         <div id="pachinko-canvas"></div>
         <div class="hero-marquee-container">
             <div class="marquee-track">
+                <!-- 大量擴充的跑馬燈，永不斷尾 -->
                 <div class="marquee-item"><span>Proxmox VE</span></div>
                 <div class="marquee-item"><span>ShareTech</span></div>
                 <div class="marquee-item"><span>Palo Alto</span></div>
@@ -349,7 +352,7 @@
         </div>
     </div>
 
-    <!-- 🌟 卡片展示區 (隨機風景圖庫) 🌟 -->
+    <!-- 🌟 卡片展示區 (恢復線上隨機風景圖 + 阻擋防呆提醒) 🌟 -->
     
     <!-- 區塊 1：自行車產業專案 -->
     <main id="Project-Bike" class="gallery view-section" style="display: grid;">
@@ -359,7 +362,8 @@
                     <span class="glitch-text" data-text="自行車廠專案簡述">自行車廠專案簡述</span>
                 </div>
                 <div class="card-image-wrapper" onclick="toggleInlinePdf(this, '自行車產業_專案敘述.pdf')">
-                    <img src="https://picsum.photos/400/300?random=5" alt="自行車專案">
+                    <!-- 💡 加上 onerror 事件，如果圖庫被擋掉，會自動顯示紅字的警告圖案，不會破圖 -->
+                    <img src="https://picsum.photos/400/300?random=5" alt="自行車專案" onerror="this.onerror=null; this.src='data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22400%22%20height%3D%22300%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%23ffe6e6%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20font-size%3D%2218%22%20text-anchor%3D%22middle%22%20alignment-baseline%3D%22middle%22%20font-family%3D%22sans-serif%22%20fill%3D%22%23cc0000%22%3E%E5%9C%96%E5%BA%AB%E8%A2%AB%E7%B6%B2%E8%B7%AF%E9%98%B2%E7%81%AB%E7%89%A6%E6%8C%BB%E6%93%8B%3C%2Ftext%3E%3C%2Fsvg%3E';">
                     <div class="card-icon">◎</div>
                 </div>
                 <div class="card-body">
@@ -385,7 +389,7 @@
                     <span class="glitch-text" data-text="光電廠作業計畫書">光電廠作業計畫書</span>
                 </div>
                 <div class="card-image-wrapper" onclick="toggleInlinePdf(this, '光電廠_作業計畫書.pdf')">
-                    <img src="https://picsum.photos/400/300?random=1" alt="作業計畫書">
+                    <img src="https://picsum.photos/400/300?random=1" alt="作業計畫書" onerror="this.onerror=null; this.src='data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22400%22%20height%3D%22300%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%23ffe6e6%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20font-size%3D%2218%22%20text-anchor%3D%22middle%22%20alignment-baseline%3D%22middle%22%20font-family%3D%22sans-serif%22%20fill%3D%22%23cc0000%22%3E%E5%9C%96%E5%BA%AB%E8%A2%AB%E7%B6%B2%E8%B7%AF%E9%98%B2%E7%81%AB%E7%89%A6%E6%8C%BB%E6%93%8B%3C%2Ftext%3E%3C%2Fsvg%3E';">
                     <div class="card-icon">◇</div>
                 </div>
                 <div class="card-body">
@@ -405,7 +409,7 @@
                     <span class="glitch-text" data-text="光電廠專案簡述">光電廠專案簡述</span>
                 </div>
                 <div class="card-image-wrapper" onclick="toggleInlinePdf(this, '光電廠_專案簡述.pdf')">
-                    <img src="https://picsum.photos/400/300?random=2" alt="專案簡述">
+                    <img src="https://picsum.photos/400/300?random=2" alt="專案簡述" onerror="this.onerror=null; this.src='data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22400%22%20height%3D%22300%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%23ffe6e6%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20font-size%3D%2218%22%20text-anchor%3D%22middle%22%20alignment-baseline%3D%22middle%22%20font-family%3D%22sans-serif%22%20fill%3D%22%23cc0000%22%3E%E5%9C%96%E5%BA%AB%E8%A2%AB%E7%B6%B2%E8%B7%AF%E9%98%B2%E7%81%AB%E7%89%A6%E6%8C%BB%E6%93%8B%3C%2Ftext%3E%3C%2Fsvg%3E';">
                     <div class="card-icon">△</div>
                 </div>
                 <div class="card-body">
@@ -428,7 +432,7 @@
                     <span class="glitch-text" data-text="電線電子廠作業計畫書">電線電子廠作業計畫書</span>
                 </div>
                 <div class="card-image-wrapper" onclick="toggleInlinePdf(this, '電線電子廠_作業計畫書.pdf')">
-                    <img src="https://picsum.photos/400/300?random=8" alt="作業計畫書">
+                    <img src="https://picsum.photos/400/300?random=8" alt="作業計畫書" onerror="this.onerror=null; this.src='data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22400%22%20height%3D%22300%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%23ffe6e6%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20font-size%3D%2218%22%20text-anchor%3D%22middle%22%20alignment-baseline%3D%22middle%22%20font-family%3D%22sans-serif%22%20fill%3D%22%23cc0000%22%3E%E5%9C%96%E5%BA%AB%E8%A2%AB%E7%B6%B2%E8%B7%AF%E9%98%B2%E7%81%AB%E7%89%A6%E6%8C%BB%E6%93%8B%3C%2Ftext%3E%3C%2Fsvg%3E';">
                     <div class="card-icon">□</div>
                 </div>
                 <div class="card-body">
@@ -451,7 +455,7 @@
                     <span class="glitch-text" data-text="電線電子廠專案簡述">電線電子廠專案簡述</span>
                 </div>
                 <div class="card-image-wrapper" onclick="toggleInlinePdf(this, '電線電子廠_專案簡述.pdf')">
-                    <img src="https://picsum.photos/400/300?random=9" alt="專案簡述">
+                    <img src="https://picsum.photos/400/300?random=9" alt="專案簡述" onerror="this.onerror=null; this.src='data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22400%22%20height%3D%22300%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%23ffe6e6%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20font-size%3D%2218%22%20text-anchor%3D%22middle%22%20alignment-baseline%3D%22middle%22%20font-family%3D%22sans-serif%22%20fill%3D%22%23cc0000%22%3E%E5%9C%96%E5%BA%AB%E8%A2%AB%E7%B6%B2%E8%B7%AF%E9%98%B2%E7%81%AB%E7%89%A6%E6%8C%BB%E6%93%8B%3C%2Ftext%3E%3C%2Fsvg%3E';">
                     <div class="card-icon">◇</div>
                 </div>
                 <div class="card-body">
@@ -471,12 +475,12 @@
                     <span class="glitch-text" data-text="電線電子廠架構異動說明">電線電子廠架構異動說明</span>
                 </div>
                 <div class="card-image-wrapper" onclick="toggleInlinePdf(this, '電線電子廠_架構異動說明.pdf')">
-                    <img src="https://picsum.photos/400/300?random=10" alt="架構異動說明">
+                    <img src="https://picsum.photos/400/300?random=10" alt="架構異動說明" onerror="this.onerror=null; this.src='data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22400%22%20height%3D%22300%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%23ffe6e6%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20font-size%3D%2218%22%20text-anchor%3D%22middle%22%20alignment-baseline%3D%22middle%22%20font-family%3D%22sans-serif%22%20fill%3D%22%23cc0000%22%3E%E5%9C%96%E5%BA%AB%E8%A2%AB%E7%B6%B2%E8%B7%AF%E9%98%B2%E7%81%AB%E7%89%A6%E6%8C%BB%E6%93%8B%3C%2Ftext%3E%3C%2Fsvg%3E';">
                     <div class="card-icon">△</div>
                 </div>
                 <div class="card-body">
                     <div class="btn-read" onclick="toggleInlinePdf(this, '電線電子廠_架構異動說明.pdf')">直接閱讀報告</div>
-                    <span class="card-tags">#架構異動 #網路拓樸 #系統調整</span>
+                    <span class="card-tags">#架構異持 #網路拓樸 #系統調整</span>
                     <div class="color-dots"><span class="dot" style="background: #27ae60;"></span></div>
                 </div>
             </div>
@@ -552,10 +556,10 @@
             evt.currentTarget.className += " active";
         }
 
-        /* --- 🌟 完美穩定的彈珠台與 4 秒動畫同步腳本 🌟 --- */
-        window.onload = function() {
+        /* --- 🌟 完美同步的彈珠台腳本 🌟 --- */
+        document.addEventListener("DOMContentLoaded", function() {
             if (typeof Matter === 'undefined') {
-                console.warn('Matter.js 無法載入，彈珠台略過。');
+                console.warn('Matter.js 無法載入，物理引擎略過。');
                 return; 
             }
 
@@ -599,14 +603,21 @@
             const letters = ['P', 'I', 'N', 'G', 'A', 'L', 'L', 'E', 'R', 'Y'];
             let activeBodies = [];
 
-            // 配合 4 秒開場動畫結束後，彈珠掉落剛好進入高潮
-            setInterval(() => {
+            function dropLetter() {
                 const char = letters[Math.floor(Math.random() * letters.length)];
                 const x = Math.random() * container.clientWidth * 0.8 + container.clientWidth * 0.1;
                 const body = Bodies.circle(x, -50, 45, { restitution: 0.7, friction: 0.05, render: { fillStyle: 'transparent' }, char: char });
                 activeBodies.push(body);
                 Composite.add(engine.world, body);
-            }, 1200);
+            }
+
+            // 💡 瞬間執行：網頁一打開，就在背景立刻開始掉落字母
+            setTimeout(dropLetter, 100);
+            setTimeout(dropLetter, 800);
+            setTimeout(dropLetter, 1500);
+
+            // 持續掉落
+            setInterval(dropLetter, 1200);
 
             Events.on(render, 'afterRender', function() {
                 const ctx = render.context;
@@ -635,7 +646,7 @@
             Render.run(render);
             const runner = Runner.create();
             Runner.run(runner, engine);
-        };
+        });
     </script>
 </body>
 </html>
