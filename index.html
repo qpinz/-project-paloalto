@@ -7,7 +7,7 @@
     
     <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@700;900&display=swap" rel="stylesheet">
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js" defer></script>
 
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%23282828%22/><path d=%22M40 20 A15 15 0 0 1 65 40 Q45 40 40 25 Z%22 fill=%22%235A8AF2%22/><path d=%22M15 50 Q50 60 85 50 L80 65 Q50 70 20 65 Z%22 fill=%22%235A8AF2%22/><path d=%22M15 75 Q35 65 50 75 T85 70 L80 85 Q65 95 50 85 T20 90 Z%22 fill=%22%235A8AF2%22/></svg>">
 
@@ -27,22 +27,40 @@
         a { text-decoration: none; color: inherit; }
 
         /* =========================================
-           2. 🌟 開場動畫 🌟 
+           2. 🌟 完美的 3 秒開場動畫 (文字與背景同步消失，不再有空窗期) 🌟 
            ========================================= */
         .splash-screen {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background-color: #63362B; 
             display: flex; justify-content: center; align-items: center;
             z-index: 9999; overflow: hidden; 
-            animation: splashBgFade 0.8s ease-in-out 4s forwards;
+            animation: splashBgFade 0.5s ease-in-out 2.5s forwards; /* 2.5秒時開始淡出 */
         }
         .splash-icons {
             position: absolute; top: 30px; left: 30px;
             font-family: 'Pixelify Sans', monospace; font-size: 26px;
             color: #D8B4B8; letter-spacing: 12px; opacity: 0;
-            animation: fadeProject 1.8s ease-in-out forwards;
+            animation: fadeProject 3s ease-in-out forwards;
         }
         .splash-project {
             position: absolute; color: #D8B4B8; 
             font-family: 'Pixelify Sans', monospace; font-size: 15vw; 
-            letter-spacing: 5px; font-weight: 7
+            letter-spacing: 5px; font-weight: 700; opacity: 0;
+            animation: fadeProject 3s ease-in-out forwards;
+        }
+        .splash-pin {
+            position: absolute; color: #fff; font-family: 'Pixelify Sans', monospace; 
+            font-size: 6vw; font-weight: 900; letter-spacing: 15px; margin-right: -15px; opacity: 0;
+            text-shadow: 0px 1px 0px #d4d4d4, 0px 2px 0px #c4c4c4, 0px 3px 0px #b4b4b4, 0px 4px 0px #a4a4a4, 0px 5px 0px #949494, 0px 6px 0px #848484, 0px 15px 20px rgba(0,0,0,0.8);
+            animation: zoomPin 2.4s cubic-bezier(0.7, 0, 0.3, 1) 0.5s forwards;
+        }
+        @keyframes splashBgFade { 
+            0% { opacity: 1; visibility: visible; } 
+            100% { opacity: 0; visibility: hidden; pointer-events: none; } 
+        }
+        @keyframes fadeProject { 
+            0% { opacity: 0; transform: translateY(10px); } 
+            15% { opacity: 1; transform: translateY(0); } 
+            80% { opacity: 1; transform: translateY(0); } /* 維持顯示到 2.4 秒 */
+            100% { opacity: 0; transform: translateY(-10px); } /* 3秒時完美消失 */
+        }
