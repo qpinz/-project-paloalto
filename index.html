@@ -29,7 +29,7 @@
         a { text-decoration: none; color: inherit; }
 
         /* =========================================
-           2. 🌟 復古精緻 4 秒開場動畫 🌟 
+           2. 🌟 開場動畫 🌟 
            ========================================= */
         .splash-screen {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
@@ -143,21 +143,20 @@
         .card-face { width: 100%; padding: 30px 25px; transition: 0.3s; display: flex; flex-direction: column; align-items: center; }
         .card-header { font-size: 16px; letter-spacing: 1px; color: #333; margin-bottom: 20px; font-weight: bold; }
         
-        /* 🔥 超美明信片/拍立得設計 🔥 */
+        /* 🔥 復古明信片設計 🔥 */
         .postcard-frame {
             background: #fff;
-            padding: 10px 10px 35px 10px; /* 下方留白，創造拍立得感 */
+            padding: 10px 10px 35px 10px; 
             box-shadow: 0 5px 15px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.05);
             border: 1px solid #f0f0f0;
             border-radius: 3px;
             margin-bottom: 25px;
-            width: 95%; /* 讓它在卡片內稍微內縮 */
+            width: 95%; 
             cursor: pointer;
             position: relative;
             transition: 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
         
-        /* 讓每張明信片都有不同的自然微傾斜 */
         .card:nth-child(1) .postcard-frame { transform: rotate(-2deg); }
         .card:nth-child(2) .postcard-frame { transform: rotate(1.5deg); }
         .card:nth-child(3) .postcard-frame { transform: rotate(-1deg); }
@@ -166,13 +165,11 @@
             position: relative; width: 100%; aspect-ratio: 4/3; overflow: hidden; background: #e0e0e0; border-radius: 2px;
         }
         
-        /* 圖片加上復古濾鏡 */
         .card-image-wrapper img { 
             width: 100%; height: 100%; object-fit: cover; transition: 0.5s; 
-            filter: sepia(20%) contrast(105%) brightness(95%); /* 輕微老照片感 */
+            filter: sepia(20%) contrast(105%) brightness(95%); 
         }
         
-        /* 滑鼠移入：明信片轉正放大、圖片恢復真實色彩 */
         .postcard-frame:hover { 
             transform: scale(1.06) rotate(0deg) !important; 
             box-shadow: 0 12px 25px rgba(0,0,0,0.15);
@@ -199,7 +196,7 @@
         .color-dots { display: flex; justify-content: center; gap: 6px; margin-top: 15px; }
         .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
 
-        /* 🔥 當卡片被展開時 (進入閱讀模式) 🔥 */
+        /* 🔥 當卡片被展開時 🔥 */
         .card.expanded {
             grid-column: 1 / -1; 
             flex-direction: column; 
@@ -216,7 +213,6 @@
             display: flex; flex-direction: row; justify-content: space-between; align-items: center; border-bottom: none; 
         }
         
-        /* 展開時隱藏明信片與標籤 */
         .card.expanded .postcard-frame,
         .card.expanded .card-tags,
         .card.expanded .color-dots { display: none; } 
@@ -224,7 +220,6 @@
         .card.expanded .card-header { margin-bottom: 0; font-size: 20px; } 
         .card.expanded .card-body { width: auto; }
         
-        /* 紅色關閉按鈕 */
         .card.expanded .btn-read { 
             margin-bottom: 0; padding: 8px 20px; font-size: 14px; font-weight: bold;
             background-color: #ff4c4c; color: #fff; border: 1px solid #ff4c4c; border-radius: 6px; 
@@ -301,6 +296,7 @@
         <div id="pachinko-canvas"></div>
         <div class="hero-marquee-container">
             <div class="marquee-track">
+                <!-- 大量擴充的跑馬燈，永不斷尾 -->
                 <div class="marquee-item"><span>Proxmox VE</span></div>
                 <div class="marquee-item"><span>ShareTech</span></div>
                 <div class="marquee-item"><span>Palo Alto</span></div>
@@ -389,7 +385,7 @@
         </div>
     </div>
 
-    <!-- 🌟 卡片展示區 (明信片設計 + 線上隨機圖庫) 🌟 -->
+    <!-- 🌟 卡片展示區 (明信片設計 + 本地安全隨機發牌器) 🌟 -->
     
     <!-- 區塊 1：自行車產業專案 -->
     <main id="Project-Bike" class="gallery view-section" style="display: grid;">
@@ -398,11 +394,9 @@
                 <div class="card-header">
                     <span class="glitch-text" data-text="自行車廠專案簡述">自行車廠專案簡述</span>
                 </div>
-                <!-- 💡 復古拍立得/明信片外框 💡 -->
                 <div class="postcard-frame" onclick="toggleInlinePdf(this, '自行車產業_專案敘述.pdf')">
                     <div class="card-image-wrapper">
-                        <!-- 恢復最原汁原味的隨機風景圖庫，加入 loading="lazy" 優化效能 -->
-                        <img src="https://picsum.photos/400/300?random=1" alt="自行車專案" loading="lazy">
+                        <img src="" class="random-cover" alt="自行車專案">
                         <div class="card-icon">◎</div>
                     </div>
                 </div>
@@ -430,7 +424,7 @@
                 </div>
                 <div class="postcard-frame" onclick="toggleInlinePdf(this, '光電廠_作業計畫書.pdf')">
                     <div class="card-image-wrapper">
-                        <img src="https://picsum.photos/400/300?random=2" alt="作業計畫書" loading="lazy">
+                        <img src="" class="random-cover" alt="作業計畫書">
                         <div class="card-icon">◇</div>
                     </div>
                 </div>
@@ -452,7 +446,7 @@
                 </div>
                 <div class="postcard-frame" onclick="toggleInlinePdf(this, '光電廠_專案簡述.pdf')">
                     <div class="card-image-wrapper">
-                        <img src="https://picsum.photos/400/300?random=3" alt="專案簡述" loading="lazy">
+                        <img src="" class="random-cover" alt="專案簡述">
                         <div class="card-icon">△</div>
                     </div>
                 </div>
@@ -477,7 +471,7 @@
                 </div>
                 <div class="postcard-frame" onclick="toggleInlinePdf(this, '電線電子廠_作業計畫書.pdf')">
                     <div class="card-image-wrapper">
-                        <img src="https://picsum.photos/400/300?random=4" alt="作業計畫書" loading="lazy">
+                        <img src="" class="random-cover" alt="作業計畫書">
                         <div class="card-icon">□</div>
                     </div>
                 </div>
@@ -502,7 +496,7 @@
                 </div>
                 <div class="postcard-frame" onclick="toggleInlinePdf(this, '電線電子廠_專案簡述.pdf')">
                     <div class="card-image-wrapper">
-                        <img src="https://picsum.photos/400/300?random=5" alt="專案簡述" loading="lazy">
+                        <img src="" class="random-cover" alt="專案簡述">
                         <div class="card-icon">◇</div>
                     </div>
                 </div>
@@ -524,7 +518,7 @@
                 </div>
                 <div class="postcard-frame" onclick="toggleInlinePdf(this, '電線電子廠_架構異動說明.pdf')">
                     <div class="card-image-wrapper">
-                        <img src="https://picsum.photos/400/300?random=6" alt="架構異動說明" loading="lazy">
+                        <img src="" class="random-cover" alt="架構異動說明">
                         <div class="card-icon">△</div>
                     </div>
                 </div>
@@ -606,8 +600,37 @@
             evt.currentTarget.className += " active";
         }
 
-        /* --- 🌟 完美同步的彈珠台腳本 (不被圖片載入干擾) 🌟 --- */
+        /* --- 🌟 [全新] 本地專屬隨機發牌器 + 防呆風景圖 🌟 --- */
+        function assignRandomCovers() {
+            const covers = document.querySelectorAll('.random-cover');
+            
+            // 💡 使用者教學：請在您的資料夾放入 1.jpg, 2.jpg...5.jpg。
+            // 系統會自動把這些照片「隨機洗牌」發給明信片！
+            const myLocalPhotos = [
+                '1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg'
+            ]; 
+
+            covers.forEach(img => {
+                // 隨機抽一張本地照片
+                const randomPhoto = myLocalPhotos[Math.floor(Math.random() * myLocalPhotos.length)];
+                img.src = randomPhoto;
+
+                // 💡 防呆機制：如果您還沒放照片，它不會破圖，而是顯示這張內建的可愛風景圖！
+                img.onerror = function() {
+                    this.onerror = null; // 防止無限迴圈
+                    const svg = `<svg width="400" height="300" xmlns="http://www.w3.org/2000/svg"><rect width="400" height="300" fill="#d8e2dc"/><circle cx="280" cy="100" r="35" fill="#ffd166"/><polygon points="-50,300 150,150 350,300" fill="#95d5b2"/><polygon points="100,300 300,100 500,300" fill="#74c69d"/><text x="200" y="270" font-family="sans-serif" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">請放入真實照片 (1.jpg~5.jpg)</text></svg>`;
+                    this.src = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
+                };
+            });
+        }
+
+        /* --- 🌟 完美同步的彈珠台腳本 🌟 --- */
         document.addEventListener("DOMContentLoaded", function() {
+            
+            // 1. 執行明信片隨機發牌
+            assignRandomCovers();
+
+            // 2. 啟動彈珠台
             if (typeof Matter === 'undefined') {
                 console.warn('Matter.js 無法載入，物理引擎略過。');
                 return; 
@@ -661,7 +684,7 @@
                 Composite.add(engine.world, body);
             }
 
-            // 💡 瞬間啟動：完全不等圖片下載，直接開始掉落字母
+            // 瞬間啟動掉落
             setTimeout(dropLetter, 100);
             setTimeout(dropLetter, 800);
             setTimeout(dropLetter, 1500);
