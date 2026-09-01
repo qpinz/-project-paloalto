@@ -24,7 +24,7 @@
         }
         a { text-decoration: none; color: inherit; }
 
-        /* =========================================
+       /* =========================================
            2. 🌟 開場動畫 🌟 
            ========================================= */
         .splash-screen {
@@ -32,30 +32,30 @@
             background-color: #63362B; 
             display: flex; justify-content: center; align-items: center;
             z-index: 9999; overflow: hidden; 
-            animation: splashBgFade 0.6s ease-in-out 2.5s forwards;
+            /* 將背景退場時間提前到 2.1s 開始，配合整體縮短的節奏 */
+            animation: splashBgFade 0.6s ease-in-out 2.1s forwards;
         }
         .splash-icons {
             position: absolute; top: 30px; left: 30px;
             font-family: 'Pixelify Sans', monospace; font-size: 26px;
             color: #D8B4B8; letter-spacing: 12px; opacity: 0;
-            animation: fadeProject 2.5s ease-in-out forwards;
+            /* 將時長縮短為 1.0s */
+            animation: fadeProject 1.0s ease-in-out forwards;
         }
         .splash-project {
             position: absolute; color: #D8B4B8; 
             font-family: 'Pixelify Sans', monospace; font-size: 15vw; 
             letter-spacing: 5px; font-weight: 700; opacity: 0;
-            animation: fadeProject 2.5s ease-in-out forwards;
+            /* 將 Project 的顯示時長縮短為 1.0s，讓它提早結束 */
+            animation: fadeProject 1.0s ease-in-out forwards;
         }
         .splash-pin {
             position: absolute; color: #fff; font-family: 'Pixelify Sans', monospace; 
             font-size: 6vw; font-weight: 900; letter-spacing: 15px; margin-right: -15px; opacity: 0;
             text-shadow: 0px 1px 0px #d4d4d4, 0px 2px 0px #c4c4c4, 0px 3px 0px #b4b4b4, 0px 4px 0px #a4a4a4, 0px 5px 0px #949494, 0px 6px 0px #848484, 0px 15px 20px rgba(0,0,0,0.8);
-            animation: zoomPin 1.5s cubic-bezier(0.7, 0, 0.3, 1) 0.5s forwards;
+            /* 將延遲時間改為 0.9s (等 PROJECT 差不多消失時才開始進場與放大) */
+            animation: zoomPin 1.2s cubic-bezier(0.7, 0, 0.3, 1) 0.9s forwards;
         }
-        @keyframes splashBgFade { 0% { opacity: 1; visibility: visible; } 100% { opacity: 0; visibility: hidden; pointer-events: none; } }
-        @keyframes fadeProject { 0% { opacity: 0; transform: translateY(10px); } 20% { opacity: 1; transform: translateY(0); } 80% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-10px); } }
-        @keyframes zoomPin { 0% { opacity: 0; transform: scale(0.8); } 30% { opacity: 1; transform: scale(1); } 70% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(3.5); } }
-
         /* =========================================
            3. 大型橫幅 (Hero Banner) 
            ========================================= */
